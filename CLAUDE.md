@@ -12,9 +12,11 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 
 - **Why are we building this?** → [`idea-v3.md`](idea-v3.md)
 - **How are we building it?** → [`implementation-plan.md`](implementation-plan.md)
-- **What's next / blocked / deferred?** → [`docs/tasks/TODO.MD`](docs/tasks/TODO.MD) — the single source of truth for pending work. Update in the same commit as the feature.
+- **What's next / blocked / deferred?** → [`docs/tasks/TODO.MD`](docs/tasks/TODO.MD)
+- **What shipped, where?** → [`docs/feature-matrix.md`](docs/feature-matrix.md)
+- **What bit us and why?** → [`docs/lessons-learned.md`](docs/lessons-learned.md)
+- **Architecture decisions** → [`docs/adrs/`](docs/adrs/)
 - **Older thinking** → `idea.md` (v1, ours) + `idea-v2.md` (Codex). Kept for lineage; do not edit.
-- **Architecture decisions** → `docs/adrs/` (once created)
 
 ## Current state
 
@@ -107,10 +109,25 @@ pnpm test          # unit + component + integration (Testcontainers)
 pnpm test:e2e      # Playwright against local
 ```
 
+## Running discipline
+
+The meta-rule from the Innovation Factory. Do not skip steps.
+
+1. **Document as you build.** Significant decisions → `docs/adrs/NNNN-slug.md` in the same commit as the code. Significant = something a future maintainer would reasonably question.
+2. **Lessons in the moment.** Any bug / miswrite / red-team finding / >30-min debugging session → append a row to [`docs/lessons-learned.md`](docs/lessons-learned.md) (`Date | Issue | Root cause | Preventive measure`). Preventive measure must be actionable.
+3. **Feature matrix stays in sync.** Every feature ships with its row in [`docs/feature-matrix.md`](docs/feature-matrix.md) updated in the same commit. Use `✅ / 🟡 / ⚪ / n/a`. Mark `n/a` explicitly.
+4. **TODO status in the same commit.** "Done" = shipped + tested + documented + TODO updated. Not "code written."
+5. **CLAUDE.md "Current state" reflects reality.** Update the section *before* doing work that would invalidate it.
+6. **Structure sync.** When you add / rename / move files, update the repo-shape section above and grep the repo for references.
+7. **Red-team findings get captured.** Every pass (Codex critique, persona UAT) → findings filed as TODOs, fixes filed as lessons. Write down the attack vector, not just the fix.
+8. **Explicit over tidy.** Explicit `⚪ Planned` beats a silent gap. Explicit `N/A — see ADR-0005` beats silence.
+
+After every meaningful session, consider running `/sync-inno-factory-knowledge` from the Innovation Factory plugin to push new lessons upstream.
+
 ## When in doubt
 
 1. Does it drive stay #2? If not, defer.
 2. Can we buy this? If yes, buy it and wrap it in an adapter.
 3. Is the behavior testable? If not, restructure until it is.
 4. Ask Felix before spending on a new third-party service.
-5. Update `docs/tasks/TODO.MD` in the same commit as the change it describes.
+5. Have I updated `TODO.MD`, `feature-matrix.md`, and CLAUDE.md's Current state in this commit?
