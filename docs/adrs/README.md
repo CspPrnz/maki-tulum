@@ -19,7 +19,16 @@
 
 ## Index
 
-- *(none yet)*
+- [0001 — TypeScript on the backend (Hono), not Go](0001-typescript-backend.md)
+- [0002 — Monorepo with pnpm + Turbo](0002-monorepo-pnpm-turbo.md)
+- [0003 — Railway over Fly / Render / AWS](0003-railway-deployment.md)
+- *0004 — Buy channel manager (Hostaway), don't build* — pending
+- *0005 — Magic-link first, password optional* — pending
+- *0006 — JWT in httpOnly cookies, not localStorage* — pending
+- *0007 — Tenant-scoped schema from day one* — pending
+- *0008 — No Postgres RLS dependency for isolation* — pending
+- *0009 — OpenAPI spec via @hono/zod-openapi (generated)* — pending
+- *0010 — Admin under /admin, not a separate app* — pending
 
 ## Candidate ADRs for Phase 0
 

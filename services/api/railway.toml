@@ -1,0 +1,11 @@
+# Per-service Railway config. Service is built from this Dockerfile.
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "services/api/Dockerfile"
+
+[deploy]
+startCommand = "node services/api/dist/index.js"
+healthcheckPath = "/healthz"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5

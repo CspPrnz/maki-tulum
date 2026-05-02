@@ -8,6 +8,7 @@ build/
 .next/
 .turbo/
 out/
+*.tsbuildinfo
 
 # Environment
 .env
@@ -38,7 +39,7 @@ test-results/
 .DS_Store
 Thumbs.db
 
-# Secrets (defense in depth — secrets should never be in-repo)
+# Secrets
 *.pem
 *.key
 secrets/

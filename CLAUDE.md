@@ -1,6 +1,6 @@
 # Maki Tulum — AI Agent Context
 
-> Last updated: 2026-04-18 · Stage: Planning, no code yet · Deploy: Railway
+> Last updated: 2026-05-02 · Stage: Phase 0 scaffold landed (no Railway deploy yet) · Deploy: Railway
 
 ## What this is
 
@@ -20,9 +20,9 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 
 ## Current state
 
-- No code yet. Repo is empty apart from planning docs.
-- Next action: Phase 0 of `implementation-plan.md` — monorepo skeleton + Railway + CI.
-- Railway account exists at user level; project not yet provisioned.
+- **Phase 0 scaffold:** ✅ in repo — pnpm + Turbo monorepo, four packages (`config`, `types`, `i18n`, `ui`), `services/api` (Hono + Zod-OpenAPI, `/healthz`, `/readyz`, CORS, rate-limit, JSON error envelope, `sanitizeText`), `apps/web` (Next.js 15 + Tailwind v4, `/healthz`, brand tokens), dev docker-compose (Postgres 16 + Redis 7), GitHub Actions CI with service containers, env-audit script, ADRs 0001–0003.
+- **Phase 0 remaining:** ⚪ `pnpm install` to generate the lockfile (run with Node 22 + pnpm 9.12), ⚪ Railway project provisioned + first staging deploy, ⚪ Sentry + Plausible wiring (need DSN + domain), ⚪ ADRs 0004–0010, ⚪ initial DB migration path, ⚪ deployed `/healthz` smoke test green.
+- **Phase 1 (marketing site):** ⚪ blocked on lockfile + first deploy.
 
 ## Stack (once Phase 0 ships)
 
@@ -62,7 +62,7 @@ docs/                  adrs/, runbooks/, feature-matrix.md
 - **Sanitize every user-supplied text field** at the API boundary (`sanitizeText` in `packages/config`).
 - **Validation parity:** every mutation endpoint validates the same constraints as create.
 - **English route slugs**; localized display names live in i18n. No `/vorratshaltung`-style opaque paths.
-- **`NEXT_PUBLIC_*` env vars are Docker build args, not runtime.** Railway: set as "build variables."
+- **`NEXT_PUBLIC_*` values must exist at Next.js build time.** Railway exposes service variables during both build and runtime, but anything exposed to the browser is baked into the bundle and therefore needs a rebuild when changed.
 - **Railway healthcheck path must be a real route.** `/healthz` exists on both `web` and `api`.
 - **Docker images pinned by SHA digest.** Never `:latest`.
 - **Test data uses `@example.test`** (RFC 2606). Never realistic PII.
@@ -99,15 +99,21 @@ docs/                  adrs/, runbooks/, feature-matrix.md
 - **Env vars** declared in `packages/config/env.ts` with Zod. A pre-deploy `scripts/check-env.ts` audits them.
 - **Platform parity:** when mobile arrives, update `docs/feature-matrix.md` in the same PR as the feature.
 
-## Quick start (once Phase 0 ships)
+## Quick start
 
 ```bash
-pnpm install
-pnpm dev:up        # Postgres + Redis in Docker
-pnpm dev           # api + web
-pnpm test          # unit + component + integration (Testcontainers)
-pnpm test:e2e      # Playwright against local
+pnpm install                                # generate lockfile + install workspaces
+pnpm dev:up                                 # Postgres + Redis via docker compose
+cp services/api/.env.example services/api/.env
+cp apps/web/.env.example apps/web/.env.local
+pnpm dev                                    # api on :3001, web on :3000
+pnpm typecheck                              # cross-package
+pnpm test                                   # vitest (unit, integration once we add DB tests)
+pnpm check-env                              # audit process.env vs manifest in scripts/check-env.ts
 ```
+
+API smoke: `curl localhost:3001/healthz` · `curl localhost:3001/openapi.json`
+Web smoke: `curl localhost:3000/healthz`
 
 ## Running discipline
 

@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "site_name": "Maki Tulum",
+    "tagline": "A small jungle compound in Aldea Zama"
+  },
+  "nav": {
+    "compound": "The Compound",
+    "stays": "The Stays",
+    "days": "The Days",
+    "guide": "The Guide",
+    "book": "Book"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Retry"
+  }
+}

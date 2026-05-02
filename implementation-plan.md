@@ -2,7 +2,7 @@
 
 > How we build `idea-v3.md`. Spec-first, web-first, mobile-ready. Lean.
 >
-> **Last updated:** 2026-04-18 · **Status:** Planning, no code yet · **Deploy target:** Railway
+> **Last updated:** 2026-05-02 · **Status:** Planning, Phase 0 execution detail added · **Deploy target:** Railway
 
 ---
 
@@ -12,6 +12,7 @@
 - No code yet. Empty repo at `/Users/felix/Projects/maki-tulum`.
 - Railway account exists and will host all services.
 - Brand assets exist in the WordPress dump (palette, wordmark, photography).
+- Phase 0 is now detailed enough to execute without re-planning the stack mid-build.
 
 ---
 
@@ -171,6 +172,146 @@ Six phases. Each ends with a deployable build and a validation gate.
 - Sentry wired up. Plausible wired up.
 - **Exit criterion:** `https://maki-staging.up.railway.app/healthz` returns 200; PR previews deploy.
 
+#### Phase 0 workstreams
+
+Phase 0 is where we reduce future rework. It is not "just scaffolding." If we get this wrong, every later phase inherits the cost.
+
+**P0.1 Repo bootstrap**
+- Create root `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `.nvmrc`, `.tool-versions` if needed.
+- Pin Node 22 and pnpm in `packageManager`.
+- Create base scripts: `dev`, `build`, `lint`, `typecheck`, `test`, `test:unit`, `test:integration`, `check-env`.
+- Add root `.env.example` with only non-secret placeholders and comments.
+
+**P0.2 Web skeleton**
+- Create `apps/web` on Next.js App Router.
+- Add `/` placeholder page with project identity and environment banner.
+- Add `/healthz` route that returns `200` JSON with app name, git SHA if available, and timestamp.
+- Add a smoke layout with i18n-ready folder structure, but do not implement marketing pages yet.
+
+**P0.3 API skeleton**
+- Create `services/api` on Hono + Node adapter.
+- Add `/healthz` and `/readyz`.
+- Add top-level middleware for request ID, CORS, JSON error envelope, body-size limit, and rate limiting.
+- Add OpenAPI doc route and one trivial typed route so spec generation is exercised from day one.
+- Add env validation at process boot; app should fail fast on invalid config.
+
+**P0.4 Shared packages**
+- `packages/types`: shared envelopes, health response schema, common enums, and OpenAPI-generated client placeholder.
+- `packages/config`: env parsing, logger wrapper, constants, `sanitizeText`.
+- `packages/i18n`: bootstrap locale keys for `en`, `es`, `de`.
+- `packages/ui`: minimal token package only; no premature component library.
+
+**P0.5 Local infrastructure**
+- `infra/docker/docker-compose.yml` for Postgres 16 + Redis 7.
+- One command to boot infra locally and one to tear it down cleanly.
+- API `.env` defaults point at Docker services, not Railway.
+- Add first migration runner and a no-op initial migration so the migration path is tested before Phase 1.
+
+**P0.6 CI/CD**
+- GitHub Actions workflows for install, lint, typecheck, unit tests, integration tests, build.
+- Cache pnpm store and Turbo artifacts conservatively.
+- Add Railway deployment workflow or GitHub integration path, plus preview smoke step that hits `/healthz`.
+- Ensure failures are legible: separate jobs for `web`, `api`, and shared packages if needed.
+
+**P0.7 Observability and analytics**
+- Wire Sentry in disabled-or-low-sample mode for non-production so integration itself is verified without noisy data.
+- Wire Plausible only in web, behind env guards, with no custom events yet.
+- Add structured request logging on API with request ID and latency.
+
+**P0.8 Documentation and decision capture**
+- Write the foundational ADRs that would otherwise be rediscovered later.
+- Update `docs/feature-matrix.md`, `docs/tasks/TODO.MD`, and `CLAUDE.md` in the same commit as any Phase 0 implementation work.
+- Add a short `docs/runbooks/local-dev.md` if local setup requires more than `pnpm install` + `pnpm dev:up`.
+
+#### Phase 0 ordering
+
+Work should happen in this order:
+
+1. Repo bootstrap and package manager setup
+2. Web and API skeletons with health routes
+3. Shared package extraction
+4. Local Docker infra and migration path
+5. CI jobs
+6. Railway staging environment
+7. Sentry/Plausible wiring
+8. ADRs and docs cleanup
+
+This order matters because it keeps feedback loops short. We want local boot before CI, and CI before Railway.
+
+#### Phase 0 test plan
+
+Phase 0 still needs real tests. The right question is not "does scaffolding have tests?" but "what failures become expensive if we do not catch them now?"
+
+**Unit tests**
+- `packages/config/env.ts` rejects missing and malformed env vars.
+- `sanitizeText()` strips disallowed HTML and preserves normal text.
+- Shared response-envelope helpers always serialize the expected shape.
+- Health-schema Zod contracts parse valid payloads and reject drift.
+
+**Component tests**
+- `apps/web` root page renders without crashing.
+- `/healthz` route handler returns JSON with the expected shape.
+- Any shared provider tree mounts cleanly in the App Router.
+
+**API integration tests**
+- `GET /healthz` returns `200`, JSON, and expected envelope or health shape.
+- `GET /readyz` returns non-200 when Postgres/Redis are unavailable and `200` when both are reachable.
+- CORS allowlist behaves differently in test vs. production env fixtures.
+- Rate limiter returns JSON `429` responses, not text/plain or HTML.
+- OpenAPI document route responds and contains at least one typed path.
+
+**Infra tests**
+- Docker Compose boots Postgres and Redis locally.
+- Migration command runs successfully against fresh local Postgres.
+- API can connect to local Postgres and Redis from integration tests.
+
+**CI tests**
+- Fresh checkout passes `pnpm install --frozen-lockfile`.
+- `turbo run lint typecheck test build` succeeds in CI.
+- Preview/staging smoke test performs HTTP GET against deployed `/healthz`.
+- `scripts/check-env.ts` fails the build when a required env var is missing.
+
+**Manual verification**
+- Railway service is listening on `0.0.0.0:$PORT`.
+- Railway healthcheck path is configured and returning `200`.
+- Preview deployments are isolated from staging data.
+- Sentry receives one intentional test event in staging.
+- Plausible script loads only when the public env var is present.
+
+#### Phase 0 acceptance criteria
+
+Phase 0 is done only when all of these are true:
+
+- A new developer can clone the repo, run `pnpm install`, `pnpm dev:up`, and `pnpm dev`, and get both `web` and `api` running locally.
+- `web` and `api` both expose working `/healthz` routes locally and on Railway staging.
+- API integration tests run against real Postgres and Redis, not mocks.
+- OpenAPI generation is exercised in CI.
+- At least one ADR is written for each irreversible Phase 0 decision cluster: stack, repo structure, deploy target, auth strategy, data isolation.
+- CI is green on a clean branch with no manual steps.
+- `docs/tasks/TODO.MD`, `docs/feature-matrix.md`, and `CLAUDE.md` reflect the actual repo state.
+
+#### Phase 0 decisions we should lock during execution
+
+These decisions should be made during Phase 0, not deferred indefinitely:
+
+- **Railway-managed Postgres/Redis** for initial staging, unless a hard blocker appears during setup.
+- **`apps/web` only** for now; do not create `apps/admin` in Phase 0.
+- **MDX-first content direction** as the default CMS placeholder, unless editorial workflow requirements immediately invalidate it.
+- **Railway PR environments** preferred over custom preview scripting if GitHub integration is sufficient.
+
+#### Phase 0 anti-scope
+
+Things that look adjacent but should not enter Week 1:
+
+- real booking domain models
+- auth flows beyond env/schema groundwork
+- design system expansion beyond tokens
+- content modeling for all pages
+- any third-party hospitality vendor integration
+- any production DNS cutover
+
+If we touch those in Phase 0, we are leaking later-phase complexity into the foundation week.
+
 ### Phase 1 — Public marketing site (Weeks 2–4)
 **Goal:** a trilingual, story-first site with brand polish. No booking yet.
 
@@ -298,7 +439,7 @@ Maki will live as a single Railway project with four services:
 
 ### Railway-specific guardrails (from Civion lessons)
 
-1. **`NEXT_PUBLIC_*` env vars are build-time, not runtime.** We pass them as Docker build args in `apps/web/Dockerfile` (`ARG NEXT_PUBLIC_API_URL` + `ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL`), and as Railway "build variables" not "runtime variables."
+1. **`NEXT_PUBLIC_*` values must be present at Next.js build time.** In Railway, service variables are available during both build and runtime, but browser-exposed `NEXT_PUBLIC_*` values are baked into the client bundle at build. We can pass them through normal Railway service variables or explicit Docker build args; the important rule is that changing them requires a rebuild/redeploy.
 2. **Healthcheck path must exist.** `/healthz` is an actual Next.js route and an actual Hono route. Both return 200 with a small JSON. Railway's healthcheck config points at them explicitly.
 3. **`railway up --detach` returns before the build finishes.** CI always runs `railway logs` afterward and verifies a success marker, otherwise the pipeline is red.
 4. **`railway link` must point at the project root, not `~`.** CI runs from the repo root; dev CLAUDE.md reminds human operators.

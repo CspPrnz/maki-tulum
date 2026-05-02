@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "site_name": "Maki Tulum",
+    "tagline": "Eine kleine Anlage im Dschungel von Aldea Zama"
+  },
+  "nav": {
+    "compound": "Die Anlage",
+    "stays": "Die Häuser",
+    "days": "Die Tage",
+    "guide": "Der Guide",
+    "book": "Buchen"
+  },
+  "common": {
+    "loading": "Wird geladen…",
+    "error": "Etwas ist schiefgelaufen",
+    "retry": "Erneut versuchen"
+  }
+}

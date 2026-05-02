@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+@import '@maki/ui/tokens.css';
+
+/* Lesson: focus-visible needed globally so keyboard users can see where they are. */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Inputs floor at 16px to prevent iOS Safari zoom-on-focus. Lesson from Civion Safe. */
+input,
+select,
+textarea,
+button {
+  font-size: var(--min-input-font-size);
+}
+
+html,
+body {
+  background: var(--color-ivory);
+  color: var(--color-night);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
