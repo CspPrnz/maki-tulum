@@ -31,7 +31,7 @@
 | B17 | Retention loop | ⚪ | ⚪ | ⚪ | ⚪ | Phase 4 — the north-star feature |
 | B18 | Analytics (Plausible + Postgres) | ⚪ | ⚪ | ⚪ | ⚪ | Phase 3 |
 | B19 | Notifications service | ⚪ | n/a | n/a | n/a | Phase 4 — backend fan-out |
-| B20 | Admin console | ⚪ | ⚪ | n/a | n/a | Phase 3, under `/admin` |
+| B20 | Admin console | ⚪ | ⚪ (`apps/admin`) | n/a | n/a | Phase 3 — separate Next.js app at admin.makitulum.com behind Cloudflare Access (ADR 0010) |
 
 ---
 

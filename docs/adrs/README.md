@@ -19,28 +19,25 @@
 
 ## Index
 
-- [0001 — TypeScript on the backend (Hono), not Go](0001-typescript-backend.md)
-- [0002 — Monorepo with pnpm + Turbo](0002-monorepo-pnpm-turbo.md)
-- [0003 — Railway over Fly / Render / AWS](0003-railway-deployment.md)
-- *0004 — Buy channel manager (Hostaway), don't build* — pending
-- *0005 — Magic-link first, password optional* — pending
-- *0006 — JWT in httpOnly cookies, not localStorage* — pending
-- *0007 — Tenant-scoped schema from day one* — pending
-- *0008 — No Postgres RLS dependency for isolation* — pending
-- *0009 — OpenAPI spec via @hono/zod-openapi (generated)* — pending
-- *0010 — Admin under /admin, not a separate app* — pending
+- [0001 — TypeScript on the backend (Hono), not Go](0001-typescript-backend.md) · accepted
+- [0002 — Monorepo with pnpm + Turbo](0002-monorepo-pnpm-turbo.md) · accepted
+- [0003 — Railway over Fly / Render / AWS](0003-railway-deployment.md) · accepted
+- [0004 — Channel manager: paused, pending revisit at Phase 3](0004-channel-manager-paused.md) · **deferred** (Hosthub vs. Hostaway research notes inside)
+- [0005 — Magic-link first, password optional](0005-magic-link-first-auth.md) · accepted
+- [0006 — JWT in httpOnly cookies (web), Keychain/Keystore (native)](0006-jwt-httponly-cookies.md) · accepted
+- [0007 — Tenant-scoped schema from day one](0007-tenant-scoped-schema.md) · accepted
+- [0008 — No Postgres RLS dependency; defense in depth](0008-no-rls-dependency.md) · accepted
+- [0009 — OpenAPI spec generated from Zod, not hand-maintained](0009-openapi-via-zod.md) · accepted
+- [0010 — Admin in a separate Next.js app at admin.makitulum.com, behind Cloudflare Access](0010-admin-as-separate-app.md) · accepted (**supersedes earlier "fold under /admin" guidance**)
+- [0011 — Drizzle ORM + drizzle-kit migrations](0011-drizzle-orm-migrations.md) · accepted
 
-## Candidate ADRs for Phase 0
+## Pending / future ADRs
 
-From `implementation-plan.md` Appendix:
+These haven't been written yet and shouldn't be pre-emptively. Write each at the moment of decision.
 
-1. TypeScript on the backend (Hono), not Go.
-2. Monorepo with pnpm + Turbo.
-3. Railway over Fly / Render / AWS.
-4. Buy channel manager (Hostaway default), don't build.
-5. Magic-link first, password optional.
-6. JWT in httpOnly cookies (web), not localStorage.
-7. Tenant-scoped schema from day one.
-8. No Postgres RLS dependency for isolation.
-9. OpenAPI spec via `@hono/zod-openapi` (generated, not hand-maintained).
-10. Admin under `/admin`, not a separate app.
+- **0012 — Email provider:** Postmark vs. Brevo. Decide at Phase 1 kickoff.
+- **0013 — DB host:** Railway-managed Postgres vs. Neon. Decide at Phase 0 finish.
+- **0014 — Guest pre-arrival app:** Enso Connect vs. custom. Decide at Phase 4 kickoff.
+- **0015 — Channel manager (when 0004 unpauses):** Hosthub vs. Hostaway vs. Hospitable.
+
+When a pending ADR is written, move its bullet up to the Index above and replace the bullet with a link.

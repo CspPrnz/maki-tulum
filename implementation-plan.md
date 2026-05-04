@@ -65,8 +65,9 @@ A **small TypeScript monorepo** with a clean API boundary, so native apps later 
 ```
 maki-tulum/
 ├── apps/
-│   ├── web/                 # Next.js 15 (App Router, React 19) — marketing + booking + account
-│   └── admin/               # (optional) Next.js admin, or folded into web under /admin — see §3.3
+│   ├── web/                 # Next.js 15 (App Router, React 19) — public marketing + booking + guest account
+│   └── admin/               # Next.js 15 admin app — owner / manager / housekeeping / maintenance
+│                            # Deployed to admin.makitulum.com behind Cloudflare Access (ADR 0010)
 ├── services/
 │   └── api/                 # Hono on Node 22 — REST + WebSocket (chat presence)
 ├── packages/
@@ -114,9 +115,9 @@ Civion used Go successfully — we're choosing TS here because:
 - One language across api + web + scripts = smaller cognitive surface for a solo/small team.
 - Hono scales fine to the volume we need; if we ever need Go, the OpenAPI spec makes the rewrite low-risk.
 
-### 3.3 Admin under `/admin` vs. separate app
+### 3.3 Admin app
 
-**Decision (revisit at Phase 3):** fold admin into `apps/web` under `/admin/*` with server-side role checks and role-aware layouts. Cheaper to ship. Split into a separate app only if admin outgrows the public bundle.
+**Decision (ADR 0010, supersedes earlier guidance):** admin lives in a **separate Next.js app** (`apps/admin`) deployed to a **separate Railway service** at the **separate subdomain `admin.makitulum.com`**, fronted by **Cloudflare Access**. The public site (`apps/web`) does not serve any admin routes and ships no admin code. Reason: prior project at the same domain ate sustained malicious traffic at predictable admin paths; ZTNA + subdomain isolation gives meaningful defense in depth with ~30 min of one-time setup.
 
 ### 3.4 API design rules
 
@@ -167,7 +168,7 @@ Six phases. Each ends with a deployable build and a validation gate.
 - Monorepo with pnpm workspaces + Turbo.
 - `apps/web` boots a placeholder home page + `/healthz`.
 - `services/api` boots Hono with `/healthz`, `/readyz`, CORS, rate limiter, Zod request validation, OpenAPI route.
-- Postgres + Redis in Railway staging. Migrations via `node-pg-migrate`.
+- Postgres + Redis in Railway staging. Migrations via **drizzle-kit** (ADR 0011).
 - GitHub Actions: lint, typecheck, unit tests, build, deploy-to-Railway-preview on PR.
 - Sentry wired up. Plausible wired up.
 - **Exit criterion:** `https://maki-staging.up.railway.app/healthz` returns 200; PR previews deploy.
@@ -295,7 +296,7 @@ Phase 0 is done only when all of these are true:
 These decisions should be made during Phase 0, not deferred indefinitely:
 
 - **Railway-managed Postgres/Redis** for initial staging, unless a hard blocker appears during setup.
-- **`apps/web` only** for now; do not create `apps/admin` in Phase 0.
+- **`apps/web` only** for Phase 0; `apps/admin` lands at Phase 3 kickoff per ADR 0010.
 - **MDX-first content direction** as the default CMS placeholder, unless editorial workflow requirements immediately invalidate it.
 - **Railway PR environments** preferred over custom preview scripting if GitHub integration is sufficient.
 
@@ -342,7 +343,7 @@ If we touch those in Phase 0, we are leaking later-phase complexity into the fou
 - Auth: magic link primary; password optional. Short-lived access + rotating refresh tokens. httpOnly cookies on web.
 - Guest area: my bookings, rebook, update details.
 - Hostaway integration: push availability/rates outward; ingest OTA bookings inward into our Postgres. Our DB is source of truth; Hostaway is a gateway.
-- Owner dashboard at `/admin` — weekly revenue, 30-day occupancy, 3 action items.
+- Owner dashboard at `admin.makitulum.com` (separate `apps/admin` app, behind Cloudflare Access — see ADR 0010) — weekly revenue, 30-day occupancy, 3 action items.
 - Admin console: role management, content edit (Stays + Guide MDX), audit log read.
 - Review aggregator (Revyoos) embed on Stays pages.
 - **Exit criterion:** a booking made on Airbnb sandbox appears in our Postgres within 5 minutes; owner dashboard shows correct numbers; first real direct booking possible end-to-end on production.
@@ -563,7 +564,7 @@ Civion lessons baked in — these are not "later." They're cheap when built in a
 - Guest PWA: **Enso Connect** vs. custom — decide start of Phase 4 after Enso pricing.
 - Email provider: Postmark vs. Brevo — Postmark wins on deliverability, Brevo wins on price. Default: Postmark.
 - DB host: Railway-managed Postgres vs. Neon. Railway-managed is simpler; Neon is cheaper at scale. Start Railway, migrate if we outgrow.
-- Admin UI: folded into `apps/web` under `/admin/*` or separate `apps/admin`. Default: folded.
+- ~~Admin UI: folded into `apps/web` under `/admin/*` or separate `apps/admin`. Default: folded.~~ **Decided (ADR 0010): separate `apps/admin` at `admin.makitulum.com` behind Cloudflare Access.**
 
 ---
 
@@ -624,4 +625,5 @@ These live as `docs/adrs/NNNN-slug.md`. One per decision.
 7. Tenant-scoped schema from day one (one account today, designed for N).
 8. No Postgres RLS dependency for isolation.
 9. OpenAPI spec via `@hono/zod-openapi` (generated, not hand-maintained).
-10. Admin under `/admin`, not a separate app (revisit Phase 6).
+10. Admin in a separate `apps/admin` Next.js app at `admin.makitulum.com`, behind Cloudflare Access (ADR 0010 — supersedes the earlier "fold under /admin" decision after Felix flagged real-world bot traffic on predictable admin URLs).
+11. Drizzle ORM + drizzle-kit migrations (ADR 0011) — single schema source, end-to-end type safety, raw-SQL escape hatch.

@@ -6,7 +6,7 @@
 
 ---
 
-## Status Overview (updated 2026-05-02)
+## Status Overview (updated 2026-05-04)
 
 | Area | State | Notes |
 |------|-------|-------|
@@ -18,8 +18,11 @@
 | **Web app** | 🟢 Scaffolded | Next.js 15 + Tailwind v4; `/healthz`, brand tokens; standalone Docker output |
 | **CI** | 🟢 Wired | GitHub Actions: env audit · format · typecheck · lint · test · build (Postgres + Redis services) |
 | **Local dev infra** | 🟢 Ready | docker-compose with Postgres 16 + Redis 7 |
+| **ADRs** | 🟢 0001–0011 | 0004 paused (channel manager); 0010 supersedes earlier admin plan; 0011 picks Drizzle |
 | **Lockfile** | ⚪ Pending | Run `pnpm install` locally with Node 22 + pnpm 9.12, commit `pnpm-lock.yaml` |
+| **DB schema (Drizzle)** | ⚪ Pending | Install drizzle-orm + drizzle-kit, scaffold `services/api/src/db/`, first migration |
 | **Railway project** | ⚪ Planned | Phase 0 — services: web, api, postgres, redis |
+| **Admin app** | ⚪ Deferred | Phase 3 — separate `apps/admin` at admin.makitulum.com behind Cloudflare Access |
 | **Marketing site** | ⚪ Planned | Phase 1 — trilingual editorial, brand polish |
 | **Booking engine** | ⚪ Planned | Phase 2 — Stripe, Saneamiento transparency, deposit/balance split |
 | **Accounts + dashboard** | ⚪ Planned | Phase 3 — Hostaway, magic-link auth, owner dashboard |
@@ -37,9 +40,9 @@ Legend: 🟢 done · 🟡 in progress · 🔴 blocked · ⚪ planned · ⏸ defe
 
 | Decision | Options | Owner | Due |
 |---|---|---|---|
-| Channel manager | Hostaway vs. Hospitable | Felix | End of Phase 0 |
+| Channel manager | ~~Hostaway vs. Hospitable~~ → **Hosthub vs. Hostaway** (paused, ADR 0004) | Felix | Phase 3 kickoff (don't pay until live) |
 | Email provider | Postmark vs. Brevo | Felix | Start of Phase 1 |
-| Admin location | `/admin` inside `apps/web` vs. separate `apps/admin` | Felix | Phase 3 kickoff |
+| ~~Admin location~~ | ~~`/admin` vs. separate~~ — **decided** (ADR 0010): separate `apps/admin` at `admin.makitulum.com` behind Cloudflare Access | Felix | ~~Phase 3 kickoff~~ ✅ |
 | DB host | Railway-managed Postgres vs. Neon | Felix | End of Phase 0 |
 | Guest PWA | Enso Connect vs. custom | Felix | Start of Phase 4 |
 | DE SEO investment | Proceed / defer based on Ahrefs volume | Felix | Before Phase 1 DE content |
@@ -61,11 +64,12 @@ Legend: 🟢 done · 🟡 in progress · 🔴 blocked · ⚪ planned · ⏸ defe
 - [x] GitHub Actions: env audit, format, typecheck, lint, test, build (with Postgres + Redis services)
 - [x] `scripts/check-env.ts` + `scripts/sync-tokens.ts` baseline
 - [x] ADRs 0001–0003 (TypeScript backend, monorepo, Railway)
+- [x] ADRs 0004–0011 written: 0004 channel manager paused (Hosthub research notes), 0005 magic-link auth, 0006 JWT httpOnly cookies, 0007 tenant-scoped schema, 0008 no-RLS-dependency + defense-in-depth, 0009 OpenAPI from Zod, 0010 separate admin app behind Cloudflare Access (supersedes earlier plan), 0011 Drizzle ORM + drizzle-kit
 
 ### Remaining (next session — Felix-side)
 
 - [ ] **Run `pnpm install`** with Node 22 + pnpm 9.12 → commit `pnpm-lock.yaml`
-- [ ] Add initial DB migration path and verify against local Postgres (pick `node-pg-migrate` or `drizzle-kit`)
+- [ ] Install drizzle-orm + drizzle-kit + drizzle-zod (ADR 0011), scaffold `services/api/src/db/{schema.ts,index.ts,repositories/}` + `drizzle.config.ts` + `migrations/`, write first migration (e.g., `accounts` + `users` + `account_memberships`), apply against local Postgres, commit
 - [ ] **Create Railway project** via dashboard or CLI; add 4 services (web, api, postgres, redis)
 - [ ] Configure Railway: build vars (`NEXT_PUBLIC_*`), runtime env (`DATABASE_URL`, `REDIS_URL`, `JWT_*`, `CORS_ORIGINS`), healthcheck paths
 - [ ] First PR preview deploy: verify `/healthz` returns 200 on staging URLs
@@ -74,7 +78,7 @@ Legend: 🟢 done · 🟡 in progress · 🔴 blocked · ⚪ planned · ⏸ defe
 - [ ] Sentry: create projects (web + api), add DSNs to Railway
 - [ ] Plausible: register `staging.makitulum.com` and `makitulum.com`, add `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`
 - [ ] DNS: point apex + `api.` + `staging.` to Railway
-- [ ] ADRs 0004–0010 (channel manager, magic-link, JWT cookies, tenant schema, no-RLS-dep, OpenAPI spec, /admin location)
+- [ ] **Phase 3 prep:** scaffold `apps/admin` (Next.js, separate Railway service, `admin.makitulum.com` domain) + Cloudflare Access app + policy (per ADR 0010)
 
 ### Phase 0 exit criterion
 

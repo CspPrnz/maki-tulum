@@ -1,6 +1,6 @@
 # Maki Tulum — AI Agent Context
 
-> Last updated: 2026-05-02 · Stage: Phase 0 scaffold landed (no Railway deploy yet) · Deploy: Railway
+> Last updated: 2026-05-04 · Stage: Phase 0 scaffold landed, ADRs 0001–0011 written · Deploy: Railway
 
 ## What this is
 
@@ -20,9 +20,11 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 
 ## Current state
 
-- **Phase 0 scaffold:** ✅ in repo — pnpm + Turbo monorepo, four packages (`config`, `types`, `i18n`, `ui`), `services/api` (Hono + Zod-OpenAPI, `/healthz`, `/readyz`, CORS, rate-limit, JSON error envelope, `sanitizeText`), `apps/web` (Next.js 15 + Tailwind v4, `/healthz`, brand tokens), dev docker-compose (Postgres 16 + Redis 7), GitHub Actions CI with service containers, env-audit script, ADRs 0001–0003.
-- **Phase 0 remaining:** ⚪ `pnpm install` to generate the lockfile (run with Node 22 + pnpm 9.12), ⚪ Railway project provisioned + first staging deploy, ⚪ Sentry + Plausible wiring (need DSN + domain), ⚪ ADRs 0004–0010, ⚪ initial DB migration path, ⚪ deployed `/healthz` smoke test green.
+- **Phase 0 scaffold:** ✅ in repo — pnpm + Turbo monorepo, four packages (`config`, `types`, `i18n`, `ui`), `services/api` (Hono + Zod-OpenAPI, `/healthz`, `/readyz`, CORS, rate-limit, JSON error envelope, `sanitizeText`), `apps/web` (Next.js 15 + Tailwind v4, `/healthz`, brand tokens), dev docker-compose (Postgres 16 + Redis 7), GitHub Actions CI with service containers, env-audit script.
+- **ADRs:** ✅ 0001–0011 written. 0004 (channel manager) is **deferred** (paused until live). 0010 supersedes the earlier "fold admin into apps/web" plan — admin lives in a separate `apps/admin` at `admin.makitulum.com` behind Cloudflare Access. 0011 picks Drizzle ORM + drizzle-kit migrations.
+- **Phase 0 remaining:** ⚪ `pnpm install` to generate the lockfile, ⚪ install drizzle-orm + drizzle-kit and write the first migration (`accounts` + `users`), ⚪ Railway project provisioned + first staging deploy, ⚪ Sentry + Plausible wiring (need DSN + domain), ⚪ deployed `/healthz` smoke test green.
 - **Phase 1 (marketing site):** ⚪ blocked on lockfile + first deploy.
+- **Phase 3 (admin app):** ⚪ scaffold `apps/admin` Next.js app + Cloudflare Access setup when admin work begins.
 
 ## Stack (once Phase 0 ships)
 
@@ -33,22 +35,27 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 - **State:** Zustand (UI) + React Query v5 (server)
 - **Auth:** Custom JWT, 15-min access + rotating refresh. Web: httpOnly cookies. Native (future): Keychain/Keystore.
 - **Payments:** Stripe + MercadoPago
-- **Channel sync:** Hostaway (candidate; not yet contracted)
+- **Channel sync:** TBD — adapter pattern in place; vendor decided at Phase 3 kickoff (ADR 0004 paused, Hosthub + Hostaway under consideration)
 - **Email:** Postmark · **WhatsApp:** Twilio · **Errors:** Sentry · **Analytics:** Plausible
 
 ## Repo shape (target)
 
 ```
-apps/web/              Next.js — marketing + booking + /admin
-services/api/          Hono API, the contract
+apps/web/              Next.js — public marketing + booking + guest area
+apps/admin/            Next.js — owner / manager / housekeeping (Phase 3+)
+                       admin.makitulum.com behind Cloudflare Access (ADR 0010)
+services/api/          Hono API + Drizzle ORM (ADR 0009, 0011); same API serves web + admin + future native
 packages/types/        Zod schemas + inferred TS types (shared client/server)
 packages/ui/           Design system (tokens portable to RN/SwiftUI/Compose)
 packages/i18n/         en / es / de locale files
-packages/config/       env validation, constants
+packages/config/       env validation, constants, sanitizeText
 infra/railway/         railway.toml per service
 infra/docker/          dev docker-compose (Postgres + Redis)
-scripts/               seed, sync-i18n, check-env
-docs/                  adrs/, runbooks/, feature-matrix.md
+scripts/               check-env, sync-tokens, sync-i18n (when native lands)
+docs/adrs/             0001–0011 — read in order if new to the project
+docs/tasks/TODO.MD     pending work; updated in the same commit
+docs/feature-matrix.md per-feature status across web / admin / api / iOS / Android
+docs/lessons-learned.md incidents → preventive measures
 ```
 
 ## Constraints (read before every task)
@@ -91,7 +98,8 @@ docs/                  adrs/, runbooks/, feature-matrix.md
 
 - **Commits:** one concern per commit. Imperative mood. Reference phase if useful: `[phase-1] add stays page`.
 - **Branches:** `feat/…`, `fix/…`, `chore/…`. PRs require green CI before merge.
-- **DB migrations:** `node-pg-migrate` up + down, idempotent. Never edit a shipped migration.
+- **DB migrations:** drizzle-kit (ADR 0011). Edit `services/api/src/db/schema.ts`, run `pnpm --filter @maki/api db:generate`, review the generated SQL, commit. Never edit a shipped migration.
+- **DB queries:** only repositories at `services/api/src/db/repositories/<entity>.ts` import `db` directly. Handlers call repos. Every tenant-scoped repo function takes `accountId` as the first param (ADR 0007, 0008).
 - **Tests:** co-located `.test.ts(x)`. Table-driven where input space is enumerable. Unique test data per run (`test+${nanoid()}@example.test`).
 - **Every P0/P1 bug fix ships with a regression test.** No fix is "done" without one.
 - **i18n keys** in `packages/i18n`; never inline English strings in components.
