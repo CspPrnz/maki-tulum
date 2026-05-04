@@ -14,7 +14,7 @@ export function corsMiddleware(env: ApiEnv): MiddlewareHandler {
   });
 
   return cors({
-    origin: origins.length > 0 ? origins : (origin) => origin ?? '*',
+    origin: origins.length > 0 ? origins : (o: string) => o ?? '*',
     credentials: true,
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization', 'Idempotency-Key'],

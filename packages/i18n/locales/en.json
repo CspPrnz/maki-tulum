@@ -1,7 +1,7 @@
 {
   "meta": {
     "site_name": "Maki Tulum",
-    "tagline": "A small jungle compound in Aldea Zama"
+    "tagline": "A quiet sanctuary, off the noise of Tulum's center"
   },
   "nav": {
     "compound": "The Compound",
@@ -13,6 +13,64 @@
   "common": {
     "loading": "Loading…",
     "error": "Something went wrong",
-    "retry": "Retry"
+    "retry": "Retry",
+    "more": "More",
+    "back": "Back",
+    "view_all": "View all"
+  },
+  "home": {
+    "hero_eyebrow": "Aldea Zama, Tulum",
+    "hero_headline": "A quiet compound, off the noise.",
+    "hero_sub": "Off Tulum's busy center and the beach, but close enough to get everywhere easily.",
+    "intro_heading": "What Maki is",
+    "intro_body": "Maki is a quiet compound in the Aldea Zama jungle. For me it's a sanctuary — somewhere to recharge and disconnect from the busy life outside. The community is a fun mix of residents and visitors from across the Americas and Europe, and the vibe is simple: come as you are and enjoy.",
+    "stays_heading": "The stays",
+    "stays_sub": "Two-storey villas and apartments in the same compound. Each is its own home.",
+    "compound_heading": "The compound",
+    "compound_sub": "Pools, gardens, and a few minutes by bike to the beach, ruins, cenotes.",
+    "book_cta": "See the stays",
+    "find_us_heading": "Where to find us",
+    "find_us_body": "Aldea Zama, a planned residential neighborhood between Tulum's center and the beach. 7 minutes by car to the ruins, 10 to the beach clubs, 5 to a cenote."
+  },
+  "stays": {
+    "index_eyebrow": "10 stays in the compound",
+    "index_headline": "Pick a home for your week.",
+    "index_sub": "We list two for now — Villa 18 and Villa 19. The other eight are private residences and apartments coming online over the next months.",
+    "sleeps": "Sleeps {n}",
+    "bedrooms": "{n} bedrooms",
+    "bathrooms": "{n} bathrooms",
+    "view_stay": "View this stay",
+    "photos_pending": "Fresh photos coming soon",
+    "stay_eyebrow": "A stay in the Maki compound",
+    "request_to_book": "Request to book",
+    "book_note": "Booking opens with Phase 2 — for now, send us a note and we'll come back within the day.",
+    "amenities_heading": "What's in it",
+    "what_its_like_heading": "What it's like",
+    "villa_18": {
+      "what_its_like": "Two-storey villa, the most lived-in of the compound. Living room and kitchen open to a private plunge pool. Two bedrooms, both quiet. The rooftop is its own room — bamboo pergola, sun, evening sky."
+    },
+    "villa_19": {
+      "what_its_like": "Sister villa to 18. Photos and detailed copy coming as we shoot the next round. Same compound, same calm. If you're interested in dates, ask — we'll send a real walkthrough."
+    }
+  },
+  "compound": {
+    "stub_heading": "The compound",
+    "stub_body": "A longer write-up of the place, the people, and a day at Maki is coming with the next content pass."
+  },
+  "days": {
+    "stub_heading": "The days",
+    "stub_body": "Mornings, days, nights — the rhythm of a week here. Coming with the next content pass."
+  },
+  "guide": {
+    "stub_heading": "The guide",
+    "stub_body": "Cenotes, beach clubs, restaurants, transport, water safety — written from the inside, not from a search engine. Coming soon."
+  },
+  "book": {
+    "stub_heading": "Book a stay",
+    "stub_body": "Direct booking opens with Phase 2 of the build. For now: see The Stays and send a note via WhatsApp or email. We come back the same day.",
+    "view_stays": "See the stays"
+  },
+  "footer": {
+    "tag": "© {year} Maki Tulum · Aldea Zama, Tulum, México"
   }
 }

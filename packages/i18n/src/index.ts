@@ -1,6 +1,11 @@
-// Static import of the default locale to eliminate flash of untranslated content.
-// Lesson from Civion Safe: dynamic locale fetching causes a brief flash on first load.
+// Static imports for every locale. Two reasons:
+// (1) Eliminates flash of untranslated content (Civion lesson).
+// (2) Vite's static analyzer rejects template-string dynamic imports that
+//     cross directory boundaries (e.g. `../locales/${locale}.json`), so a
+//     static map is the portable choice for both Next and Vitest builds.
 import en from '../locales/en.json' with { type: 'json' };
+import es from '../locales/es.json' with { type: 'json' };
+import de from '../locales/de.json' with { type: 'json' };
 
 export type Translations = typeof en;
 export const defaultTranslations = en;
@@ -9,10 +14,10 @@ export const SUPPORTED_LOCALES = ['en', 'es', 'de'] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'en';
 
+const LOCALE_MAP: Record<Locale, Translations> = { en, es, de };
+
 export async function loadLocale(locale: Locale): Promise<Translations> {
-  if (locale === 'en') return en;
-  const mod = await import(`../locales/${locale}.json`, { with: { type: 'json' } });
-  return mod.default as Translations;
+  return LOCALE_MAP[locale];
 }
 
 /**

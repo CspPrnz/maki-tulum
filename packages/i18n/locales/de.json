@@ -1,7 +1,7 @@
 {
   "meta": {
     "site_name": "Maki Tulum",
-    "tagline": "Eine kleine Anlage im Dschungel von Aldea Zama"
+    "tagline": "Eine ruhige Anlage, abseits vom Lärm im Zentrum von Tulum"
   },
   "nav": {
     "compound": "Die Anlage",
@@ -13,6 +13,64 @@
   "common": {
     "loading": "Wird geladen…",
     "error": "Etwas ist schiefgelaufen",
-    "retry": "Erneut versuchen"
+    "retry": "Erneut versuchen",
+    "more": "Mehr",
+    "back": "Zurück",
+    "view_all": "Alle ansehen"
+  },
+  "home": {
+    "hero_eyebrow": "Aldea Zama, Tulum",
+    "hero_headline": "Eine ruhige Anlage, abseits vom Lärm.",
+    "hero_sub": "Abseits vom Zentrum und vom Strand Tulums, aber nah genug, um überall leicht hinzukommen.",
+    "intro_heading": "Was Maki ist",
+    "intro_body": "Maki ist eine ruhige Anlage im Dschungel von Aldea Zama. Für mich ist sie ein Rückzugsort — ein Ort zum Auftanken und zum Abschalten vom Alltag draußen. Die Community ist eine schöne Mischung aus Residenten und Gästen aus Amerika und Europa, und das Motto ist einfach: komm wie du bist und genieße es.",
+    "stays_heading": "Die Häuser",
+    "stays_sub": "Zweistöckige Villen und Apartments in derselben Anlage. Jedes ist sein eigenes Zuhause.",
+    "compound_heading": "Die Anlage",
+    "compound_sub": "Pools, Gärten, ein paar Minuten mit dem Rad zum Strand, zu den Ruinen, zu Cenotes.",
+    "book_cta": "Häuser ansehen",
+    "find_us_heading": "Wo wir liegen",
+    "find_us_body": "Aldea Zama, ein geplantes Wohnviertel zwischen Tulums Zentrum und dem Strand. 7 Minuten mit dem Auto zu den Ruinen, 10 zu den Beach Clubs, 5 zu einer Cenote."
+  },
+  "stays": {
+    "index_eyebrow": "10 Häuser in der Anlage",
+    "index_headline": "Wähle ein Zuhause für deine Woche.",
+    "index_sub": "Wir zeigen vorerst zwei — Villa 18 und Villa 19. Die anderen acht sind private Häuser und Apartments, die in den nächsten Monaten dazu kommen.",
+    "sleeps": "Bis zu {n} Personen",
+    "bedrooms": "{n} Schlafzimmer",
+    "bathrooms": "{n} Bäder",
+    "view_stay": "Dieses Haus ansehen",
+    "photos_pending": "Frische Fotos folgen in Kürze",
+    "stay_eyebrow": "Ein Haus in der Maki-Anlage",
+    "request_to_book": "Anfrage senden",
+    "book_note": "Direkt buchen kommt in Phase 2 — für jetzt: schreib uns und wir melden uns am selben Tag.",
+    "amenities_heading": "Was drin ist",
+    "what_its_like_heading": "Wie es sich anfühlt",
+    "villa_18": {
+      "what_its_like": "Zweistöckige Villa, das meistgenutzte Haus der Anlage. Wohnzimmer und Küche öffnen sich zu einem privaten Pool. Zwei Schlafzimmer, beide ruhig. Die Dachterrasse ist ein eigener Raum — Bambus-Pergola, Sonne, Abendhimmel."
+    },
+    "villa_19": {
+      "what_its_like": "Schwesterhaus zur 18. Fotos und ausführliche Beschreibung kommen mit dem nächsten Shooting. Gleiche Anlage, gleiche Ruhe. Falls du Termine im Kopf hast, frag uns — wir schicken dir einen echten Rundgang."
+    }
+  },
+  "compound": {
+    "stub_heading": "Die Anlage",
+    "stub_body": "Ein längerer Text über den Ort, die Leute und einen Tag bei Maki kommt mit dem nächsten Content-Update."
+  },
+  "days": {
+    "stub_heading": "Die Tage",
+    "stub_body": "Morgens, tagsüber, abends — der Rhythmus einer Woche hier. Folgt im nächsten Content-Update."
+  },
+  "guide": {
+    "stub_heading": "Der Guide",
+    "stub_body": "Cenotes, Beach Clubs, Restaurants, Transport, Wasser — aus dem Inneren geschrieben, nicht aus einer Suchmaschine. In Kürze."
+  },
+  "book": {
+    "stub_heading": "Ein Haus buchen",
+    "stub_body": "Direkt buchen startet mit Phase 2 des Projekts. Für jetzt: schau die Häuser an und schreib uns per WhatsApp oder Mail. Wir antworten am selben Tag.",
+    "view_stays": "Häuser ansehen"
+  },
+  "footer": {
+    "tag": "© {year} Maki Tulum · Aldea Zama, Tulum, México"
   }
 }

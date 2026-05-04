@@ -1,7 +1,7 @@
 {
   "meta": {
     "site_name": "Maki Tulum",
-    "tagline": "Un pequeño complejo en la selva de Aldea Zama"
+    "tagline": "Un refugio tranquilo, lejos del ruido del centro de Tulum"
   },
   "nav": {
     "compound": "El Complejo",
@@ -13,6 +13,64 @@
   "common": {
     "loading": "Cargando…",
     "error": "Algo salió mal",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "more": "Más",
+    "back": "Volver",
+    "view_all": "Ver todo"
+  },
+  "home": {
+    "hero_eyebrow": "Aldea Zama, Tulum",
+    "hero_headline": "Un complejo tranquilo, lejos del ruido.",
+    "hero_sub": "Apartado del centro y de la playa de Tulum, pero lo suficientemente cerca para llegar a todo con facilidad.",
+    "intro_heading": "Qué es Maki",
+    "intro_body": "Maki es un complejo tranquilo en la selva de Aldea Zama. Para mí es un refugio — un lugar para recargar y desconectarme del ritmo de afuera. La comunidad es una mezcla agradable de residentes y visitantes de las Américas y Europa, y la onda es simple: ven como eres y disfruta.",
+    "stays_heading": "Las casas",
+    "stays_sub": "Villas de dos pisos y departamentos en el mismo complejo. Cada uno es su propia casa.",
+    "compound_heading": "El complejo",
+    "compound_sub": "Albercas, jardines y unos minutos en bici a la playa, las ruinas y los cenotes.",
+    "book_cta": "Ver las casas",
+    "find_us_heading": "Dónde encontrarnos",
+    "find_us_body": "Aldea Zama, una colonia residencial planeada entre el centro de Tulum y la playa. 7 minutos en coche a las ruinas, 10 a los beach clubs, 5 a un cenote."
+  },
+  "stays": {
+    "index_eyebrow": "10 casas en el complejo",
+    "index_headline": "Elige una casa para tu semana.",
+    "index_sub": "Por ahora listamos dos — Villa 18 y Villa 19. Las otras ocho son residencias privadas y departamentos que iremos sumando los próximos meses.",
+    "sleeps": "Hasta {n} personas",
+    "bedrooms": "{n} recámaras",
+    "bathrooms": "{n} baños",
+    "view_stay": "Ver esta casa",
+    "photos_pending": "Pronto subimos fotos nuevas",
+    "stay_eyebrow": "Una casa en el complejo Maki",
+    "request_to_book": "Solicitar reserva",
+    "book_note": "La reserva directa abre en la Fase 2 — por ahora, escríbenos y te respondemos el mismo día.",
+    "amenities_heading": "Qué incluye",
+    "what_its_like_heading": "Cómo se siente",
+    "villa_18": {
+      "what_its_like": "Villa de dos pisos, la más usada del complejo. Sala y cocina abren a una alberca privada. Dos recámaras, ambas tranquilas. La azotea es su propia habitación — pérgola de bambú, sol, cielo al atardecer."
+    },
+    "villa_19": {
+      "what_its_like": "Villa hermana de la 18. Fotos y descripción detallada las subimos con la siguiente sesión. Mismo complejo, misma calma. Si te interesan fechas, pregunta — te enviamos un recorrido real."
+    }
+  },
+  "compound": {
+    "stub_heading": "El complejo",
+    "stub_body": "Un texto más largo sobre el lugar, la gente y un día en Maki llega en la siguiente actualización de contenido."
+  },
+  "days": {
+    "stub_heading": "Los días",
+    "stub_body": "Mañanas, días, noches — el ritmo de una semana aquí. Llega en la siguiente actualización."
+  },
+  "guide": {
+    "stub_heading": "La guía",
+    "stub_body": "Cenotes, beach clubs, restaurantes, transporte, agua — escrito desde adentro, no copiado de un buscador. Pronto."
+  },
+  "book": {
+    "stub_heading": "Reservar una casa",
+    "stub_body": "La reserva directa abre con la Fase 2 del proyecto. Por ahora: ve Las Casas y escríbenos por WhatsApp o correo. Respondemos el mismo día.",
+    "view_stays": "Ver las casas"
+  },
+  "footer": {
+    "tag": "© {year} Maki Tulum · Aldea Zama, Tulum, México"
   }
 }

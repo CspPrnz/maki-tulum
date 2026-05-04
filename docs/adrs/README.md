@@ -30,12 +30,12 @@
 - [0009 — OpenAPI spec generated from Zod, not hand-maintained](0009-openapi-via-zod.md) · accepted
 - [0010 — Admin in a separate Next.js app at admin.makitulum.com, behind Cloudflare Access](0010-admin-as-separate-app.md) · accepted (**supersedes earlier "fold under /admin" guidance**)
 - [0011 — Drizzle ORM + drizzle-kit migrations](0011-drizzle-orm-migrations.md) · accepted
+- [0012 — Brevo as the transactional email provider](0012-brevo-email.md) · accepted
 
 ## Pending / future ADRs
 
 These haven't been written yet and shouldn't be pre-emptively. Write each at the moment of decision.
 
-- **0012 — Email provider:** Postmark vs. Brevo. Decide at Phase 1 kickoff.
 - **0013 — DB host:** Railway-managed Postgres vs. Neon. Decide at Phase 0 finish.
 - **0014 — Guest pre-arrival app:** Enso Connect vs. custom. Decide at Phase 4 kickoff.
 - **0015 — Channel manager (when 0004 unpauses):** Hosthub vs. Hostaway vs. Hospitable.

@@ -2,7 +2,7 @@
 
 > Per-feature status across platforms. Updated in the same commit as the work. Mark `n/a` explicitly — never leave empty.
 >
-> Last updated: 2026-05-02
+> Last updated: 2026-05-04
 >
 > Legend: ✅ shipped · 🟡 in progress · ⚪ planned · ⏸ deferred · n/a not applicable
 
@@ -12,7 +12,7 @@
 
 | # | Block | API | Web | iOS | Android | Notes |
 |---|---|---|---|---|---|---|
-| B1 | Marketing site | n/a | ⚪ | n/a | n/a | Phase 1 |
+| B1 | Marketing site | n/a | 🟡 | n/a | n/a | Phase 1A scaffolded: locale routing (en/es/de), home + stays index + Villa 18 + Villa 19 detail + 4 stub pages (compound/days/guide/book), schema.org LodgingBusiness/HotelRoom, ADR 0012 Brevo. Compound/Days/Guide content + ambient video hero pending Phase 1B. |
 | B2 | Availability engine | ⚪ | ⚪ | ⚪ | ⚪ | Phase 2; thin layer over channel manager |
 | B3 | Booking / checkout | ⚪ | ⚪ | ⚪ | ⚪ | Phase 2 |
 | B4 | Payments (Stripe + MercadoPago + Klarna) | ⚪ | ⚪ | ⚪ | ⚪ | Phase 2 |
@@ -50,8 +50,8 @@
 | Area | API | Web | iOS | Android | Notes |
 |---|---|---|---|---|---|
 | Auth (JWT access + rotating refresh) | ⚪ | ⚪ | ⚪ | ⚪ | Web: httpOnly cookies. Native: Keychain/Keystore. |
-| i18n (EN/ES/DE) | n/a | 🟡 | ⚪ | ⚪ | Locale JSON in `packages/i18n/locales/`; route wiring pending |
-| Accessibility (WCAG 2.2 AA) | n/a | 🟡 | ⚪ | ⚪ | Tokens enforce 16px input floor + 44px touch targets; Lighthouse pass on Phase 1 |
+| i18n (EN/ES/DE) | n/a | 🟢 | ⚪ | ⚪ | Static-import map in `@maki/i18n`; locale-segment routing + middleware + cookie-persisted preference + locale switcher; locale-parity test passes |
+| Accessibility (WCAG 2.2 AA) | n/a | 🟡 | ⚪ | ⚪ | Tokens enforce 16px input floor + 44px touch target; `:focus-visible` global; alt text per locale on every photo; full Lighthouse pass deferred to Phase 1B (after fonts + ambient video) |
 | Rate limiting | 🟡 | n/a | n/a | n/a | Per-IP middleware in place; per-endpoint limits via `RATE_LIMITS` constants |
 | Audit log | ⚪ | ⚪ (admin view) | n/a | n/a | Append-only — Phase 3 |
 | CORS (env-scoped) | 🟢 | n/a | n/a | n/a | Strips localhost in prod (`services/api/src/middleware/cors.ts`) |
@@ -60,3 +60,6 @@
 | Env audit | 🟢 | 🟢 | n/a | n/a | `pnpm check-env` greps codebase vs manifest |
 | HTML sanitization | 🟢 | n/a | n/a | n/a | `@maki/config` exports `sanitizeText` with tests |
 | CI workflow | 🟢 | 🟢 | n/a | n/a | format · typecheck · lint · test · build, with Postgres + Redis service containers |
+| Schema.org markup | n/a | 🟢 | n/a | n/a | `LodgingBusiness` on home, `HotelRoom` on each stay; helpers in `apps/web/components/jsonld.tsx` |
+| hreflang | n/a | 🟢 | n/a | n/a | `buildAlternates` in `apps/web/lib/i18n.ts` emits one entry per locale + x-default for every page's metadata |
+| Vitest + RTL on web | n/a | 🟢 | n/a | n/a | `afterEach(cleanup)` enforced (lesson); 20 tests passing on locale-switcher, stays, i18n helpers |

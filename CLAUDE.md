@@ -1,6 +1,6 @@
 # Maki Tulum — AI Agent Context
 
-> Last updated: 2026-05-04 · Stage: Phase 0 scaffold landed, ADRs 0001–0011 written · Deploy: Railway
+> Last updated: 2026-05-04 · Stage: **Phase 1A landed** — locale-routed marketing site with Villa 18 + 19 · Deploy: Railway
 
 ## What this is
 
@@ -20,10 +20,11 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 
 ## Current state
 
-- **Phase 0 scaffold:** ✅ in repo — pnpm + Turbo monorepo, four packages (`config`, `types`, `i18n`, `ui`), `services/api` (Hono + Zod-OpenAPI, `/healthz`, `/readyz`, CORS, rate-limit, JSON error envelope, `sanitizeText`), `apps/web` (Next.js 15 + Tailwind v4, `/healthz`, brand tokens), dev docker-compose (Postgres 16 + Redis 7), GitHub Actions CI with service containers, env-audit script.
-- **ADRs:** ✅ 0001–0011 written. 0004 (channel manager) is **deferred** (paused until live). 0010 supersedes the earlier "fold admin into apps/web" plan — admin lives in a separate `apps/admin` at `admin.makitulum.com` behind Cloudflare Access. 0011 picks Drizzle ORM + drizzle-kit migrations.
-- **Phase 0 remaining:** ⚪ `pnpm install` to generate the lockfile, ⚪ install drizzle-orm + drizzle-kit and write the first migration (`accounts` + `users`), ⚪ Railway project provisioned + first staging deploy, ⚪ Sentry + Plausible wiring (need DSN + domain), ⚪ deployed `/healthz` smoke test green.
-- **Phase 1 (marketing site):** ⚪ blocked on lockfile + first deploy.
+- **Phase 0 scaffold:** ✅ — pnpm + Turbo monorepo, four packages, `services/api` (Hono + Zod-OpenAPI, `/healthz`, `/readyz`, CORS, rate-limit, JSON error envelope, `sanitizeText`), `apps/web` (Next.js 15 + Tailwind v4 + standalone Docker output), dev docker-compose, GitHub Actions CI with Postgres + Redis service containers.
+- **Phase 1A landed:** ✅ — locale-segment routing (`/en`, `/es`, `/de`) with middleware + cookie-persisted preference + locale switcher; brand tokens (gold + jungle palette); `@maki/ui` primitives (Container, Heading, Prose, Button, NavLink); home + Stays index + Villa 18 detail (real photos) + Villa 19 detail (placeholder photos); 4 stub pages (Compound / Days / Guide / Book); schema.org `LodgingBusiness` + `HotelRoom`; full content in EN / ES / DE; 33 tests passing across all packages; full Next build green (9 routes, 6 SSG-prerendered).
+- **ADRs:** ✅ 0001–0012. 0004 (channel manager) deferred. 0010 = separate admin app behind Cloudflare Access. 0011 = Drizzle ORM. 0012 = Brevo for email.
+- **Phase 0/1A remaining:** ⚪ Railway project provisioned + first staging deploy, ⚪ Sentry DSN + Plausible domain wiring, ⚪ Drizzle ORM + first migration (Phase 2 prep), ⚪ deployed `/healthz` smoke test green, ⚪ font-loading optimization + Lighthouse pass on home + 1 stay.
+- **Phase 1B:** ⚪ Compound + Days + Guide page content; ambient video hero (waiting on Felix's video); MDX guide article framework; full Lighthouse ≥90 sign-off.
 - **Phase 3 (admin app):** ⚪ scaffold `apps/admin` Next.js app + Cloudflare Access setup when admin work begins.
 
 ## Stack (once Phase 0 ships)
