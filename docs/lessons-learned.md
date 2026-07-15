@@ -18,6 +18,13 @@
 
 ## Meta-lessons (about how we built this project itself)
 
+> Sourced from the first Codex red-team pass ([`docs/backlog/plans/codex-red-team.md`](backlog/plans/codex-red-team.md), 2026-07-15) — all 6 proposed meta-lessons reviewed and accepted.
+
 | Date | Lesson | Preventive measure |
 |------|--------|--------------------|
-| *(none yet)* | | |
+| 2026-07-15 | A deferred vendor decision is not non-blocking when it defines the domain model (channel manager deferred past the point it shapes the availability schema — MRT-15-P0-02) | Add a dependency gate requiring vendor proof-of-capability before schema/contract freeze |
+| 2026-07-15 | An adapter is not evidence that vendors are interchangeable (MRT-15-P0-03) | Require a capability matrix and sandbox contract suite before promising a vendor swap is low-cost |
+| 2026-07-15 | Privacy decisions must precede data-schema and lifecycle design, not follow it (MRT-15-P0-05) | Require a data map, lawful-basis matrix, and deletion/retention design before any new guest-data collection |
+| 2026-07-15 | Accepted ADRs must trigger a repository-wide contradiction check — ADR 0012 (Brevo) shipped while CLAUDE.md and implementation-plan.md still named Postmark/Twilio (MRT-15-P1-04) | Add a checklist/CI doc scan for superseded provider and architecture choices |
+| 2026-07-15 | Conversion features require an explicit anti-pattern invariant, not just a listed don't (MRT-15-P2-01) | Add anti-pattern acceptance checks to every growth/checkout experiment |
+| 2026-07-15 | Plans must be reconciled when shipped state changes — implementation-plan.md said "no code yet" after Phase 0/1A had shipped (MRT-15-P2-02) | Make current-state reconciliation a required close-out step for each phase |

@@ -1,6 +1,7 @@
 # Maki Tulum — AI Agent Context
 
-> Last updated: 2026-05-04 · Stage: **Phase 1A landed** — locale-routed marketing site with Villa 18 + 19 · Deploy: Railway
+> Last updated: 2026-07-15 · Stage: **Phase 1A landed** — locale-routed marketing site with Villa 18 + 19 · Deploy: Railway
+> **Phase 2 kickoff is gated** on resolving the P0 findings in [`docs/backlog/plans/codex-red-team.md`](docs/backlog/plans/codex-red-team.md) (payment capture design, channel-manager timing, legal entity/payments, consent scope). Phase 1B content work is unaffected except the German-content gate — see TODO.MD.
 
 ## What this is
 
@@ -10,13 +11,19 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 
 ## Read order
 
+- **What happened last session?** → newest file in [`docs/handoff/`](docs/handoff/) (index: [`docs/handoff/README.md`](docs/handoff/README.md)) — read this first, it links out to whatever else you need instead of re-deriving state
 - **Why are we building this?** → [`idea-v3.md`](idea-v3.md)
 - **How are we building it?** → [`implementation-plan.md`](implementation-plan.md)
-- **What's next / blocked / deferred?** → [`docs/tasks/TODO.MD`](docs/tasks/TODO.MD)
+- **What's next / blocked / deferred?** → [`docs/backlog/TODO.MD`](docs/backlog/TODO.MD)
 - **What shipped, where?** → [`docs/feature-matrix.md`](docs/feature-matrix.md)
 - **What bit us and why?** → [`docs/lessons-learned.md`](docs/lessons-learned.md)
 - **Architecture decisions** → [`docs/adrs/`](docs/adrs/)
 - **Older thinking** → `idea.md` (v1, ours) + `idea-v2.md` (Codex). Kept for lineage; do not edit.
+
+## Session lifecycle
+
+- **At session start:** read the newest file in `docs/handoff/` before touching code or docs.
+- **At session end (if you did non-trivial work):** add a new `docs/handoff/YYYY-MM-DD-slug.md` — state, what happened, next move, suggested skills. Reference other docs, don't duplicate their content. Add it to the index in `docs/handoff/README.md` (newest first).
 
 ## Current state
 
@@ -37,7 +44,7 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 - **Auth:** Custom JWT, 15-min access + rotating refresh. Web: httpOnly cookies. Native (future): Keychain/Keystore.
 - **Payments:** Stripe + MercadoPago
 - **Channel sync:** TBD — adapter pattern in place; vendor decided at Phase 3 kickoff (ADR 0004 paused, Hosthub + Hostaway under consideration)
-- **Email:** Postmark · **WhatsApp:** Twilio · **Errors:** Sentry · **Analytics:** Plausible
+- **Email + WhatsApp:** Brevo (ADR 0012 — single vendor for both, supersedes earlier Postmark/Twilio mentions) · **Errors:** Sentry · **Analytics:** Plausible
 
 ## Repo shape (target)
 
@@ -53,10 +60,12 @@ packages/config/       env validation, constants, sanitizeText
 infra/railway/         railway.toml per service
 infra/docker/          dev docker-compose (Postgres + Redis)
 scripts/               check-env, sync-tokens, sync-i18n (when native lands)
-docs/adrs/             0001–0011 — read in order if new to the project
-docs/tasks/TODO.MD     pending work; updated in the same commit
+docs/adrs/             0001–0012 — read in order if new to the project
+docs/backlog/TODO.MD   pending work; updated in the same commit
+docs/backlog/plans/    one file per initiative needing more than a TODO line (e.g. red-team logs)
 docs/feature-matrix.md per-feature status across web / admin / api / iOS / Android
 docs/lessons-learned.md incidents → preventive measures
+docs/handoff/           session-continuity notes; read the newest one first
 ```
 
 ## Constraints (read before every task)

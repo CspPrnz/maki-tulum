@@ -74,3 +74,23 @@ jobs:
 
       - name: build
         run: pnpm build
+
+  doc-discipline:
+    name: doc discipline (warn-only)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: warn if code changed without a doc update
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          CHANGED=$(git diff --name-only "$BASE_SHA" HEAD)
+          CODE_CHANGED=$(echo "$CHANGED" | grep -E '^(apps/web|services/api)/' || true)
+          DOCS_CHANGED=$(echo "$CHANGED" | grep -E '^docs/(backlog/TODO\.MD|feature-matrix\.md)$' || true)
+          if [ -n "$CODE_CHANGED" ] && [ -z "$DOCS_CHANGED" ]; then
+            echo "::warning::apps/web or services/api changed but neither docs/backlog/TODO.MD nor docs/feature-matrix.md did. Per CLAUDE.md running discipline, confirm this is intentional (pure refactor/fix) before merging."
+          fi

@@ -2,17 +2,17 @@
 
 > How we build `idea-v3.md`. Spec-first, web-first, mobile-ready. Lean.
 >
-> **Last updated:** 2026-05-02 · **Status:** Planning, Phase 0 execution detail added · **Deploy target:** Railway
+> **Last updated:** 2026-07-15 · **Status:** Phase 0 + Phase 1A shipped, Phase 2 kickoff gated on red-team findings · **Deploy target:** Railway
 
 ---
 
 ## Current state
 
 - `idea-v3.md` is the product thesis. This plan is how we build it.
-- No code yet. Empty repo at `/Users/felix/Projects/maki-tulum`.
-- Railway account exists and will host all services.
+- Phase 0 (monorepo, API/web scaffolds, CI) and Phase 1A (locale-routed marketing site, Villa 18 + 19) are shipped — see `CLAUDE.md` Current state and `docs/backlog/TODO.MD` for the live status; this file tracks the build approach, not day-to-day state.
+- Railway staging deploy + Drizzle migration are the next unblocked Phase 0 items (Felix-side, see TODO.MD).
 - Brand assets exist in the WordPress dump (palette, wordmark, photography).
-- Phase 0 is now detailed enough to execute without re-planning the stack mid-build.
+- A Codex red-team pass (2026-07-15, `docs/backlog/plans/codex-red-team.md`) found P0 issues in the Phase 2 design below (payment capture, channel-manager sequencing, legal entity/consent) — read that log before starting Phase 2 implementation.
 
 ---
 
@@ -102,8 +102,7 @@ maki-tulum/
 | Styling | **Tailwind v4 + CSS variables** for the palette | Palette lives in one `tokens.css`; components are portable to React Native via NativeWind later |
 | Auth | **Custom JWT — short-lived access (15 min) + rotating refresh tokens** | Works for web (httpOnly cookies) and native (secure storage) from one API. Lesson: don't put JWT in localStorage |
 | State (web) | **Zustand** + React Query v5 | Zustand for UI state, React Query for server state with `refetchOnWindowFocus: true` (lesson learned) |
-| Email | **Postmark** (or Brevo) | Transactional — booking confirms, balance-due, post-stay |
-| WhatsApp | **Twilio WhatsApp Business API** or **Bookboost** | Twilio is cheaper + more flexible; Bookboost has PMS integration out of the box |
+| Email + WhatsApp | **Brevo** (ADR 0012) | One vendor for both channels — avoids stitching together Postmark + Twilio + a separate SMS vendor |
 | Analytics | **Plausible** (marketing) + Postgres views (business metrics) | No GDPR cookie banner required |
 | Error / obs | **Sentry** free tier | Errors + a few custom spans for the booking flow |
 | CI | **GitHub Actions** | Lint, typecheck, test, build, deploy on merge |
@@ -221,7 +220,7 @@ Phase 0 is where we reduce future rework. It is not "just scaffolding." If we ge
 
 **P0.8 Documentation and decision capture**
 - Write the foundational ADRs that would otherwise be rediscovered later.
-- Update `docs/feature-matrix.md`, `docs/tasks/TODO.MD`, and `CLAUDE.md` in the same commit as any Phase 0 implementation work.
+- Update `docs/feature-matrix.md`, `docs/backlog/TODO.MD`, and `CLAUDE.md` in the same commit as any Phase 0 implementation work.
 - Add a short `docs/runbooks/local-dev.md` if local setup requires more than `pnpm install` + `pnpm dev:up`.
 
 #### Phase 0 ordering
@@ -289,7 +288,7 @@ Phase 0 is done only when all of these are true:
 - OpenAPI generation is exercised in CI.
 - At least one ADR is written for each irreversible Phase 0 decision cluster: stack, repo structure, deploy target, auth strategy, data isolation.
 - CI is green on a clean branch with no manual steps.
-- `docs/tasks/TODO.MD`, `docs/feature-matrix.md`, and `CLAUDE.md` reflect the actual repo state.
+- `docs/backlog/TODO.MD`, `docs/feature-matrix.md`, and `CLAUDE.md` reflect the actual repo state.
 
 #### Phase 0 decisions we should lock during execution
 
@@ -429,7 +428,7 @@ Maki will live as a single Railway project with four services:
 | Service | Type | Env vars (key ones) |
 |---|---|---|
 | `web` | Dockerfile (Next.js standalone) | `NEXT_PUBLIC_API_URL` (**build arg**), `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`, `SENTRY_DSN` |
-| `api` | Dockerfile (Node 22 + Hono) | `DATABASE_URL`, `REDIS_URL`, `JWT_PRIVATE_KEY`, `STRIPE_SECRET_KEY`, `HOSTAWAY_*`, `TWILIO_*`, `CORS_ORIGINS`, `APP_ENV` |
+| `api` | Dockerfile (Node 22 + Hono) | `DATABASE_URL`, `REDIS_URL`, `JWT_PRIVATE_KEY`, `STRIPE_SECRET_KEY`, `HOSTAWAY_*`, `BREVO_API_KEY`, `CORS_ORIGINS`, `APP_ENV` |
 | `postgres` | Railway-managed Postgres | — |
 | `redis` | Railway-managed Redis | — |
 
@@ -562,7 +561,7 @@ Civion lessons baked in — these are not "later." They're cheap when built in a
 
 - Channel manager: **Hostaway** vs. Hospitable — get both trials, decide end of Phase 0.
 - Guest PWA: **Enso Connect** vs. custom — decide start of Phase 4 after Enso pricing.
-- Email provider: Postmark vs. Brevo — Postmark wins on deliverability, Brevo wins on price. Default: Postmark.
+- ~~Email provider: Postmark vs. Brevo~~ **Decided (ADR 0012): Brevo** — email + WhatsApp under one vendor.
 - DB host: Railway-managed Postgres vs. Neon. Railway-managed is simpler; Neon is cheaper at scale. Start Railway, migrate if we outgrow.
 - ~~Admin UI: folded into `apps/web` under `/admin/*` or separate `apps/admin`. Default: folded.~~ **Decided (ADR 0010): separate `apps/admin` at `admin.makitulum.com` behind Cloudflare Access.**
 
