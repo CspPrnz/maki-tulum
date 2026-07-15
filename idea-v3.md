@@ -2,6 +2,8 @@
 
 > A direct-booking brand for a small jungle compound in Aldea Zama, Tulum. We use OTAs to acquire first-time guests and use **makitulum.com** to earn — and keep — the second stay. This document captures the concept. Implementation lives elsewhere.
 
+> **Revision (2026-07-15):** Dropped the US+DACH primary-ICP framing and the German-language wedge as a strategic acquisition bet (see §2, §13, §15.7). Maki is a residence for guests from anywhere — the owners themselves are international — so no single source market is being targeted for growth. Multilingual hosting continues: English is the canonical source language, translated into German (then other languages as the site scales), but DE-specific SEO/content depth is no longer a differentiated growth lever. This resolves the Phase 1B German-content gate raised in `docs/backlog/plans/codex-red-team.md` (MRT-15-P1-03) without needing search-volume validation — the strategic rationale for that investment is gone.
+
 ---
 
 ## 1. Thesis
@@ -30,7 +32,7 @@ Data backdrop: independent properties lose ~61% of bookings to OTAs vs. ~35% for
 
 **One-line:** Maki Tulum is a small, design-led jungle compound in Aldea Zama where guests can first discover the stay anywhere, but the best way to return is direct.
 
-**Primary ICP (launch):** Design-conscious couples and small groups, 30–50, from **US + DACH** (Germany/Austria/Switzerland), wanting a calmer, more thoughtful Tulum week and likely to return if hosted well.
+**Primary ICP (launch):** Design-conscious couples and small groups, 30–50, international — Maki is a residence for guests from anywhere, not targeted at one source market (the owners themselves come from all over the world). Wanting a calmer, more thoughtful Tulum week and likely to return if hosted well.
 
 **Secondary ICP (wedge #2):** Retreats and multi-unit groups (yoga retreats, family reunions) booking 2+ units together. Not the launch message.
 
@@ -41,7 +43,6 @@ Data backdrop: independent properties lose ~61% of bookings to OTAs vs. ~35% for
 - Small compounds benefit disproportionately from trust and narrative — features OTAs structurally cannot provide.
 - Tulum is a high-emotion destination where planning help is the buy.
 - A multilingual owner-led brand feels more human than a platform listing.
-- The owner has a credible **German-language wedge** in a market where it's uncommon.
 
 ---
 
@@ -255,7 +256,7 @@ We document failure modes explicitly so we notice them.
 - **No repeat-guest CRM discipline after checkout.** The hardest part: a system for post-stay follow-up that actually happens.
 - **The market message is too broad** and sounds like every other "luxury sanctuary in Tulum."
 - **Channel sync breaks, double-booking happens.** Catastrophic for a single-unit owner. Mitigation: direct site as source of truth, API push, weekly integrity check.
-- **German wedge never materializes** because DE guests don't Google in German for Tulum. Mitigation: validate search volume before investing in DE content depth.
+- ~~German wedge never materializes because DE guests don't Google in German for Tulum.~~ **Resolved 2026-07-15:** no longer a live risk — German was dropped as a strategic acquisition bet (see revision note above), so its search-demand materializing was never a precondition for anything.
 
 ---
 
@@ -284,7 +285,7 @@ These are easy to accidentally ship. They are listed so we don't.
 4. Guest PWA: Enso Connect vs. Touch Stay vs. light custom.
 5. Named on-site property manager — hiring as part of launch?
 6. Repeat-guest offer — what does the returning-guest privilege actually *feel* like? (Named welcome, preferred pricing, first-access window, a small gift — pick one signature move.)
-7. Language launch order: EN + DE first, ES following? Or all three at once?
+7. ~~Language launch order: EN + DE first, ES following? Or all three at once?~~ **Decided 2026-07-15:** English is the source language for all content; translations (German, then others as needed) follow after. No language-specific launch-order sequencing beyond that.
 8. Legal entity + payments: Mexican RFC entity or EU entity invoicing — affects Stripe account and tax flow.
 9. Media: what's already shot, what needs to be shot (drone, Matterport, ambient video, owner portrait)?
 10. Guest-data + consent flows: GDPR + Mexican LFPDPPP + Airbnb TOS — what can we legally capture at checkout and after?

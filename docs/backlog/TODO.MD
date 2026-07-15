@@ -54,7 +54,7 @@ Legend: 🟢 done · 🟡 in progress · 🔴 blocked · ⚪ planned · ⏸ defe
 | ~~Admin location~~ | ~~`/admin` vs. separate~~ — **decided** (ADR 0010): separate `apps/admin` at `admin.makitulum.com` behind Cloudflare Access | Felix | ~~Phase 3 kickoff~~ ✅ |
 | DB host | Railway-managed Postgres vs. Neon | Felix | End of Phase 0 |
 | Guest PWA | Enso Connect vs. custom | Felix | Start of Phase 4 |
-| DE SEO investment | Proceed / defer based on Ahrefs volume | Felix | Before Phase 1 DE content |
+| ~~DE SEO investment~~ | ~~Proceed / defer based on Ahrefs volume~~ — **decided (2026-07-15):** deprioritized. German is no longer a strategic ICP/acquisition bet (`idea-v3.md` revision note) — translations continue (EN canonical → DE, then others) but no dedicated DE growth investment | Felix | ~~Before Phase 1 DE content~~ ✅ |
 
 ## Open decisions (blocking Phase 2 — surfaced by Codex red-team, 2026-07-15)
 
@@ -110,7 +110,7 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 - [ ] MDX framework for `/guide/*` articles + 1 seed article (cenotes or beach clubs)
 - [ ] Lighthouse audit on home + 1 stay + guide article — must hit ≥90 across all categories
 - [ ] Cookie banner decision (Plausible is cookieless — Phase 1B may need none)
-- [ ] **Gate (Codex red-team MRT-15-P1-03, blocks Phase 1B):** German long-tail SEO validation (Ahrefs / GSC) *before* Villas 1–17 DE copy or deeper Compound/Days DE content. Phase 1A already shipped all 3 languages without this check — don't compound it. Record the outcome ("core channel" / "maintain essentials" / "deprioritize") in this file or a new ADR before further DE investment.
+- [x] ~~Gate (Codex red-team MRT-15-P1-03, blocks Phase 1B): German long-tail SEO validation before deeper DE content investment~~ **Resolved 2026-07-15 — outcome: deprioritize.** Felix decided German is not a strategic ICP wedge (Maki serves international guests broadly; owners are themselves international) — no Ahrefs validation needed since the growth rationale for DE depth no longer exists. Translation work continues normally: EN is canonical source content, DE (then other languages) follow as straightforward translation, same priority as any other locale. See `idea-v3.md` revision note (2026-07-15) and §2/§13/§15.7.
 
 ### Phase 0 exit criterion
 
@@ -122,7 +122,7 @@ Full plan: [`../../implementation-plan.md`](../../implementation-plan.md) §4 Ph
 
 ## Phase 2 blockers — Codex red-team findings (2026-07-15)
 
-First adversarial pass against `idea-v3.md` + `implementation-plan.md` (see [`plans/codex-red-team.md`](plans/codex-red-team.md) for full problem/root-cause/test detail per finding — reviewed and accepted as sound; two findings already fixed directly in this commit, marked below). None of these block current work (Phase 0 remainder, Phase 1B content) except MRT-15-P1-03 (German-content gate, see Phase 1B checklist above).
+First adversarial pass against `idea-v3.md` + `implementation-plan.md` (see [`plans/codex-red-team.md`](plans/codex-red-team.md) for full problem/root-cause/test detail per finding — reviewed and accepted as sound). None of these block current work (Phase 0 remainder, Phase 1B content). MRT-15-P1-03 (German-content gate) resolved 2026-07-15 — see Phase 1B checklist above.
 
 **Blocks Phase 2 — resolve before booking/checkout implementation:**
 

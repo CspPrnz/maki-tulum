@@ -1,7 +1,9 @@
 # Maki Tulum — AI Agent Context
 
 > Last updated: 2026-07-15 · Stage: **Phase 1A landed** — locale-routed marketing site with Villa 18 + 19 · Deploy: Railway
-> **Phase 2 kickoff is gated** on resolving the P0 findings in [`docs/backlog/plans/codex-red-team.md`](docs/backlog/plans/codex-red-team.md) (payment capture design, channel-manager timing, legal entity/payments, consent scope). Phase 1B content work is unaffected except the German-content gate — see TODO.MD.
+> **Phase 2 kickoff is gated** on resolving the P0 findings in [`docs/backlog/plans/codex-red-team.md`](docs/backlog/plans/codex-red-team.md) (payment capture design, channel-manager timing, legal entity/payments, consent scope). Phase 1B content work is unaffected.
+>
+> **ICP note (2026-07-15):** German is no longer a strategic acquisition wedge — Maki serves international guests broadly, not one source market. Translations still ship (EN canonical → DE, then others), just without dedicated DE growth investment. See `idea-v3.md` revision note.
 
 ## What this is
 
