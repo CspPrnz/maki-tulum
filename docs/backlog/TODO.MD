@@ -112,7 +112,12 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 - [ ] Photos + copy for Villas 1–17 + 20 as they come online (8 more units)
 - [x] ~~Compound page real content~~ **Done 2026-07-31 (WP-2)** — 5 invented claims marked `TODO(felix)` inline need Felix's correction before publish
 - [x] ~~Days page real content~~ **Done 2026-07-31 (WP-2)** — partner names still absent; none were invented
-- [ ] **Correct the 5 `TODO(felix)` invented claims** in compound/days/guide pages, then mirror the corrections into ES + DE
+- [x] ~~Correct the 5 `TODO(felix)` invented claims~~ **Done 2026-07-31** — all resolved in EN/ES/DE; none remain in the codebase
+- [ ] **Real drive times from Xul Kaa** to the ruins, beach clubs and cenotes. The originals were measured from the wrong neighbourhood and were removed rather than re-guessed; copy currently describes distance relationally
+- [ ] SPF + DKIM + DMARC on `makitulum.com` **before Brevo sends anything** — the domain has none today and is spoofable
+- [ ] Google Search Console: verify domain, submit sitemap, check for manual actions (not visible from outside)
+- [ ] Consider Cloudflare in front of Railway — absorbs WordPress-scanner noise and adds a WAF. Optional; the old site attracted heavy automated traffic
+- [ ] Railway dashboard: set healthcheck path `/healthz`, timeout 30, restart On Failure ×5 on **both** services — `railway.toml` is not read because services use `RAILWAY_DOCKERFILE_PATH`
 - [ ] Ambient video hero (placeholder MP4 + poster — Felix to provide source)
 - [x] ~~Guide article framework + 1 seed article~~ **Done 2026-07-31 (WP-2)** — typed content modules, not MDX (no new dependency); `cenotes-near-maki` prerendered per locale
 - [ ] Lighthouse audit on home + 1 stay + guide article — must hit ≥90 across all categories

@@ -6,6 +6,7 @@ Naming: `YYYY-MM-DD-slug.md`.
 
 ## Index
 
+- [2026-07-31 — Railway live, location corrected, payments simplified](2026-07-31-railway-live-and-location-fix.md)
 - [2026-07-31 — WP-1 across five parallel streams](2026-07-31-wp1-parallel-streams.md)
 - [2026-07-31 — Agent harness + WP-1 scoped](2026-07-31-agent-harness-and-wp1.md)
 - [2026-07-15 — Drop German ICP wedge](2026-07-15-drop-german-icp-wedge.md)
