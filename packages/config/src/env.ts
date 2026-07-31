@@ -24,9 +24,7 @@ export const ApiEnvSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
   HOSTAWAY_CLIENT_ID: z.string().optional(),
   HOSTAWAY_CLIENT_SECRET: z.string().optional(),
-  POSTMARK_SERVER_TOKEN: z.string().optional(),
-  TWILIO_ACCOUNT_SID: z.string().optional(),
-  TWILIO_AUTH_TOKEN: z.string().optional(),
+  BREVO_API_KEY: z.string().optional(),
   SENTRY_DSN: z.string().url().optional(),
 });
 
@@ -35,6 +33,7 @@ export type ApiEnv = z.infer<typeof ApiEnvSchema>;
 export const WebEnvSchema = z.object({
   NODE_ENV: NodeEnv.default('development'),
   NEXT_PUBLIC_API_URL: z.string().url(),
+  NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
   NEXT_PUBLIC_PLAUSIBLE_DOMAIN: z.string().optional(),
   NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
 });

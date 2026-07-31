@@ -1,7 +1,9 @@
 import type { Context, ErrorHandler, NotFoundHandler } from 'hono';
+import { captureError } from '../observability.js';
 
 export const errorHandler: ErrorHandler = (err, c: Context) => {
   console.error('[api error]', err);
+  captureError(err);
   return c.json(
     {
       error: {

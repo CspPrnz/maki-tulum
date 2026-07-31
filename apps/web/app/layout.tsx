@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { headers } from 'next/headers';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '@maki/i18n';
+import { Analytics } from '../components/analytics';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -29,7 +30,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     : DEFAULT_LOCALE;
   return (
     <html lang={lang}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
