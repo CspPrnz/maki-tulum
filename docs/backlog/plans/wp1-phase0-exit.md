@@ -42,19 +42,22 @@ services/api/migrations/NNNN_*.sql      # drizzle-kit generated; never hand-edit
 
 ### C2 — Repository signature
 
+`accountId` is **always the first parameter** on tenant-scoped functions, and always appears as an explicit `eq(...)` in the where clause. Only files under `src/db/` import `db`; handlers call repositories (ADR 0008).
+
 ```ts
-// services/api/src/db/repositories/users.ts
-export async function findUserById(accountId: string, id: string): Promise<User | null>;
-export async function createUser(accountId: string, input: NewUser): Promise<User>;
+// services/api/src/db/repositories/properties.ts — tenant-scoped
+export async function findPropertyById(accountId: string, id: string): Promise<Property | null>;
 ```
 
-`accountId` is **always the first parameter** on tenant-scoped functions, and always appears in an explicit `eq(users.accountId, accountId)` in the where clause. Only files under `src/db/` import `db`; handlers call repositories (ADR 0008).
+> **Corrected 2026-07-31 (stream A raised this).** The original version of this contract used `users` as the example and had `findUserById(accountId, id)`. That contradicts **ADR 0007**, which states that `users` is _not_ `account_id`-scoped — a user can belong to several accounts, and tenancy is expressed only through `account_memberships`. The correct shape is unscoped `findUserById(id)` / `findUserByEmail(email)` / `createUser(input)`, plus genuinely tenant-scoped `findUserInAccount(accountId, id)` and `listUsersForAccount(accountId)` that join through memberships. Use `properties` as the mental model for a tenant-scoped table, not `users`.
 
 ### C3 — First migration scope
 
 `0001_init`: `accounts`, `users`, `account_memberships`, `properties`. Nothing else — no bookings, no payments, no rates. Those wait for the Phase 2 blockers to clear (MRT-15-P0-02: the channel-manager vendor defines the availability/rate shape, so freezing it now would be the exact mistake the red-team flagged).
 
-`account_memberships` carries `role` as a pg enum: `owner | manager | housekeeper | contractor | admin | guest`.
+`account_memberships` carries `role` as a pg enum whose members are **exactly** the canonical `Role` in `packages/types/src/index.ts`: `guest | owner | manager | housekeeping | maintenance | admin`.
+
+> **Corrected 2026-07-31 (stream A raised this).** This contract originally invented `housekeeper | contractor`, which drifts from the canonical enum that already existed. Status enums are defined once in the shared package and re-exported — never redefined per consumer. A test asserts the DB enum matches `Role` so the two cannot silently diverge again.
 
 ### C4 — Test app factory
 
