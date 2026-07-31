@@ -1,8 +1,10 @@
 # Local dev only. Production uses Railway-managed Postgres + Redis.
-# Lesson: pin all images by SHA digest in production.
+# Lesson: pin all images by SHA digest, even in dev — floating tags drift
+# and dev/CI/prod should all resolve to the same bytes. Bump with:
+# `docker buildx imagetools inspect <image>:<tag>` and take the index Digest.
 services:
   postgres:
-    image: postgres:16-alpine
+    image: postgres:16-alpine@sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777 # 16-alpine, resolved 2026-07-31
     environment:
       POSTGRES_USER: maki
       POSTGRES_PASSWORD: maki
@@ -18,7 +20,7 @@ services:
       retries: 10
 
   redis:
-    image: redis:7-alpine
+    image: redis:7-alpine@sha256:e7723ff73d963f5cc6d9c4643ea3d989527a402a319239054e9472a7fb9219a2 # 7-alpine, resolved 2026-07-31
     ports:
       - '6379:6379'
     volumes:

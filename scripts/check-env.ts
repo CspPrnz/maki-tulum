@@ -38,7 +38,18 @@ const KNOWN_ENV: Record<string, string> = {
   npm_package_version: 'set by node automatically',
 };
 
-const SKIP_DIRS = new Set(['node_modules', '.next', '.turbo', 'dist', 'build', '.git', 'coverage']);
+// `.claude` holds agent worktrees — full repo checkouts whose own copies of this
+// script would otherwise be scanned and report phantom vars from their docstrings.
+const SKIP_DIRS = new Set([
+  'node_modules',
+  '.next',
+  '.turbo',
+  'dist',
+  'build',
+  '.git',
+  '.claude',
+  'coverage',
+]);
 
 function* walk(dir: string): Generator<string> {
   for (const name of readdirSync(dir)) {

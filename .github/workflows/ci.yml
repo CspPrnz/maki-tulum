@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 15
     services:
       postgres:
-        image: postgres:16-alpine
+        image: postgres:16-alpine@sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777 # 16-alpine, resolved 2026-07-31
         env:
           POSTGRES_USER: maki
           POSTGRES_PASSWORD: maki
@@ -29,7 +29,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       redis:
-        image: redis:7-alpine
+        image: redis:7-alpine@sha256:e7723ff73d963f5cc6d9c4643ea3d989527a402a319239054e9472a7fb9219a2 # 7-alpine, resolved 2026-07-31
         ports: ['6379:6379']
         options: >-
           --health-cmd "redis-cli ping"
@@ -37,12 +37,12 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0 (floating v4 currently resolves here — v4.4.0 tag was mis-published as a Node 24 breaking change and reverted upstream)
         with:
           version: ${{ env.PNPM_VERSION }}
           run_install: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
 
@@ -93,4 +93,48 @@ jobs:
           DOCS_CHANGED=$(echo "$CHANGED" | grep -E '^docs/(backlog/TODO\.MD|feature-matrix\.md)$' || true)
           if [ -n "$CODE_CHANGED" ] && [ -z "$DOCS_CHANGED" ]; then
             echo "::warning::apps/web or services/api changed but neither docs/backlog/TODO.MD nor docs/feature-matrix.md did. Per CLAUDE.md running discipline, confirm this is intentional (pure refactor/fix) before merging."
+          fi
+
+  smoke:
+    name: post-deploy smoke (staging)
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0 (see note in `check` job)
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      # No Railway project exists yet (see infra/railway/README.md). Once
+      # staging is provisioned, set the STAGING_WEB_URL / STAGING_API_URL
+      # repository variables (Settings → Secrets and variables → Actions →
+      # Variables) and this job starts smoke-testing automatically — no
+      # workflow edit required. Until then it no-ops instead of failing
+      # every push to main.
+      - name: smoke test staging
+        env:
+          STAGING_WEB_URL: ${{ vars.STAGING_WEB_URL }}
+          STAGING_API_URL: ${{ vars.STAGING_API_URL }}
+        run: |
+          if [ -z "$STAGING_WEB_URL" ] && [ -z "$STAGING_API_URL" ]; then
+            echo "::notice::No staging URL configured (repo variables STAGING_WEB_URL / STAGING_API_URL) — skipping post-deploy smoke. See infra/railway/README.md."
+            exit 0
+          fi
+          set -e
+          if [ -n "$STAGING_WEB_URL" ]; then
+            echo "--- web: $STAGING_WEB_URL ---"
+            pnpm exec tsx scripts/smoke.ts "$STAGING_WEB_URL"
+          fi
+          if [ -n "$STAGING_API_URL" ]; then
+            echo "--- api: $STAGING_API_URL ---"
+            pnpm exec tsx scripts/smoke.ts "$STAGING_API_URL"
           fi

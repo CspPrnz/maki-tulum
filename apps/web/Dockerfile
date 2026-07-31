@@ -2,7 +2,8 @@
 
 # Lesson from Civion Safe: NEXT_PUBLIC_* must be Docker build args (ARG + ENV),
 # not runtime env vars — Next.js inlines them at build time.
-FROM node:22-alpine AS base
+# node:22-alpine, resolved 2026-07-31 via: docker buildx imagetools inspect node:22-alpine
+FROM node:22-alpine@sha256:c610fcdfb1d5b4740dd70c284ed3cb16bb857e0f7166196e36a5501df7a3aa32 AS base
 RUN corepack enable && corepack prepare pnpm@9.12.0 --activate
 WORKDIR /app
 
