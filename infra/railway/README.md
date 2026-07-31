@@ -2,7 +2,15 @@
 
 Maki runs as a single Railway project with four services: `web`, `api`, `postgres`, `redis`. Configure via the Railway dashboard; each app service also carries a `railway.toml` (`apps/web/railway.toml`, `services/api/railway.toml`) that pins the build + deploy config in-repo.
 
-**Status: no Railway project exists yet.** Everything below is the ordered setup checklist. Placeholders are marked `<PLACEHOLDER: …>` — do not invent real project IDs, tokens, or URLs in their place.
+**Status: provisioned 2026-07-31.** The project exists and both services are live — this is now the runbook for reproducing or rebuilding it, not a first-time-only checklist.
+
+|         |                                                                           |
+| ------- | ------------------------------------------------------------------------- |
+| Project | `inspiring-learning` (**rename to `maki-tulum`** — Railway auto-named it) |
+| web     | https://web-production-66562.up.railway.app                               |
+| api     | https://api-production-b61ac.up.railway.app                               |
+
+Services are pointed at their Dockerfiles with a `RAILWAY_DOCKERFILE_PATH` service variable rather than config-as-code, because the CLI has no flag to set the config path and each service needs a different Dockerfile from the same repo root. The `railway.toml` files are therefore **not currently read** — healthcheck paths and restart policy need setting in the dashboard.
 
 ## Services
 
@@ -36,14 +44,20 @@ Run these once, in order, from the repo root.
 8. **First deploy**: `railway up --detach` for each service, then immediately `railway logs` — `--detach` returns success even when the build is failing, so a missing `railway logs` check is a false-green (Civion Safe lesson).
 9. **Apply migrations against the Railway Postgres** — nothing does this automatically:
 
+   **`railway run` does not work for this.** It injects the service's own
+   `DATABASE_URL`, which points at `postgres.railway.internal` — private
+   networking, unreachable from a laptop. Use the Postgres service's public
+   proxy URL instead:
+
    ```bash
-   railway run --service api pnpm --filter @maki/api db:migrate
+   PUB=$(railway variables --service Postgres --json | jq -r .DATABASE_PUBLIC_URL)
+   cd services/api && DATABASE_URL="$PUB" npx drizzle-kit migrate
    ```
 
    Verify it took, rather than trusting the command's exit code:
 
    ```bash
-   railway run --service api psql "$DATABASE_URL" -c '\dt'
+   docker run --rm -e PGURL="$PUB" postgres:16-alpine psql "$PGURL" -c '\dt'
    # expect: accounts, users, account_memberships, properties
    ```
 
