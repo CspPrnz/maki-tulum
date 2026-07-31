@@ -4,12 +4,12 @@ Maki runs as a single Railway project with four services. Configure in the Railw
 
 ## Services
 
-| Service | Source | Healthcheck | Notes |
-|---|---|---|---|
-| `web` | `apps/web/Dockerfile` | `/healthz` (200) | `NEXT_PUBLIC_*` set as **build variables**, never runtime |
-| `api` | `services/api/Dockerfile` | `/healthz` (200) | Backend API |
-| `postgres` | Railway plugin | n/a | Connection string injected as `DATABASE_URL` |
-| `redis` | Railway plugin | n/a | Connection string injected as `REDIS_URL` |
+| Service    | Source                    | Healthcheck      | Notes                                                     |
+| ---------- | ------------------------- | ---------------- | --------------------------------------------------------- |
+| `web`      | `apps/web/Dockerfile`     | `/healthz` (200) | `NEXT_PUBLIC_*` set as **build variables**, never runtime |
+| `api`      | `services/api/Dockerfile` | `/healthz` (200) | Backend API                                               |
+| `postgres` | Railway plugin            | n/a              | Connection string injected as `DATABASE_URL`              |
+| `redis`    | Railway plugin            | n/a              | Connection string injected as `REDIS_URL`                 |
 
 ## Environments
 

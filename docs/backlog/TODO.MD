@@ -10,6 +10,8 @@
 
 Initiatives with more detail than fits a TODO line get their own file in `docs/backlog/plans/`:
 
+- [`_template.md`](plans/_template.md) — the shape every plan file takes (parseable frontmatter, pinned contracts, file-ownership table, acceptance evidence).
+- [`wp1-phase0-exit.md`](plans/wp1-phase0-exit.md) — **`draft`**, awaiting Felix's OK. Closes Phase 0: Drizzle + first migration, integration/contract tests, observability, deploy readiness. 4 parallel streams.
 - [`codex-red-team.md`](plans/codex-red-team.md) — running red-team log, `in_progress`. First pass (2026-07-15) logged 15 findings; see [Phase 2 blockers](#phase-2-blockers--codex-red-team-findings-2026-07-15) below.
 
 ---
@@ -24,10 +26,11 @@ Initiatives with more detail than fits a TODO line get their own file in `docs/b
 | **Monorepo skeleton** | 🟢 Scaffolded | pnpm + Turbo; apps/web, services/api, 4 packages |
 | **API service** | 🟢 Scaffolded | Hono + Zod-OpenAPI; `/healthz`, `/readyz`, CORS, rate-limit, JSON envelope |
 | **Web app** | 🟢 Scaffolded | Next.js 15 + Tailwind v4; `/healthz`, brand tokens; standalone Docker output |
-| **CI** | 🟢 Wired | GitHub Actions: env audit · format · typecheck · lint · test · build (Postgres + Redis services) |
+| **CI** | 🟡 Fixed, unpushed | **Was red on every run from Phase 0 through 2026-07-31** — `check-env` failed at step 1, so format/typecheck/lint/test/build never executed on any CI run. Root cause fixed and `pnpm verify` (CI's exact sequence) now passes locally. Status stays 🟡 until a run on `main` actually reports success — see lessons-learned |
 | **Local dev infra** | 🟢 Ready | docker-compose with Postgres 16 + Redis 7 |
 | **ADRs** | 🟢 0001–0012 | 0004 paused; 0010 supersedes earlier admin plan; 0011 Drizzle; 0012 Brevo email |
 | **Lockfile** | 🟢 Committed | `pnpm-lock.yaml` in main |
+| **Agent harness** | 🟢 Landed | `AGENTS.md`, `CONTEXT.md`, `.claude/{settings.json,agents,skills}`, `pnpm verify`, plan template — see [Agent harness](#agent-harness-adopted-2026-07-31-from-innovation-factoryai-native-deliverymd) |
 | **DB schema (Drizzle)** | ⚪ Pending | Install drizzle-orm + drizzle-kit, scaffold `services/api/src/db/`, first migration |
 | **Railway project** | ⚪ Planned | Phase 0 — services: web, api, postgres, redis |
 | **Admin app** | ⚪ Deferred | Phase 3 — separate `apps/admin` at admin.makitulum.com behind Cloudflare Access |
@@ -149,14 +152,37 @@ First adversarial pass against `idea-v3.md` + `implementation-plan.md` (see [`pl
 
 ---
 
+## Agent harness (adopted 2026-07-31 from `innovation-factory/ai-native-delivery.md`)
+
+Felix asked for parallel-agent throughput, which pulls the orchestration protocol forward from its Phase-3 deferral. Landed this session — the nine-layer checklist from `ai-native-delivery.md` §7:
+
+| Layer | Artifact | State |
+|---|---|---|
+| Rules | `CLAUDE.md` + `AGENTS.md` | 🟢 CLAUDE.md trimmed of history; AGENTS.md added as the vendor-neutral mirror (CLAUDE.md wins on conflict) |
+| Domain | `CONTEXT.md` | 🟢 glossary seeded (Saneamiento, orphan gap, stay #2, vendor roles) |
+| Skills | `.claude/skills/` | 🟢 `grill`, `orchestrate`, `handoff` |
+| Subagents | `.claude/agents/` | 🟢 `worker` (sonnet, read/write), `verifier` + `security-reviewer` (opus, **no Edit/Write** — enforced by tool scoping) |
+| Permissions | `.claude/settings.json` | 🟢 deny/ask/allow ladder, checked in |
+| Hooks | Stop / PreToolUse | ⚪ **not wired** — deliberate. Revisit when we run unattended/auto-mode; `pnpm verify` is the gate it would close on |
+| Backlog | `TODO.MD` + `plans/` | 🟢 `plans/_template.md` with parseable frontmatter added |
+| Spec | per-WP plan file | 🟢 template in place; first real one is WP-1 |
+| Handoff | `docs/handoff/` | 🟢 already in place since 2026-07-15 |
+| Verify gate | `pnpm verify` | 🟢 `check-env · format:check · typecheck · lint · test · build` — mirrors CI exactly |
+
+Still open:
+
+- [ ] Wire a Stop-hook running `pnpm verify` — only once we actually run agents unattended. Must distinguish "couldn't run" from "found a regression" or it becomes a false-positive machine that gets disabled.
+- [ ] CI drift check on plan-file frontmatter (`status:` vs. reality) — worth it once there are ≥3 live plan files.
+- [ ] Pin GitHub Actions to commit SHAs (`.github/workflows/ci.yml` uses floating `@v4` tags) — supply-chain item, folded into WP-1 stream D.
+
 ## Deferred process improvements (from civion-safe review, 2026-07-15)
 
 Reviewed `civion-labs/Product/civion-safe`'s AI-agent dev process for anything worth porting. Adopted immediately: `docs/handoff/` session-continuity docs, `docs/adrs/_template.md`, warn-only CI doc-discipline check (see `.github/workflows/ci.yml`). The rest is disproportionate at our current scale (one owner, 5 commits, no team) — revisit each at the phase noted, not before:
 
-- **Multi-agent orchestration protocol** (Opus orchestrator + parallel Sonnet workers, non-overlapping file-set rules, evidence-based testing table) — revisit at Phase 3, once `apps/admin` exists and there's enough surface area for parallel agent work to pay off.
+- ~~**Multi-agent orchestration protocol**~~ — **adopted 2026-07-31**, ahead of the Phase-3 date, on Felix's call. See the Agent harness section above.
 - **Weekly dev-journal cron** (auto-generated sprint summary from commit history) — revisit once commit volume is high enough that `docs/handoff/` alone stops giving a good weekly overview; not before Phase 2.
 - **Drift-cron** (CI job failing on stale plan-file frontmatter) — only useful once we adopt civion-safe's per-initiative `docs/plans/*.md` pattern; we don't have that structure and TODO.MD is small enough to eyeball. Revisit if TODO.MD's Backlog section outgrows a single scroll.
-- **`CONTEXT.md` invariants doc** (numbered product invariants a backlog-intake skill checks proposals against) — `idea-v3.md` + CLAUDE.md's "Don't do" list already cover this at our size. Revisit if backlog intake grows past what one person can hold in their head (Phase 4+, when guest-experience features start multiplying).
+- **`CONTEXT.md` invariants doc** — partially superseded 2026-07-31: a `CONTEXT.md` now exists as a *domain glossary* (parallel agents don't share Felix's context and were going to invent synonyms for "stay"/"property"/"Saneamiento"). The *numbered-product-invariants* half is still deferred — `idea-v3.md` + CLAUDE.md's "Don't do" list cover it at our size. Revisit at Phase 4+.
 - **Backlog-ingest "grill the user" intake skill** — worth it once there's enough inbound backlog volume (multiple contributors, or Felix triaging many feature requests at once) that unstructured intake causes churn. Not before Phase 3.
 
 ---

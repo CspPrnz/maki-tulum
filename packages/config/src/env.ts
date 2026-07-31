@@ -13,7 +13,12 @@ export const ApiEnvSchema = z.object({
   CORS_ORIGINS: z
     .string()
     .default('')
-    .transform((s) => s.split(',').map((o) => o.trim()).filter(Boolean)),
+    .transform((s) =>
+      s
+        .split(',')
+        .map((o) => o.trim())
+        .filter(Boolean),
+    ),
   RATE_LIMIT_REDIS_PREFIX: z.string().default('maki:rl'),
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),

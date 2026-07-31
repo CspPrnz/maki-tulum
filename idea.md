@@ -1,6 +1,6 @@
 # Maki Tulum — Product Idea
 
-> A direct-booking site for the Maki compound in Tulum. Owner-controlled, story-first, OTA-independent. This document captures the *concept*, not the implementation.
+> A direct-booking site for the Maki compound in Tulum. Owner-controlled, story-first, OTA-independent. This document captures the _concept_, not the implementation.
 
 ---
 
@@ -9,16 +9,19 @@
 **One-line:** A direct-booking home for Maki Tulum District — a small compound of villas and apartments in the Tulum jungle — that feels like a travel magazine with a hidden booking engine, not a booking engine with a magazine skin.
 
 **Why it exists:**
+
 - Reclaim margin and guest relationship from Airbnb / Booking.com (independent properties lose ~61% of bookings to OTAs vs. ~35% for branded chains; price-parity + direct perks are the lever).
 - Tell the Maki story at a depth OTAs structurally cannot.
 - Run the compound as a tiny, sharp hospitality operation — multiple roles, one source of truth.
 
 **Audience (from most to least important):**
+
 1. **Conscious luxury travelers, 30–50, US / EU** — 5–10 night stays, mix of wellness + food + cenote days; repeat Tulum visitors who are OTA-fatigued.
 2. **German-speaking travelers (DE / AT / CH)** — an underserved Tulum segment and the owner's native-language advantage.
 3. **Small groups / families / yoga retreats** — multi-unit bookings (rent 2+ units in the compound together).
 
 **What we're explicitly not:**
+
 - A party/spring-break rental. A budget short-stay. A clone of Booking.com's UX patterns ("1 other person looking now," scarcity timers). Tulum luxury = calm confidence.
 
 ---
@@ -41,7 +44,7 @@ The site is structured as a **journey**, not a listings grid. Navigation is not 
 - **The Compound** — the story of Maki, the neighborhood (Aldea Zama), the design intent.
 - **The Stays** — each villa/apartment as its own editorial page (not a row in a table).
 - **The Days** — what a day at Maki looks like: mornings (yoga, breakfast), days (cenotes, beach clubs, ruins), nights (chef dinners, Mayan ceremony — credentialed, named practitioners only).
-- **The Guide** — a public, SEO-rich Tulum guidebook (cenotes, restaurants, beach clubs, transport, water safety, seasons). Doubles as proof-of-hosting *before* booking and as a long-tail SEO moat.
+- **The Guide** — a public, SEO-rich Tulum guidebook (cenotes, restaurants, beach clubs, transport, water safety, seasons). Doubles as proof-of-hosting _before_ booking and as a long-tail SEO moat.
 - **Book** — the transactional surface, but reachable from every story page via a persistent, soft date-picker strip.
 
 The best direct-booking sites (Aman, Our Habitas, The Thinking Traveller, Plum Guide, onefinestay) all front-load story before the date picker. Small Luxury Hotels measured a 38% direct-book uplift from exactly this shift. ([Aman / Inviqa case study](https://inviqa.com/case-studies/aman), [Our Habitas Tulum](https://www.ourhabitas.com/tulum/))
@@ -50,16 +53,16 @@ The best direct-booking sites (Aman, Our Habitas, The Thinking Traveller, Plum G
 
 ## 4. User roles
 
-Four roles, each with a dashboard that shows *only its lane*. Role-based dashboards are documented to lift operational efficiency ~24% because each role avoids noise from the others. ([Cloudbeds PMS](https://www.cloudbeds.com/property-management-system/))
+Four roles, each with a dashboard that shows _only its lane_. Role-based dashboards are documented to lift operational efficiency ~24% because each role avoids noise from the others. ([Cloudbeds PMS](https://www.cloudbeds.com/property-management-system/))
 
-| Role | Primary jobs | Explicitly not shown |
-|---|---|---|
-| **Guest** | Browse, book, pay, pre-arrival boarding pass (WiFi, lock code, guide, chat), upsells, checkout, post-stay review | Anyone else's data |
-| **Owner** (you) | Weekly revenue + 30-day occupancy + action items, channel performance, payout status, personal-use calendar block | Daily ops noise, cleaner check-ins |
-| **Property manager** (local) | Live calendar, guest WhatsApp thread, expense log, maintenance tickets, key handoffs | Financial P&L, payouts |
-| **Housekeeping** | Today + tomorrow's turnovers, checklists with photo proof, supply-low flag, one-tap "done" | Guest PII beyond first name + party size |
-| *(Maintenance contractor)* | Ticket-only access with photo attach | Calendar, guest data |
-| **Admin** (founder) | Everything, plus role/permission management, audit log | — |
+| Role                         | Primary jobs                                                                                                      | Explicitly not shown                     |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| **Guest**                    | Browse, book, pay, pre-arrival boarding pass (WiFi, lock code, guide, chat), upsells, checkout, post-stay review  | Anyone else's data                       |
+| **Owner** (you)              | Weekly revenue + 30-day occupancy + action items, channel performance, payout status, personal-use calendar block | Daily ops noise, cleaner check-ins       |
+| **Property manager** (local) | Live calendar, guest WhatsApp thread, expense log, maintenance tickets, key handoffs                              | Financial P&L, payouts                   |
+| **Housekeeping**             | Today + tomorrow's turnovers, checklists with photo proof, supply-low flag, one-tap "done"                        | Guest PII beyond first name + party size |
+| _(Maintenance contractor)_   | Ticket-only access with photo attach                                                                              | Calendar, guest data                     |
+| **Admin** (founder)          | Everything, plus role/permission management, audit log                                                            | —                                        |
 
 Design principle: the owner dashboard defaults to **"weekly revenue + next 30-day occupancy + 3 action items."** Not a wall of charts. Most owner-operators check their phone from a beach chair.
 
@@ -68,6 +71,7 @@ Design principle: the owner dashboard defaults to **"weekly revenue + next 30-da
 ## 5. Must-have feature set (v1)
 
 **Booking engine**
+
 - Per-unit rates, seasonal pricing, minimum-night rules (high season 5–7, shoulder 3), length-of-stay discounts shown up-front ("book 7+, save 15%").
 - Radical fee transparency: cleaning, deposit, and **Quintana Roo Saneamiento** itemized on the first rate display, not step 3. Visitax (≈$13 USD/person, state-collected) disclosed with a "you'll pay this separately on arrival" note. ([Saneamiento breakdown](https://www.reportequintanaroo.com/que-es-el-derecho-de-saneamiento-ambiental-y-cuanto-debes-pagar/))
 - **30% deposit at booking, 70% balance 30 days before arrival** (boutique-hotel norm; reduces sticker shock on a ~$5k week).
@@ -75,27 +79,32 @@ Design principle: the owner dashboard defaults to **"weekly revenue + next 30-da
 - Multi-currency display (USD / EUR / MXN), locale-aware; trilingual UI **EN / ES / DE** with proper hreflang. Language switcher, no IP redirect.
 
 **Calendar & channel**
+
 - Direct site is the **source of truth**; push availability out to Airbnb / VRBO / Booking via API (Hostaway or Hospitable class) — never the reverse. iCal polling is too slow for a tiny compound where a double-booking is catastrophic. ([Hostaway sync guide](https://www.hostaway.com/blog/how-to-sync-your-airbnb-calendar-with-vrbo-and-booking-com/))
 - Auto-discount orphan gaps (1–2 night unsellable gaps) by 15–20%. ([PriceLabs on orphan gaps](https://hello.pricelabs.co/how-to-use-orphan-gaps-for-increasing-revenue/))
 - Owner personal-use blocks are a first-class calendar state, visible to the manager.
 
 **Payments (Mexico context)**
+
 - Stripe as primary rail. MercadoPago as optional secondary for MX-domestic guests (SPEI, OXXO, meses sin intereses).
 - OXXO is cash-voucher only and **cannot be refunded or disputed** — offer only on non-refundable rates. ([Stripe OXXO docs](https://docs.stripe.com/payments/oxxo))
 - Klarna / Afterpay "pay in 3" enabled for shoulder-season under-30 guests.
 
 **Trust layer**
+
 - Aggregated reviews pulled from Airbnb / Google / TripAdvisor, displayed with source logos and freshness dates.
 - **ID verification + damage waiver** (Superhog/Truvi-class) in lieu of a hold. Waivers convert better than refundable deposits. ([Truvi/Superhog](https://ensoconnect.com/superhog/))
 - Chekin-class FMM guest registration (Mexican-government-mandated) handled silently behind the scenes.
 - Named owner + manager with faces + response-time promise ("WhatsApp reply in < 15 min during daytime CST").
 
 **Guest comms & pre-arrival**
+
 - **WhatsApp-first** is non-negotiable for LATAM (≈98% open rate, 5× email). Email as a secondary channel. ([Bookboost on WhatsApp](https://www.bookboost.io/post/whatsapp-hotel-guest-communication))
 - **Boarding-pass PWA** (Enso Connect-class) with lock code, WiFi, guide, chat, upsells. Accessible without an app install.
-- Smart lock for self-check-in, *plus* optional in-person greeting or WhatsApp video walkthrough on arrival.
+- Smart lock for self-check-in, _plus_ optional in-person greeting or WhatsApp video walkthrough on arrival.
 
 **Admin & ops**
+
 - Role-based dashboards (above).
 - Maintenance tickets with photo attach.
 - Housekeeping turnover checklist with photo proof, supply-low alerts.
@@ -103,6 +112,7 @@ Design principle: the owner dashboard defaults to **"weekly revenue + next 30-da
 - Audit log of sensitive actions.
 
 **SEO & content**
+
 - Schema.org `LodgingBusiness` + `Hotel` + `HotelRoom` + `Offer` on every relevant page. ([Schema.org LodgingBusiness](https://schema.org/LodgingBusiness))
 - Don't chase "Tulum villa." Win **long-tail micro-geo** ("boutique villa Aldea Zama cenote," "5-bedroom Tulum jungle villa chef included," German: "Tulum Villa mit Koch mieten").
 - `/guide/*` destination content is the SEO moat and internal-link engine.
@@ -115,7 +125,7 @@ These are the disproportionately-high-ROI bets. If we build only three, build **
 
 - **3D walkthroughs (Matterport-class).** Vacasa measured ~12% booking lift and 3× time-on-listing from 3D tours. For a single compound, this is an outsized trust-builder — guests can place themselves in the pool and kitchen before committing. ([Matterport / Vacasa](https://matterport.com/news/vacasa-sees-near-12-boost-vacation-rental-bookings-powered-matterport))
 - **Ambient video hero.** Muted auto-play loops (pool, jungle, hammock-at-dusk) over stills. Tulum's buy is 80% vibe.
-- **AI concierge that can transact, not just answer.** "The villa's free March 12–18, want me to add a chef for night 2 at $180 and a cenote day for 2 at $220?" 41% of travelers want AI itinerary help; doing it *before* booking removes the "what will we actually do there?" anxiety. ([SiteMinder on AI travel agents](https://www.siteminder.com/r/ai-travel-agent/))
+- **AI concierge that can transact, not just answer.** "The villa's free March 12–18, want me to add a chef for night 2 at $180 and a cenote day for 2 at $220?" 41% of travelers want AI itinerary help; doing it _before_ booking removes the "what will we actually do there?" anxiety. ([SiteMinder on AI travel agents](https://www.siteminder.com/r/ai-travel-agent/))
 - **Itinerary/bundle builder.** Tulum stays are really "villa + cenote day + chef dinner + yoga + airport transfer." Surface bundles on the rate page, not as post-booking upsells — proven 10–30% revenue lift across STR operators. ([PriceLabs on STR upsells](https://hello.pricelabs.co/blog/short-term-rental-upsells/))
 - **Journey-based navigation** ("Mornings / Days / Nights" or "Wellness / Food / Adventure") instead of "Rooms / Rates / Gallery." Aman and Eleven Experience both do this.
 - **"Hold these dates, no card" exit-intent.** A soft 24-hour hold beats a discount pop-up — converts ≈43% and doesn't cheapen the brand. ([Revinate on cart abandonment](https://www.revinate.com/blog/hotel-cart-abandonment-recovery/))
@@ -135,7 +145,7 @@ Tulum's conscious-traveler audience is allergic to greenwashing — the town is 
 - **Local partners, named and photographed:** yoga with Name from Chemuyil; Mayan chef Name, recipes from his grandmother in Coba.
 - **Cultural respect, not extraction:** no stock-photo temazcal ceremonies. If offered, led by a credentialed local practitioner, named, fairly compensated, disclosed.
 - **Opt-in carbon offset per booking** (Patch / Cloverly / local Yucatán reforestation partner) with a visible on-property ledger of trees planted.
-- **"We are not for everyone" page:** honest disclosure of what the villa *isn't* — not party-friendly, not toddler-proofed, mosquitoes exist, sand has steps. Builds more trust than another "sanctuary" paragraph. Plum Guide and The Thinking Traveller both do versions of this.
+- **"We are not for everyone" page:** honest disclosure of what the villa _isn't_ — not party-friendly, not toddler-proofed, mosquitoes exist, sand has steps. Builds more trust than another "sanctuary" paragraph. Plum Guide and The Thinking Traveller both do versions of this.
 - **Accessibility page:** honest step counts, bathroom widths, beach-chair transfer realities. WCAG 2.2 AA as the baseline.
 
 ---

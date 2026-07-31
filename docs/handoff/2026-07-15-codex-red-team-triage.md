@@ -11,10 +11,11 @@ Felix ran the Codex red-team prompt drafted in the previous session (`docs/hando
 Reviewed the findings for soundness — spot-checked the two governance claims (MRT-15-P1-04, MRT-15-P2-02) directly against the repo and confirmed both: CLAUDE.md/implementation-plan.md did still say Postmark/Twilio despite ADR 0012 accepting Brevo for both channels, and implementation-plan.md's "Current state" did still say "no code yet" despite Phase 0/1A being shipped. All findings judged sound and well-sourced (Stripe docs, Hostaway API docs, INM guidance). No findings rejected.
 
 Actions taken:
+
 - Fixed the `docs/tasks` → `docs/backlog` path rename everywhere it was referenced (CLAUDE.md, implementation-plan.md, ci.yml doc-discipline check).
 - Fixed the Brevo/Postmark/Twilio contradiction directly (CLAUDE.md, implementation-plan.md stack table + env vars + open-decisions note) — this was MRT-15-P2-02/P1-04's fix, not just a log entry.
 - Reconciled implementation-plan.md's stale "Current state" section.
-- Filed the other 10 findings into `docs/backlog/TODO.MD` as a "Phase 2 blockers" section (grouped by ID, one-liner, objective), added the two previously-untracked `idea-v3.md` §15 decisions (legal entity, consent scope) to a new "blocking Phase 2" open-decisions table, and strengthened the Phase 1B German-content checklist item into an explicit gate (MRT-15-P1-03 — this one blocks the *next* phase, not just Phase 2).
+- Filed the other 10 findings into `docs/backlog/TODO.MD` as a "Phase 2 blockers" section (grouped by ID, one-liner, objective), added the two previously-untracked `idea-v3.md` §15 decisions (legal entity, consent scope) to a new "blocking Phase 2" open-decisions table, and strengthened the Phase 1B German-content checklist item into an explicit gate (MRT-15-P1-03 — this one blocks the _next_ phase, not just Phase 2).
 - Added all 6 of Codex's proposed meta-lessons to `docs/lessons-learned.md` (was empty).
 - Added a `docs/backlog/TODO.MD` "Plans" index section pointing at `plans/codex-red-team.md`.
 - Added a Phase-2-gate banner to CLAUDE.md's top state line.

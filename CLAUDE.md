@@ -1,15 +1,13 @@
 # Maki Tulum — AI Agent Context
 
-> Last updated: 2026-07-15 · Stage: **Phase 1A landed** — locale-routed marketing site with Villa 18 + 19 · Deploy: Railway
-> **Phase 2 kickoff is gated** on resolving the P0 findings in [`docs/backlog/plans/codex-red-team.md`](docs/backlog/plans/codex-red-team.md) (payment capture design, channel-manager timing, legal entity/payments, consent scope). Phase 1B content work is unaffected.
->
-> **ICP note (2026-07-15):** German is no longer a strategic acquisition wedge — Maki serves international guests broadly, not one source market. Translations still ship (EN canonical → DE, then others), just without dedicated DE growth investment. See `idea-v3.md` revision note.
+> Last updated: 2026-07-31 · Stage: **Phase 1A landed**, nothing deployed yet · Tier: **T2** (multi-tenant seam, guest PII, payments)
+> **Phase 2 kickoff is gated** on the P0 findings in [`docs/backlog/plans/codex-red-team.md`](docs/backlog/plans/codex-red-team.md) (payment capture design, channel-manager timing, legal entity/payments, consent scope). Phase 0 remainder and Phase 1B content are unaffected.
 
 ## What this is
 
 Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Aldea Zama, Tulum. Owner-operated, escaping Airbnb/Booking.com dependency. Web-first; backend extensible to native iOS/Android later via the same API.
 
-**Thesis (read first):** OTAs for acquisition, direct for retention. Every feature answers: *does this drive stay #2?*
+**Thesis (read first):** OTAs for acquisition, direct for retention. Every feature answers: _does this drive stay #2?_
 
 ## Read order
 
@@ -20,21 +18,22 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 - **What shipped, where?** → [`docs/feature-matrix.md`](docs/feature-matrix.md)
 - **What bit us and why?** → [`docs/lessons-learned.md`](docs/lessons-learned.md)
 - **Architecture decisions** → [`docs/adrs/`](docs/adrs/)
+- **What does this domain word mean?** → [`CONTEXT.md`](CONTEXT.md)
 - **Older thinking** → `idea.md` (v1, ours) + `idea-v2.md` (Codex). Kept for lineage; do not edit.
 
 ## Session lifecycle
 
 - **At session start:** read the newest file in `docs/handoff/` before touching code or docs.
-- **At session end (if you did non-trivial work):** add a new `docs/handoff/YYYY-MM-DD-slug.md` — state, what happened, next move, suggested skills. Reference other docs, don't duplicate their content. Add it to the index in `docs/handoff/README.md` (newest first).
+- **At session end (if you did non-trivial work):** run the `handoff` skill.
+- **Before building anything non-trivial:** run the `grill` skill, then write a plan file from `docs/backlog/plans/_template.md` and get it approved. Skip only if the diff fits in one sentence or Felix says skip.
+- **When a slice is parallel across 3–5 agents:** run the `orchestrate` skill. Contracts and file ownership are pinned _before_ fan-out.
 
 ## Current state
 
-- **Phase 0 scaffold:** ✅ — pnpm + Turbo monorepo, four packages, `services/api` (Hono + Zod-OpenAPI, `/healthz`, `/readyz`, CORS, rate-limit, JSON error envelope, `sanitizeText`), `apps/web` (Next.js 15 + Tailwind v4 + standalone Docker output), dev docker-compose, GitHub Actions CI with Postgres + Redis service containers.
-- **Phase 1A landed:** ✅ — locale-segment routing (`/en`, `/es`, `/de`) with middleware + cookie-persisted preference + locale switcher; brand tokens (gold + jungle palette); `@maki/ui` primitives (Container, Heading, Prose, Button, NavLink); home + Stays index + Villa 18 detail (real photos) + Villa 19 detail (placeholder photos); 4 stub pages (Compound / Days / Guide / Book); schema.org `LodgingBusiness` + `HotelRoom`; full content in EN / ES / DE; 33 tests passing across all packages; full Next build green (9 routes, 6 SSG-prerendered).
-- **ADRs:** ✅ 0001–0012. 0004 (channel manager) deferred. 0010 = separate admin app behind Cloudflare Access. 0011 = Drizzle ORM. 0012 = Brevo for email.
-- **Phase 0/1A remaining:** ⚪ Railway project provisioned + first staging deploy, ⚪ Sentry DSN + Plausible domain wiring, ⚪ Drizzle ORM + first migration (Phase 2 prep), ⚪ deployed `/healthz` smoke test green, ⚪ font-loading optimization + Lighthouse pass on home + 1 stay.
-- **Phase 1B:** ⚪ Compound + Days + Guide page content; ambient video hero (waiting on Felix's video); MDX guide article framework; full Lighthouse ≥90 sign-off.
-- **Phase 3 (admin app):** ⚪ scaffold `apps/admin` Next.js app + Cloudflare Access setup when admin work begins.
+- **Shipped:** Phase 0 scaffold + Phase 1A marketing site (locale-routed EN/ES/DE, home + stays + Villa 18/19 + 4 stubs). ADRs 0001–0012. CI green on main.
+- **Not deployed anywhere yet.** No Railway project, no DB schema, no Sentry/Plausible. Phase 0's exit criterion is unmet.
+- **Next:** Phase 0 remainder (Drizzle + first migration, Railway, observability, integration tests) → Phase 1B content → Phase 2 once its blockers clear.
+- **Detail and status for everything above:** [`docs/backlog/TODO.MD`](docs/backlog/TODO.MD). Narrative history: [`docs/handoff/`](docs/handoff/). Do not restate either here.
 
 ## Stack (once Phase 0 ships)
 
@@ -51,6 +50,12 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 ## Repo shape (target)
 
 ```
+CLAUDE.md              this file — rules + live state (Claude-native, wins on conflict)
+AGENTS.md              vendor-neutral mirror of the load-bearing subset (Codex/Cursor/Aider)
+CONTEXT.md             domain glossary; read just-in-time when a term is ambiguous
+.claude/settings.json  permission ladder — deny / ask / allow (checked in, shared)
+.claude/agents/        worker · verifier · security-reviewer (scoped tools; reviewers can't edit)
+.claude/skills/        grill · orchestrate · handoff
 apps/web/              Next.js — public marketing + booking + guest area
 apps/admin/            Next.js — owner / manager / housekeeping (Phase 3+)
                        admin.makitulum.com behind Cloudflare Access (ADR 0010)
@@ -64,7 +69,7 @@ infra/docker/          dev docker-compose (Postgres + Redis)
 scripts/               check-env, sync-tokens, sync-i18n (when native lands)
 docs/adrs/             0001–0012 — read in order if new to the project
 docs/backlog/TODO.MD   pending work; updated in the same commit
-docs/backlog/plans/    one file per initiative needing more than a TODO line (e.g. red-team logs)
+docs/backlog/plans/    one file per initiative needing more than a TODO line; `_template.md` is the shape
 docs/feature-matrix.md per-feature status across web / admin / api / iOS / Android
 docs/lessons-learned.md incidents → preventive measures
 docs/handoff/           session-continuity notes; read the newest one first
@@ -90,6 +95,25 @@ docs/handoff/           session-continuity notes; read the newest one first
 - **`afterEach(cleanup)`** is mandatory in Vitest + React Testing Library tests.
 - **`refetchOnWindowFocus: true`** in React Query. Add a `visibilitychange` listener + 401 interceptor for wake-from-sleep.
 
+## Evidence discipline
+
+**Claims are not evidence.** "Tests pass", "build is clean", "it works" prove nothing on their own. Back every tested unit with the artifact that proves it:
+
+| Unit                     | Evidence                                                                       |
+| ------------------------ | ------------------------------------------------------------------------------ |
+| Unit / integration tests | the exact command + output tail (counts, test names)                           |
+| Build / typecheck        | exit code + log tail                                                           |
+| Migration / schema       | the SQL + a query proving the object exists                                    |
+| API endpoint             | the `curl` + real status and body, authed where required                       |
+| UI behavior              | screenshot, DOM/role assertion, or component test                              |
+| File change              | concrete paths + `git diff` / SHA                                              |
+| Deploy                   | fresh-boot log or health probe + an explicit note of what was _not_ verifiable |
+
+- **The one who writes is not the one who grades.** Anything that matters gets a second, fresh-context check — the `verifier` subagent on the diff, plus the orchestrator re-running the suite itself.
+- **Label confidence:** _independently verified_ vs _agent-reported_.
+- **Report faithfully.** A skipped or blocked step is stated in the same breath as the successes. An honest partial beats a clean-looking summary that hides a gap.
+- **`pnpm verify` is the gate** — it mirrors CI and must be green on a clean checkout.
+
 ## Don't do (v1)
 
 - Don't build a custom multi-role back office. The Hostaway + Breezeway + Enso stack covers roles for us.
@@ -104,7 +128,7 @@ docs/handoff/           session-continuity notes; read the newest one first
 
 ## Known stubs (placeholders — don't build on top of them)
 
-- *(none yet — update as we ship)*
+- _(none yet — update as we ship)_
 
 ## Conventions
 
@@ -127,6 +151,7 @@ pnpm dev:up                                 # Postgres + Redis via docker compos
 cp services/api/.env.example services/api/.env
 cp apps/web/.env.example apps/web/.env.local
 pnpm dev                                    # api on :3001, web on :3000
+pnpm verify                                 # check-env · format · typecheck · lint · test · build — mirrors CI
 pnpm typecheck                              # cross-package
 pnpm test                                   # vitest (unit, integration once we add DB tests)
 pnpm check-env                              # audit process.env vs manifest in scripts/check-env.ts
@@ -143,7 +168,7 @@ The meta-rule from the Innovation Factory. Do not skip steps.
 2. **Lessons in the moment.** Any bug / miswrite / red-team finding / >30-min debugging session → append a row to [`docs/lessons-learned.md`](docs/lessons-learned.md) (`Date | Issue | Root cause | Preventive measure`). Preventive measure must be actionable.
 3. **Feature matrix stays in sync.** Every feature ships with its row in [`docs/feature-matrix.md`](docs/feature-matrix.md) updated in the same commit. Use `✅ / 🟡 / ⚪ / n/a`. Mark `n/a` explicitly.
 4. **TODO status in the same commit.** "Done" = shipped + tested + documented + TODO updated. Not "code written."
-5. **CLAUDE.md "Current state" reflects reality.** Update the section *before* doing work that would invalidate it.
+5. **CLAUDE.md "Current state" reflects reality.** Update the section _before_ doing work that would invalidate it.
 6. **Structure sync.** When you add / rename / move files, update the repo-shape section above and grep the repo for references.
 7. **Red-team findings get captured.** Every pass (Codex critique, persona UAT) → findings filed as TODOs, fixes filed as lessons. Write down the attack vector, not just the fix.
 8. **Explicit over tidy.** Explicit `⚪ Planned` beats a silent gap. Explicit `N/A — see ADR-0005` beats silence.

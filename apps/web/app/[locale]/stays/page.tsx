@@ -33,9 +33,7 @@ export default async function StaysIndexPage({ params }: Props) {
       <Heading level={1} className="mt-3 max-w-3xl">
         {t.stays.index_headline}
       </Heading>
-      <p className="mt-6 max-w-2xl text-lg text-[color:var(--color-smoke)]">
-        {t.stays.index_sub}
-      </p>
+      <p className="mt-6 max-w-2xl text-lg text-[color:var(--color-smoke)]">{t.stays.index_sub}</p>
 
       <div className="mt-16 grid gap-12 md:grid-cols-2">
         {stays.map((stay) => (

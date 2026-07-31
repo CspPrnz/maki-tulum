@@ -12,7 +12,7 @@
 
 ## Candidates being researched
 
-### Hosthub *(Felix has prior experience)*
+### Hosthub _(Felix has prior experience)_
 
 What we know from public-facing docs:
 
@@ -29,11 +29,11 @@ What we know from public-facing docs:
   - Pricing at 1–3 properties — is the API access on the Standard plan or Pro-only?
 - **Status:** trial / contact required for real evaluation.
 
-### Hostaway *(implementation plan default)*
+### Hostaway _(implementation plan default)_
 
 The previous default in `implementation-plan.md`. Public API is well-documented; supports push availability, rates, listings, message threads. Real-time webhooks. Sandbox available. Trial flow exists. Re-evaluate alongside Hosthub when this ADR unpauses.
 
-### Hospitable *(dark-horse third)*
+### Hospitable _(dark-horse third)_
 
 Comparable feature set, simpler API surface than Hostaway, smaller channel list. Worth a 30-minute look at decision time.
 

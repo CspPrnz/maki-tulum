@@ -23,9 +23,7 @@ export default async function DaysPage({ params }: Props) {
   return (
     <Container width="default" className="py-20 md:py-28">
       <Heading level={1}>{t.days.stub_heading}</Heading>
-      <p className="mt-6 max-w-prose text-lg text-[color:var(--color-smoke)]">
-        {t.days.stub_body}
-      </p>
+      <p className="mt-6 max-w-prose text-lg text-[color:var(--color-smoke)]">{t.days.stub_body}</p>
     </Container>
   );
 }

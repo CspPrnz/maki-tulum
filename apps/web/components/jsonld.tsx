@@ -13,13 +13,7 @@ type StayLD = {
   imageUrls: string[];
 };
 
-export function LodgingBusinessJsonLd({
-  url,
-  description,
-}: {
-  url: string;
-  description: string;
-}) {
+export function LodgingBusinessJsonLd({ url, description }: { url: string; description: string }) {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'LodgingBusiness',
@@ -37,10 +31,7 @@ export function LodgingBusinessJsonLd({
     priceRange: '$$$',
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
   );
 }
 
@@ -61,9 +52,6 @@ export function HotelRoomJsonLd({ stay }: { stay: StayLD }) {
     ],
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
   );
 }

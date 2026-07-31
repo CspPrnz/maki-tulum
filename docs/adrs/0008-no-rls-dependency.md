@@ -5,12 +5,12 @@
 - **Context:** Postgres's Row-Level Security (RLS) is a feature where a table-level policy filters which rows a query can see based on the connecting role and session variables. It sounds like the perfect tenant-isolation primitive. Civion Safe found out it isn't.
 
   The Civion lesson (multiple 2026-03-29 / 2026-04-01 / 2026-04-02 entries in `lessons-learned.md`): **Neon's default `neondb_owner` role has `BYPASSRLS`.** When the application connects as the role Postgres provisions for you by default, RLS policies are decorative — every query sees every row, and tenant-isolation tests pass against `localhost` while silently failing in staging. Civion ate this on shelter endpoints, content endpoints, and admin endpoints before catching it.
-- **Decision:** **Treat Postgres RLS as defense-in-depth, not as the primary isolation mechanism.** Tenant isolation is enforced in **four overlapping layers**:
 
+- **Decision:** **Treat Postgres RLS as defense-in-depth, not as the primary isolation mechanism.** Tenant isolation is enforced in **four overlapping layers**:
   1. **Application layer (primary).** Every query has an explicit `WHERE account_id = $1`. Drizzle repository helpers accept `accountId` as a required parameter; the type system refuses calls without it.
   2. **Repository pattern.** All DB access goes through `services/api/src/db/repositories/<entity>.ts`. Handlers cannot import `db` directly — ESLint rule + code review. Repositories are unit-tested with cross-tenant fixtures (account A inserts a row, account B's repository call must not see it).
   3. **CI grep check.** A grep-based check runs in CI: any SQL referencing a tenant-scoped table without a tenant filter fails the build. Modeled on Civion's `current_setting('app.current_tenant')` check.
-  4. **Restricted DB role for production (defense in depth).** A least-privileged role `maki_app` (no `BYPASSRLS`) connects from production. RLS policies *are* attached to every tenant-scoped table — they enforce isolation if/when the application layer fails. Migrations run as the elevated role; the application never does.
+  4. **Restricted DB role for production (defense in depth).** A least-privileged role `maki_app` (no `BYPASSRLS`) connects from production. RLS policies _are_ attached to every tenant-scoped table — they enforce isolation if/when the application layer fails. Migrations run as the elevated role; the application never does.
 
 - **Consequences:**
   - We don't depend on RLS being enforced — and isolation is correct even on Neon, even in dev.
@@ -26,10 +26,12 @@ export async function listBookings(accountId: string, filters: BookingFilters) {
   return db
     .select()
     .from(bookings)
-    .where(and(
-      eq(bookings.accountId, accountId),  // <-- never optional
-      ...filterClauses(filters),
-    ));
+    .where(
+      and(
+        eq(bookings.accountId, accountId), // <-- never optional
+        ...filterClauses(filters),
+      ),
+    );
 }
 
 // Calling code can't omit accountId — the type system enforces it.

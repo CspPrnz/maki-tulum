@@ -29,30 +29,30 @@
 
 ## 2. Functional building blocks
 
-These are the *functional* blocks of the product, independent of how we implement them. Each has a clear input, output, and owner.
+These are the _functional_ blocks of the product, independent of how we implement them. Each has a clear input, output, and owner.
 
-| # | Block | What it does | Build or Buy (v1) |
-|---|---|---|---|
-| B1 | **Marketing site** | Editorial pages: Compound / Stays / Days / Guide. Trilingual. SEO. Ambient video + Matterport embeds. | Build |
-| B2 | **Availability engine** | Single source of truth for calendar, rates, min-night, seasonal rules, LOS discounts, orphan-gap auto-discount. | Build (thin layer) over (Buy) channel manager |
-| B3 | **Booking / checkout** | Rate display with all-in pricing (incl. Saneamiento), date hold, deposit (30%) + balance (70%), cancellation tiers. | Build |
-| B4 | **Payments** | Stripe (primary) + MercadoPago (MX-domestic) + Klarna for shoulder. | Buy |
-| B5 | **Channel sync** | Push availability/rates to Airbnb / Booking / VRBO; pull their bookings back. Direct is source of truth. | Buy (Hostaway or Hospitable) |
-| B6 | **Guest identity** | Magic-link primary, optional password, JWT access + refresh tokens. Works for web + native. | Build (thin) |
-| B7 | **Guest verification** | ID check + damage waiver instead of refundable hold. | Buy (Truvi/Superhog) |
-| B8 | **Mexican compliance** | FMM guest registration. | Buy (Chekin) |
-| B9 | **Pre-arrival guest PWA** | Boarding pass: lock code, WiFi, guide, chat, upsells. | Buy (Enso Connect) or thin Build wrapper |
-| B10 | **Messaging** | WhatsApp Business primary, email secondary, transactional templates. | Buy (Twilio or Bookboost for WA API) + Postmark/Brevo for email |
-| B11 | **Review aggregator** | Pull Airbnb / Google / TripAdvisor reviews with source + freshness. | Buy (Revyoos) |
-| B12 | **Housekeeping ops** | Turnover checklist, photo proof, supply flags. | Buy (Breezeway or Hostaway native) |
-| B13 | **Maintenance tickets** | Ticket + photo, contractor-scoped access. | Buy (Breezeway) |
-| B14 | **Smart lock** | Per-stay code, released day-of. | Buy (Igloohome or August, integrated via B5) |
-| B15 | **Content CMS** | Edit `/guide/*` and `Stays` pages without deploying. | Build (lightweight MDX or Sanity free tier) |
-| B16 | **Owner dashboard** | Weekly revenue + 30-day occupancy + 3 action items. | Build (thin — aggregates from B5/B4/B2 APIs) |
-| B17 | **Retention loop** | Post-stay sequence, returning-guest offer, magic-link rebook. This is the north-star feature. | Build |
-| B18 | **Analytics** | North-star (repeat-direct rate) + supporting metrics. | Buy (Plausible + Postgres queries) |
-| B19 | **Notifications service** | Fan-out: booking events → email/WA/admin alerts. | Build (thin) |
-| B20 | **Admin console** | Internal CMS + role management + audit log. Covers roles not served by Hostaway/Breezeway. | Build (minimal) |
+| #   | Block                     | What it does                                                                                                        | Build or Buy (v1)                                               |
+| --- | ------------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| B1  | **Marketing site**        | Editorial pages: Compound / Stays / Days / Guide. Trilingual. SEO. Ambient video + Matterport embeds.               | Build                                                           |
+| B2  | **Availability engine**   | Single source of truth for calendar, rates, min-night, seasonal rules, LOS discounts, orphan-gap auto-discount.     | Build (thin layer) over (Buy) channel manager                   |
+| B3  | **Booking / checkout**    | Rate display with all-in pricing (incl. Saneamiento), date hold, deposit (30%) + balance (70%), cancellation tiers. | Build                                                           |
+| B4  | **Payments**              | Stripe (primary) + MercadoPago (MX-domestic) + Klarna for shoulder.                                                 | Buy                                                             |
+| B5  | **Channel sync**          | Push availability/rates to Airbnb / Booking / VRBO; pull their bookings back. Direct is source of truth.            | Buy (Hostaway or Hospitable)                                    |
+| B6  | **Guest identity**        | Magic-link primary, optional password, JWT access + refresh tokens. Works for web + native.                         | Build (thin)                                                    |
+| B7  | **Guest verification**    | ID check + damage waiver instead of refundable hold.                                                                | Buy (Truvi/Superhog)                                            |
+| B8  | **Mexican compliance**    | FMM guest registration.                                                                                             | Buy (Chekin)                                                    |
+| B9  | **Pre-arrival guest PWA** | Boarding pass: lock code, WiFi, guide, chat, upsells.                                                               | Buy (Enso Connect) or thin Build wrapper                        |
+| B10 | **Messaging**             | WhatsApp Business primary, email secondary, transactional templates.                                                | Buy (Twilio or Bookboost for WA API) + Postmark/Brevo for email |
+| B11 | **Review aggregator**     | Pull Airbnb / Google / TripAdvisor reviews with source + freshness.                                                 | Buy (Revyoos)                                                   |
+| B12 | **Housekeeping ops**      | Turnover checklist, photo proof, supply flags.                                                                      | Buy (Breezeway or Hostaway native)                              |
+| B13 | **Maintenance tickets**   | Ticket + photo, contractor-scoped access.                                                                           | Buy (Breezeway)                                                 |
+| B14 | **Smart lock**            | Per-stay code, released day-of.                                                                                     | Buy (Igloohome or August, integrated via B5)                    |
+| B15 | **Content CMS**           | Edit `/guide/*` and `Stays` pages without deploying.                                                                | Build (lightweight MDX or Sanity free tier)                     |
+| B16 | **Owner dashboard**       | Weekly revenue + 30-day occupancy + 3 action items.                                                                 | Build (thin — aggregates from B5/B4/B2 APIs)                    |
+| B17 | **Retention loop**        | Post-stay sequence, returning-guest offer, magic-link rebook. This is the north-star feature.                       | Build                                                           |
+| B18 | **Analytics**             | North-star (repeat-direct rate) + supporting metrics.                                                               | Buy (Plausible + Postgres queries)                              |
+| B19 | **Notifications service** | Fan-out: booking events → email/WA/admin alerts.                                                                    | Build (thin)                                                    |
+| B20 | **Admin console**         | Internal CMS + role management + audit log. Covers roles not served by Hostaway/Breezeway.                          | Build (minimal)                                                 |
 
 **Rule:** we only build B1, B2, B3, B6, B15, B16, B17, B19, B20. All the rest are contracted-out services reached via an adapter layer (§5).
 
@@ -93,23 +93,24 @@ maki-tulum/
 
 ### 3.1 Stack choices
 
-| Layer | Choice | Why |
-|---|---|---|
-| API | **Hono on Node 22** | Fastest Node framework, OpenAPI-friendly via `@hono/zod-openapi`, runs on Railway without config, TypeScript end-to-end keeps types shared with web/mobile |
-| DB | **PostgreSQL 16** (Railway-managed) | Proven, single-region (Railway `us-west-1`) — Tulum traffic is global but low-volume, latency is fine |
-| Cache / queue | **Redis** (Railway addon) | Sessions, rate-limit counters, BullMQ job queue for outbound notifications |
-| Web | **Next.js 15 / React 19** | App Router for SSR + locale routing, Server Actions for simple mutations |
-| Styling | **Tailwind v4 + CSS variables** for the palette | Palette lives in one `tokens.css`; components are portable to React Native via NativeWind later |
-| Auth | **Custom JWT — short-lived access (15 min) + rotating refresh tokens** | Works for web (httpOnly cookies) and native (secure storage) from one API. Lesson: don't put JWT in localStorage |
-| State (web) | **Zustand** + React Query v5 | Zustand for UI state, React Query for server state with `refetchOnWindowFocus: true` (lesson learned) |
-| Email + WhatsApp | **Brevo** (ADR 0012) | One vendor for both channels — avoids stitching together Postmark + Twilio + a separate SMS vendor |
-| Analytics | **Plausible** (marketing) + Postgres views (business metrics) | No GDPR cookie banner required |
-| Error / obs | **Sentry** free tier | Errors + a few custom spans for the booking flow |
-| CI | **GitHub Actions** | Lint, typecheck, test, build, deploy on merge |
+| Layer            | Choice                                                                 | Why                                                                                                                                                        |
+| ---------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| API              | **Hono on Node 22**                                                    | Fastest Node framework, OpenAPI-friendly via `@hono/zod-openapi`, runs on Railway without config, TypeScript end-to-end keeps types shared with web/mobile |
+| DB               | **PostgreSQL 16** (Railway-managed)                                    | Proven, single-region (Railway `us-west-1`) — Tulum traffic is global but low-volume, latency is fine                                                      |
+| Cache / queue    | **Redis** (Railway addon)                                              | Sessions, rate-limit counters, BullMQ job queue for outbound notifications                                                                                 |
+| Web              | **Next.js 15 / React 19**                                              | App Router for SSR + locale routing, Server Actions for simple mutations                                                                                   |
+| Styling          | **Tailwind v4 + CSS variables** for the palette                        | Palette lives in one `tokens.css`; components are portable to React Native via NativeWind later                                                            |
+| Auth             | **Custom JWT — short-lived access (15 min) + rotating refresh tokens** | Works for web (httpOnly cookies) and native (secure storage) from one API. Lesson: don't put JWT in localStorage                                           |
+| State (web)      | **Zustand** + React Query v5                                           | Zustand for UI state, React Query for server state with `refetchOnWindowFocus: true` (lesson learned)                                                      |
+| Email + WhatsApp | **Brevo** (ADR 0012)                                                   | One vendor for both channels — avoids stitching together Postmark + Twilio + a separate SMS vendor                                                         |
+| Analytics        | **Plausible** (marketing) + Postgres views (business metrics)          | No GDPR cookie banner required                                                                                                                             |
+| Error / obs      | **Sentry** free tier                                                   | Errors + a few custom spans for the booking flow                                                                                                           |
+| CI               | **GitHub Actions**                                                     | Lint, typecheck, test, build, deploy on merge                                                                                                              |
 
 ### 3.2 Why Hono / TypeScript, not Go
 
 Civion used Go successfully — we're choosing TS here because:
+
 - **Type-sharing with clients** matters more than raw throughput at this scale (10–200 bookings/mo).
 - One language across api + web + scripts = smaller cognitive surface for a solo/small team.
 - Hono scales fine to the volume we need; if we ever need Go, the OpenAPI spec makes the rewrite low-risk.
@@ -162,6 +163,7 @@ Exact schema lives in `services/api/migrations/` once we start. This logical mod
 Six phases. Each ends with a deployable build and a validation gate.
 
 ### Phase 0 — Foundations (Week 1)
+
 **Goal:** repo, CI, Railway, dev env, docs skeleton.
 
 - Monorepo with pnpm workspaces + Turbo.
@@ -177,18 +179,21 @@ Six phases. Each ends with a deployable build and a validation gate.
 Phase 0 is where we reduce future rework. It is not "just scaffolding." If we get this wrong, every later phase inherits the cost.
 
 **P0.1 Repo bootstrap**
+
 - Create root `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `.nvmrc`, `.tool-versions` if needed.
 - Pin Node 22 and pnpm in `packageManager`.
 - Create base scripts: `dev`, `build`, `lint`, `typecheck`, `test`, `test:unit`, `test:integration`, `check-env`.
 - Add root `.env.example` with only non-secret placeholders and comments.
 
 **P0.2 Web skeleton**
+
 - Create `apps/web` on Next.js App Router.
 - Add `/` placeholder page with project identity and environment banner.
 - Add `/healthz` route that returns `200` JSON with app name, git SHA if available, and timestamp.
 - Add a smoke layout with i18n-ready folder structure, but do not implement marketing pages yet.
 
 **P0.3 API skeleton**
+
 - Create `services/api` on Hono + Node adapter.
 - Add `/healthz` and `/readyz`.
 - Add top-level middleware for request ID, CORS, JSON error envelope, body-size limit, and rate limiting.
@@ -196,29 +201,34 @@ Phase 0 is where we reduce future rework. It is not "just scaffolding." If we ge
 - Add env validation at process boot; app should fail fast on invalid config.
 
 **P0.4 Shared packages**
+
 - `packages/types`: shared envelopes, health response schema, common enums, and OpenAPI-generated client placeholder.
 - `packages/config`: env parsing, logger wrapper, constants, `sanitizeText`.
 - `packages/i18n`: bootstrap locale keys for `en`, `es`, `de`.
 - `packages/ui`: minimal token package only; no premature component library.
 
 **P0.5 Local infrastructure**
+
 - `infra/docker/docker-compose.yml` for Postgres 16 + Redis 7.
 - One command to boot infra locally and one to tear it down cleanly.
 - API `.env` defaults point at Docker services, not Railway.
 - Add first migration runner and a no-op initial migration so the migration path is tested before Phase 1.
 
 **P0.6 CI/CD**
+
 - GitHub Actions workflows for install, lint, typecheck, unit tests, integration tests, build.
 - Cache pnpm store and Turbo artifacts conservatively.
 - Add Railway deployment workflow or GitHub integration path, plus preview smoke step that hits `/healthz`.
 - Ensure failures are legible: separate jobs for `web`, `api`, and shared packages if needed.
 
 **P0.7 Observability and analytics**
+
 - Wire Sentry in disabled-or-low-sample mode for non-production so integration itself is verified without noisy data.
 - Wire Plausible only in web, behind env guards, with no custom events yet.
 - Add structured request logging on API with request ID and latency.
 
 **P0.8 Documentation and decision capture**
+
 - Write the foundational ADRs that would otherwise be rediscovered later.
 - Update `docs/feature-matrix.md`, `docs/backlog/TODO.MD`, and `CLAUDE.md` in the same commit as any Phase 0 implementation work.
 - Add a short `docs/runbooks/local-dev.md` if local setup requires more than `pnpm install` + `pnpm dev:up`.
@@ -243,17 +253,20 @@ This order matters because it keeps feedback loops short. We want local boot bef
 Phase 0 still needs real tests. The right question is not "does scaffolding have tests?" but "what failures become expensive if we do not catch them now?"
 
 **Unit tests**
+
 - `packages/config/env.ts` rejects missing and malformed env vars.
 - `sanitizeText()` strips disallowed HTML and preserves normal text.
 - Shared response-envelope helpers always serialize the expected shape.
 - Health-schema Zod contracts parse valid payloads and reject drift.
 
 **Component tests**
+
 - `apps/web` root page renders without crashing.
 - `/healthz` route handler returns JSON with the expected shape.
 - Any shared provider tree mounts cleanly in the App Router.
 
 **API integration tests**
+
 - `GET /healthz` returns `200`, JSON, and expected envelope or health shape.
 - `GET /readyz` returns non-200 when Postgres/Redis are unavailable and `200` when both are reachable.
 - CORS allowlist behaves differently in test vs. production env fixtures.
@@ -261,17 +274,20 @@ Phase 0 still needs real tests. The right question is not "does scaffolding have
 - OpenAPI document route responds and contains at least one typed path.
 
 **Infra tests**
+
 - Docker Compose boots Postgres and Redis locally.
 - Migration command runs successfully against fresh local Postgres.
 - API can connect to local Postgres and Redis from integration tests.
 
 **CI tests**
+
 - Fresh checkout passes `pnpm install --frozen-lockfile`.
 - `turbo run lint typecheck test build` succeeds in CI.
 - Preview/staging smoke test performs HTTP GET against deployed `/healthz`.
 - `scripts/check-env.ts` fails the build when a required env var is missing.
 
 **Manual verification**
+
 - Railway service is listening on `0.0.0.0:$PORT`.
 - Railway healthcheck path is configured and returning `200`.
 - Preview deployments are isolated from staging data.
@@ -313,6 +329,7 @@ Things that look adjacent but should not enter Week 1:
 If we touch those in Phase 0, we are leaking later-phase complexity into the foundation week.
 
 ### Phase 1 — Public marketing site (Weeks 2–4)
+
 **Goal:** a trilingual, story-first site with brand polish. No booking yet.
 
 - Layout system + design tokens (palette, type scale).
@@ -325,6 +342,7 @@ If we touch those in Phase 0, we are leaking later-phase complexity into the fou
 - **Exit criterion:** Lighthouse score ≥90 all categories on home + 2 stays + 1 guide article; all copy in 3 languages; brand review signed off.
 
 ### Phase 2 — Availability + booking (Weeks 5–8)
+
 **Goal:** an honest, end-to-end direct booking with test payments.
 
 - API: `properties`, `availability`, `rates`, `bookings`, `quotes` endpoints.
@@ -337,6 +355,7 @@ If we touch those in Phase 0, we are leaking later-phase complexity into the fou
 - **Exit criterion:** end-to-end test booking on staging with Stripe test card; balance capture scheduled job runs and completes; Saneamiento appears on the quote page.
 
 ### Phase 3 — Accounts, dashboard, channel manager (Weeks 9–12)
+
 **Goal:** Hostaway sync live + basic owner dashboard + admin console.
 
 - Auth: magic link primary; password optional. Short-lived access + rotating refresh tokens. httpOnly cookies on web.
@@ -348,17 +367,19 @@ If we touch those in Phase 0, we are leaking later-phase complexity into the fou
 - **Exit criterion:** a booking made on Airbnb sandbox appears in our Postgres within 5 minutes; owner dashboard shows correct numbers; first real direct booking possible end-to-end on production.
 
 ### Phase 4 — Guest experience (Weeks 13–16)
+
 **Goal:** retention loop + guest PWA + WhatsApp.
 
 - Pre-arrival boarding pass (own implementation or Enso Connect embed — decide based on Enso pricing).
 - WhatsApp Business integration — inbound + outbound templates for: booking confirm, balance due, 7-day reminder with guide link, arrival day, departure day, 3-week post-stay.
 - Smart lock: per-stay code, released 24h before arrival.
-- Upsell catalogue (chef, cenote, yoga, transfer) surfaced on rate page *and* on the boarding pass.
+- Upsell catalogue (chef, cenote, yoga, transfer) surfaced on rate page _and_ on the boarding pass.
 - Post-stay review prompt + private feedback form.
 - Returning-guest offer: magic-link rebook with last-stay context pre-filled.
 - **Exit criterion:** a test guest journey from booking to post-stay completes with 8 expected WhatsApp touchpoints fired; rebook link works.
 
 ### Phase 5 — Three-bet immersion (Weeks 17–20)
+
 **Goal:** the three v1 UX bets from the thesis.
 
 - Matterport walkthroughs embedded on each Stay page.
@@ -367,6 +388,7 @@ If we touch those in Phase 0, we are leaking later-phase complexity into the fou
 - **Exit criterion:** three bets live; CTR from hold-form to paid booking tracked.
 
 ### Phase 6 — Retention depth + polish (Weeks 21+)
+
 **Goal:** make trip #2 the obvious choice.
 
 - Repeat-guest login + remembered preferences.
@@ -425,14 +447,15 @@ services/api/src/adapters/
 
 Maki will live as a single Railway project with four services:
 
-| Service | Type | Env vars (key ones) |
-|---|---|---|
-| `web` | Dockerfile (Next.js standalone) | `NEXT_PUBLIC_API_URL` (**build arg**), `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`, `SENTRY_DSN` |
-| `api` | Dockerfile (Node 22 + Hono) | `DATABASE_URL`, `REDIS_URL`, `JWT_PRIVATE_KEY`, `STRIPE_SECRET_KEY`, `HOSTAWAY_*`, `BREVO_API_KEY`, `CORS_ORIGINS`, `APP_ENV` |
-| `postgres` | Railway-managed Postgres | — |
-| `redis` | Railway-managed Redis | — |
+| Service    | Type                            | Env vars (key ones)                                                                                                           |
+| ---------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `web`      | Dockerfile (Next.js standalone) | `NEXT_PUBLIC_API_URL` (**build arg**), `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`, `SENTRY_DSN`                                           |
+| `api`      | Dockerfile (Node 22 + Hono)     | `DATABASE_URL`, `REDIS_URL`, `JWT_PRIVATE_KEY`, `STRIPE_SECRET_KEY`, `HOSTAWAY_*`, `BREVO_API_KEY`, `CORS_ORIGINS`, `APP_ENV` |
+| `postgres` | Railway-managed Postgres        | —                                                                                                                             |
+| `redis`    | Railway-managed Redis           | —                                                                                                                             |
 
 ### Environments
+
 - **staging** — auto-deploys from `main`, all test credentials, own domain `staging.makitulum.com`.
 - **production** — manually promoted (or auto after staging smoke tests pass), `makitulum.com`.
 - **PR previews** — Railway spins up a preview per PR; seed data only, isolated Postgres via Railway preview feature.
@@ -449,11 +472,13 @@ Maki will live as a single Railway project with four services:
 8. **Healthcheck and readycheck are different.** `/healthz` = process is up. `/readyz` = DB + Redis reachable. Railway uses `/healthz`; uptime monitoring polls `/readyz`.
 
 ### Secrets & rotation
+
 - All secrets live in Railway. Never in the repo.
 - JWT signing keys rotate yearly; refresh tokens survive rotation via a `kid` claim.
 - Stripe webhook secret per environment (staging webhook ≠ prod webhook).
 
 ### Domain & DNS
+
 - Apex `makitulum.com` → web service.
 - `api.makitulum.com` → api service.
 - `staging.makitulum.com` + `api.staging.makitulum.com` for staging.
@@ -466,51 +491,62 @@ Maki will live as a single Railway project with four services:
 Five layers, each with a clear job. We do not write tests in layers that don't give us signal.
 
 ### 7.1 Unit tests — **Vitest**
+
 **Where:** any pure function, rate calculation, date math, Zod schemas, utility code.
 **Speed:** milliseconds. **Parallelism:** full.
 **Examples:**
+
 - `priceQuote(rate, dates, rules)` returns correct total incl. Saneamiento.
 - `orphanGapDiscount(calendar, proposedDates)` returns correct % off.
 - `minNightsForSeason(date)` returns correct policy.
 - All Zod schemas round-trip (encode → decode).
 
 **Rules:**
+
 - No I/O in unit tests. Ever.
 - Table-driven where the input space is enumerable (Civion pattern).
 - Seed time with a fixed `Date` via `vi.setSystemTime`.
 
 ### 7.2 Component tests — **Vitest + React Testing Library + Playwright-CT** (for harder components)
+
 **Where:** UI components in `packages/ui` and `apps/web/components`.
 **Focus:** behavior, not implementation. Accessibility first.
 **Rules:**
+
 - **`afterEach(cleanup)` is mandatory.** RTL + Vitest doesn't auto-clean; missing it causes "multiple elements found" flakes (Civion lesson).
 - Never query by class names. Use role / label / testid in that order.
 - Every interactive component has a minimum-touch-target test (44×44px, from Civion a11y lesson).
 - All form inputs tested at `text-base` (16px) to avoid iOS Safari zoom-on-focus.
 
 ### 7.3 Integration tests — **Vitest + Testcontainers** (ephemeral Postgres + Redis)
+
 **Where:** API handlers against a real Postgres.
 **Why:** Civion explicitly learned: mocked DBs hide real bugs (RLS, trigger, transaction scoping). We use real Postgres.
 **Examples:**
+
 - `POST /bookings` with valid payload creates rows in `bookings` + `payments` and triggers a WhatsApp template.
 - `POST /bookings` twice with the same idempotency key returns the same booking, does NOT double-charge. (Civion XP-replay lesson generalized.)
 - Rate-limit middleware returns 429 with `Content-Type: application/json` (not text/plain — Civion lesson).
 - All `SET LOCAL` / tenant-context assertions run inside a transaction (not applicable for us, but test helper enforces it for future multi-tenant).
 
 **Rules:**
+
 - Testcontainers Postgres boots fresh per test file. Migrations applied once.
 - Unique test data per run — emails are `test+${nanoid()}@example.test` (RFC 2606 reserved domain, Civion lesson).
 - Rate limiter has a test-mode allowlist so rapid test traffic doesn't 429 itself (Civion lesson).
 
 ### 7.4 Contract tests — **openapi-response-validator + OpenAPI spec**
+
 **Where:** every API response in integration tests is validated against the published OpenAPI schema.
 **Why:** prevents silent drift between handler, spec, and client. A response with a changed enum or missing field fails immediately. This is the mechanism that keeps web and future mobile in sync.
 
 ### 7.5 End-to-end tests — **Playwright**
+
 **Where:** `apps/web` against a deployed Railway preview.
 **Scope:** the critical user journeys. We do NOT test every permutation.
 
 Golden journeys:
+
 1. Guest books a villa end-to-end with a Stripe test card.
 2. Guest holds dates with no card (soft 24h hold) → receives email.
 3. Owner views dashboard with correct weekly revenue.
@@ -519,12 +555,15 @@ Golden journeys:
 6. Booking confirmation page is screen-reader accessible (axe-core assertion).
 
 **Rules:**
+
 - Tests generate unique emails per run (Civion lesson).
 - Tests tolerate rate-limit 429s with backoff (Civion lesson).
 - Every P0/P1 bug fix gets a Playwright regression test. No fix ships without one (Civion lesson).
 
 ### 7.6 Persona-based UAT (post-v1)
+
 Adopted from Civion: AI-driven personas probing the site for a11y, security, i18n, and UX issues. Introduced at the end of Phase 3. Personas include:
+
 - **Maria** — couple from Berlin, German-first, low mobile data connection.
 - **Tom** — US guest on iOS Safari, screen reader.
 - **Elena** — MX-domestic guest paying with OXXO.
@@ -569,14 +608,14 @@ Civion lessons baked in — these are not "later." They're cheap when built in a
 
 ## 10. Risks & mitigations
 
-| Risk | Mitigation |
-|---|---|
-| Double-booking via channel sync lag | Direct is source of truth. Push-based sync via Hostaway API (not iCal). Weekly integrity check compares our DB to each OTA. |
-| Mexican tax rules change | Saneamiento and Visitax rates live in `packages/config/tax.ts` — one file edit, rebuild. |
-| Stripe MX compliance | OXXO offered only on non-refundable rates. Refund/dispute rules documented and tested. |
-| Solo maintainer fatigue | Every building block has a buy fallback. If the owner can't maintain, the business runs on Hostaway's native guest portal until a new dev is found. |
-| Plan drift (lesson from Civion) | This file must be under 1000 lines. "Current state" updated every phase. Divergences logged in `docs/adrs/`. |
-| German SEO moat never materializes | Validate DE search volume (Ahrefs / GSC) *before* Phase 1 DE content investment. If <100 MSV on target keywords, deprioritize DE copy. |
+| Risk                                | Mitigation                                                                                                                                          |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Double-booking via channel sync lag | Direct is source of truth. Push-based sync via Hostaway API (not iCal). Weekly integrity check compares our DB to each OTA.                         |
+| Mexican tax rules change            | Saneamiento and Visitax rates live in `packages/config/tax.ts` — one file edit, rebuild.                                                            |
+| Stripe MX compliance                | OXXO offered only on non-refundable rates. Refund/dispute rules documented and tested.                                                              |
+| Solo maintainer fatigue             | Every building block has a buy fallback. If the owner can't maintain, the business runs on Hostaway's native guest portal until a new dev is found. |
+| Plan drift (lesson from Civion)     | This file must be under 1000 lines. "Current state" updated every phase. Divergences logged in `docs/adrs/`.                                        |
+| German SEO moat never materializes  | Validate DE search volume (Ahrefs / GSC) _before_ Phase 1 DE content investment. If <100 MSV on target keywords, deprioritize DE copy.              |
 
 ---
 

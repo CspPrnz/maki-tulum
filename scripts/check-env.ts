@@ -29,25 +29,16 @@ const KNOWN_ENV: Record<string, string> = {
   STRIPE_WEBHOOK_SECRET: 'optional in dev',
   HOSTAWAY_CLIENT_ID: 'optional in dev',
   HOSTAWAY_CLIENT_SECRET: 'optional in dev',
-  POSTMARK_SERVER_TOKEN: 'optional in dev',
-  TWILIO_ACCOUNT_SID: 'optional in dev',
-  TWILIO_AUTH_TOKEN: 'optional in dev',
+  BREVO_API_KEY: 'transactional email + WhatsApp (ADR 0012); optional in dev',
   SENTRY_DSN: 'optional',
   NEXT_PUBLIC_API_URL: 'web build arg',
+  NEXT_PUBLIC_SITE_URL: 'web build arg — metadataBase for canonical/hreflang URLs',
   NEXT_PUBLIC_PLAUSIBLE_DOMAIN: 'web build arg, optional',
   NEXT_PUBLIC_SENTRY_DSN: 'web build arg, optional',
   npm_package_version: 'set by node automatically',
 };
 
-const SKIP_DIRS = new Set([
-  'node_modules',
-  '.next',
-  '.turbo',
-  'dist',
-  'build',
-  '.git',
-  'coverage',
-]);
+const SKIP_DIRS = new Set(['node_modules', '.next', '.turbo', 'dist', 'build', '.git', 'coverage']);
 
 function* walk(dir: string): Generator<string> {
   for (const name of readdirSync(dir)) {
@@ -61,10 +52,15 @@ function* walk(dir: string): Generator<string> {
 
 const ENV_RE = /process\.env(?:\.([A-Z_][A-Z0-9_]*)|\[\s*['"]([A-Z_][A-Z0-9_]*)['"]\s*\])/g;
 
+// This file documents the pattern it greps for, so scanning itself yields
+// phantom names (`process.env.X`) that fail the audit.
+const SELF = join(root, 'scripts', 'check-env.ts');
+
 const referenced = new Set<string>();
 const fileRefs: Record<string, string[]> = {};
 
 for (const file of walk(root)) {
+  if (file === SELF) continue;
   const src = readFileSync(file, 'utf8');
   for (const m of src.matchAll(ENV_RE)) {
     const name = m[1] ?? m[2];

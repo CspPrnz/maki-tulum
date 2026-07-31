@@ -18,15 +18,15 @@
 
 ## What "tenant-scoped" means in practice
 
-| Layer | Rule |
-|---|---|
-| Schema | Every domain table has `account_id UUID NOT NULL` |
-| Indexes | `account_id` is the leading column (or part of) every multi-column index |
-| Repository functions | Take `accountId` as the first parameter; can't be omitted |
-| Handlers | Resolve `accountId` once from the JWT subject claim, pass to repos |
-| Joins | Always include `account_id = account_id` even when foreign-key constrained |
-| Audit log | Every entry has `account_id`; viewing log is account-scoped |
-| Tests | Cross-tenant integration test exists for every list/get endpoint |
+| Layer                | Rule                                                                       |
+| -------------------- | -------------------------------------------------------------------------- |
+| Schema               | Every domain table has `account_id UUID NOT NULL`                          |
+| Indexes              | `account_id` is the leading column (or part of) every multi-column index   |
+| Repository functions | Take `accountId` as the first parameter; can't be omitted                  |
+| Handlers             | Resolve `accountId` once from the JWT subject claim, pass to repos         |
+| Joins                | Always include `account_id = account_id` even when foreign-key constrained |
+| Audit log            | Every entry has `account_id`; viewing log is account-scoped                |
+| Tests                | Cross-tenant integration test exists for every list/get endpoint           |
 
 ## Tables NOT scoped to `account_id`
 
@@ -37,4 +37,4 @@
 
 ## Related
 
-- ADR 0008 — defense layers that ensure tenant isolation is *actually* enforced even when a developer forgets.
+- ADR 0008 — defense layers that ensure tenant isolation is _actually_ enforced even when a developer forgets.
