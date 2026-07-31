@@ -12,9 +12,9 @@ Felix asked for the Innovation Factory ways-of-working ported in, then for Phase
 
 **Five streams**, contracts pinned in [`../backlog/plans/wp1-phase0-exit.md`](../backlog/plans/wp1-phase0-exit.md) before fan-out: persistence, integration tests, observability, deploy/supply-chain, and Phase 1B content. A sixth produced the channel-manager and legal-entity briefs.
 
-**Three gates were decorative, and three separate false-greens had to be cleared before CI actually passed** (see lessons-learned; the last one was turbo stripping `DATABASE_URL` while the tests papered over it with a hardcoded local database name).
-
 **Three gates were decorative.** CI had failed on every run since Phase 0 because `check-env` died at step one, so nothing after it ever ran. `pnpm lint` could not fail — every script ended in `|| true` and no eslint config existed. And `services/api`'s lint glob never covered `test/`. All three fixed and now real.
+
+**Three separate false-greens had to be cleared before CI actually passed**, each a layer below the last: `check-env` never ran, then nothing migrated CI's fresh container, then turbo's strict env mode stripped `DATABASE_URL` while the repository tests papered over it with a hardcoded local database name. Every one of them made a local green an artifact of local state. The habit that catches this is verifying in **both** directions — a check that passes whether or not the thing under test is configured is not a check.
 
 **Both review passes found defects in orchestrator-authored code, not the workers'** — see [`../lessons-learned.md`](../lessons-learned.md) for the six new rows. The two that mattered most: `/readyz` crashed the process instead of reporting 503 (unhandled pg pool `'error'`), and `pnpm verify` could never have mirrored CI because nothing migrated CI's fresh container. Both were reproduced before fixing.
 
