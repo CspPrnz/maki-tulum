@@ -55,7 +55,7 @@ Legend: 🟢 done · 🟡 in progress · 🔴 blocked · ⚪ planned · ⏸ defe
 
 | Decision | Options | Owner | Due |
 |---|---|---|---|
-| Channel manager | ~~Hostaway vs. Hospitable~~ → **Hosthub vs. Hostaway** (paused, ADR 0004) | Felix | Phase 3 kickoff (don't pay until live) |
+| Channel manager | **Hosthub vs. Hostaway** — **deferred again 2026-07-31 (Felix): not paying for a trial until it's needed.** Capability contract + sandbox plan are written and waiting ([`plans/channel-manager-capability-contract.md`](plans/channel-manager-capability-contract.md)). **Consequence: the Phase 2 availability/rates/inventory schema stays unfrozen** — MRT-15-P0-02 is deferred, not resolved | Felix | Before any inventory/availability schema work |
 | ~~Email provider~~ | ~~Postmark vs. Brevo~~ — **decided** (ADR 0012): Brevo (multi-channel, EU-based) | Felix | ~~Start of Phase 1~~ ✅ |
 | ~~Admin location~~ | ~~`/admin` vs. separate~~ — **decided** (ADR 0010): separate `apps/admin` at `admin.makitulum.com` behind Cloudflare Access | Felix | ~~Phase 3 kickoff~~ ✅ |
 | DB host | Railway-managed Postgres vs. Neon | Felix | End of Phase 0 |
@@ -136,7 +136,7 @@ First adversarial pass against `idea-v3.md` + `implementation-plan.md` (see [`pl
 | ID | Finding | Objective |
 |---|---|---|
 | MRT-15-P0-01 | ~~T−30 manual capture can't survive a 7-day authorization window~~ | **Resolved 2026-07-31 → [ADR 0016](../adrs/0016-deposit-and-off-session-balance.md) (proposed).** Captured deposit + off-session balance charge, SCA recovery, dunning ladder, ledger as source of truth. Needs Felix's accept |
-| MRT-15-P0-02 | Channel-manager selection deferred past the point it defines the availability/rates schema | **Decision-ready 2026-07-31** → [capability contract](plans/channel-manager-capability-contract.md). Still needs Felix to run the sandbox trial and pick. WP-1's migration deliberately omits inventory tables until then |
+| MRT-15-P0-02 | Channel-manager selection deferred past the point it defines the availability/rates schema | **Still open — deliberately.** Felix deferred the vendor trial on cost grounds (2026-07-31). The [capability contract](plans/channel-manager-capability-contract.md) is written so the trial is cheap when it happens. **The finding stands:** any Phase 2 work that models availability, rates, or inventory is blocked until a vendor is validated. Booking work that does *not* touch inventory shape can proceed |
 | MRT-15-P0-03 | "One-file adapter swap" understates how much vendor semantics shape checkout | **Resolved 2026-07-31** — 8 outcome-level assertions in the [capability contract](plans/channel-manager-capability-contract.md) |
 | MRT-15-P0-04 | Legal entity/payments jurisdiction constrains Phase 2 checkout | **Decision-ready 2026-07-31** → [legal-entity-brief.md](plans/legal-entity-brief.md). Felix's decision + counsel |
 | MRT-15-P0-05 | Consent scope open while Phase 2 expands data collection | **Decision-ready 2026-07-31** → [consent-data-map.md](plans/consent-data-map.md). Felix's decision + counsel |
