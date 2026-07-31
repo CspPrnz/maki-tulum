@@ -1,7 +1,7 @@
 ---
 id: wp1-phase0-exit
 title: Close Phase 0 — persistence, integration tests, observability, deploy readiness
-status: draft # draft | approved | in_progress | blocked | done
+status: in_progress # draft | approved | in_progress | blocked | done
 phase: 0
 owner: orchestrator
 created: 2026-07-31
@@ -133,12 +133,14 @@ Claims are not evidence. Every row is re-run by the orchestrator, not taken from
 
 ## Close-out checklist
 
-- [ ] `pnpm verify` green on the integrated tree
-- [ ] `verifier` pass on the diff; `security-reviewer` pass (this WP touches tenancy and the DB layer)
-- [ ] `docs/backlog/TODO.MD` status updated in the same commit
-- [ ] `docs/feature-matrix.md` rows updated in the same commit
-- [ ] `CLAUDE.md` Current state reconciled
-- [ ] Lessons appended to `docs/lessons-learned.md` (or explicitly none)
-- [ ] ADR for anything a future maintainer would question
-- [ ] Handoff written + indexed
-- [ ] `status: done` set above
+- [x] `pnpm verify` green on the integrated tree — 97 tests, migration inside the gate
+- [x] `verifier` + `security-reviewer` passes on the full diff; all P1s fixed with regression tests
+- [x] `docs/backlog/TODO.MD` status updated
+- [x] `docs/feature-matrix.md` rows updated
+- [x] `CLAUDE.md` Current state reconciled
+- [x] Six lessons appended to `docs/lessons-learned.md`
+- [x] ADR 0016 written (payment capture redesign)
+- [x] Handoff written + indexed
+- [ ] `status: done` — **held open deliberately.** Phase 0's exit criterion is a deployed
+      `/healthz` returning 200, and no Railway project exists. Streams A–D are complete;
+      the phase is not. Close this when staging responds.
