@@ -35,4 +35,25 @@ export default tseslint.config(
     files: ['**/*.test.ts', '**/*.test.tsx', '**/test/**', 'scripts/**'],
     rules: { 'no-console': 'off' },
   },
+  {
+    // ADR 0008 names this as an enforcement layer, but it never existed —
+    // handlers could import `db` and quietly skip the account_id filter that
+    // is the entire tenant boundary. Repositories take accountId first; route
+    // handlers go through them.
+    files: ['services/api/src/routes/**', 'services/api/src/middleware/**'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/db/index.js', '**/db/index', '**/db/schema.js', '**/db/schema'],
+              message:
+                'Handlers call repositories, never db directly (ADR 0008). Every tenant-scoped query needs an explicit account_id filter.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 );

@@ -11,20 +11,40 @@ const userColumns = {
   updatedAt: users.updatedAt,
 };
 
+/**
+ * Emails are stored and compared lowercased. Postgres `=` is case-sensitive, so
+ * without this `Guest@example.test` and `guest@example.test` are two rows that
+ * the unique index happily allows — which under magic-link auth (ADR 0005) is a
+ * shadow-account waiting to happen. Normalizing in one place keeps the write
+ * path and every lookup in agreement.
+ */
+export function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
 // users carries no account_id (ADR 0007) — a user's tenancy is expressed via
-// account_memberships, so these lookups are unscoped by design.
-export async function findUserById(id: string): Promise<User | null> {
+// account_memberships, so these lookups are unscoped by design. The `Unscoped`
+// suffix is deliberate: these must never be mistaken for an authorization
+// check, and the safe, tenant-scoped calls below should be the shorter names.
+export async function findUserByIdUnscoped(id: string): Promise<User | null> {
   const rows = await db.select().from(users).where(eq(users.id, id)).limit(1);
   return rows[0] ?? null;
 }
 
-export async function findUserByEmail(email: string): Promise<User | null> {
-  const rows = await db.select().from(users).where(eq(users.email, email)).limit(1);
+export async function findUserByEmailUnscoped(email: string): Promise<User | null> {
+  const rows = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, normalizeEmail(email)))
+    .limit(1);
   return rows[0] ?? null;
 }
 
 export async function createUser(input: NewUser): Promise<User> {
-  const rows = await db.insert(users).values(input).returning();
+  const rows = await db
+    .insert(users)
+    .values({ ...input, email: normalizeEmail(input.email) })
+    .returning();
   const user = rows[0];
   if (!user) {
     throw new Error('createUser: insert returned no row');

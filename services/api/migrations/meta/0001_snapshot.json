@@ -1,6 +1,6 @@
 {
-  "id": "df4ab4fb-0724-42db-9e73-98d4cd6bc069",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "618814ab-671e-4ea6-bf1e-f507c21ab2a1",
+  "prevId": "df4ab4fb-0724-42db-9e73-98d4cd6bc069",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -314,13 +314,13 @@
         }
       },
       "indexes": {
-        "users_email_key": {
-          "name": "users_email_key",
+        "users_email_lower_key": {
+          "name": "users_email_lower_key",
           "columns": [
             {
-              "expression": "email",
-              "isExpression": false,
+              "expression": "lower(\"email\")",
               "asc": true,
+              "isExpression": true,
               "nulls": "last"
             }
           ],

@@ -61,6 +61,15 @@ jobs:
       - name: lint
         run: pnpm lint
 
+      # The repository tests query real tables, so a fresh service container
+      # must be migrated first. Without this the suite passes locally (dev DB
+      # already migrated) and fails on CI — which is exactly how a green local
+      # gate stops mirroring CI.
+      - name: db migrate
+        env:
+          DATABASE_URL: postgres://maki:maki@localhost:5432/maki_test
+        run: pnpm --filter @maki/api db:migrate
+
       - name: test
         env:
           DATABASE_URL: postgres://maki:maki@localhost:5432/maki_test

@@ -15,7 +15,27 @@ let sentryInitialized = false;
 
 function initClientSentry(): void {
   if (!SENTRY_DSN || sentryInitialized) return;
-  Sentry.init({ dsn: SENTRY_DSN, tracesSampleRate: 0 });
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    tracesSampleRate: 0,
+    // Mirrors the API's scrubbing (services/api/src/observability.ts). Nothing
+    // to leak today — the site is static marketing with no forms — but Phase 2
+    // puts guest email and dates into fetch URLs, which the browser SDK records
+    // as breadcrumbs by default. Landing this now means the booking form can't
+    // silently start exfiltrating on the day it ships.
+    sendDefaultPii: false,
+    beforeBreadcrumb: () => null,
+    beforeSend(event) {
+      delete event.user;
+      if (event.request) {
+        delete event.request.cookies;
+        delete event.request.headers;
+        delete event.request.data;
+        event.request.url = event.request.url?.split('?')[0];
+      }
+      return event;
+    },
+  });
   sentryInitialized = true;
 }
 

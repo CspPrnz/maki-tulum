@@ -34,33 +34,63 @@ Run these once, in order, from the repo root.
    - Set BUILD variables (see table below) — **this is the step most likely to be gotten wrong**, see the callout after the table.
    - Set healthcheck path to `/healthz`.
 8. **First deploy**: `railway up --detach` for each service, then immediately `railway logs` — `--detach` returns success even when the build is failing, so a missing `railway logs` check is a false-green (Civion Safe lesson).
-9. **Wire DNS** (see DNS section below) once the first deploy is healthy.
-10. **Set the CI staging variables** (`STAGING_WEB_URL`, `STAGING_API_URL`) in GitHub → repo Settings → Secrets and variables → Actions → Variables, once `staging.makitulum.com` / `api.staging.makitulum.com` resolve. This turns on the `smoke` job in `.github/workflows/ci.yml` — it no-ops until these are set.
-11. **Run `pnpm check-env`** against the real Railway env var list before the first production promotion — it greps the codebase for `process.env` references and flags anything undeclared or misnamed.
+9. **Apply migrations against the Railway Postgres** — nothing does this automatically:
+
+   ```bash
+   railway run --service api pnpm --filter @maki/api db:migrate
+   ```
+
+   Verify it took, rather than trusting the command's exit code:
+
+   ```bash
+   railway run --service api psql "$DATABASE_URL" -c '\dt'
+   # expect: accounts, users, account_memberships, properties
+   ```
+
+   Until Phase 2 no handler queries the database, so a missed migration looks
+   fine — `/healthz` passes and `/readyz` only runs `select 1`, which succeeds
+   against an empty schema. It surfaces as the first booking endpoint 500ing.
+   Run this before wiring DNS, not after.
+
+   **Migrations are a deliberate manual step, not a release hook.** A migration
+   that runs automatically on every deploy will eventually run a destructive one
+   during a rollback. Revisit when there is a staging environment to rehearse in.
+
+10. **Wire DNS** (see DNS section below) once the first deploy is healthy.
+11. **Set the CI staging variables** (`STAGING_WEB_URL`, `STAGING_API_URL`) in GitHub → repo Settings → Secrets and variables → Actions → Variables, once `staging.makitulum.com` / `api.staging.makitulum.com` resolve. This turns on the `smoke` job in `.github/workflows/ci.yml` — it no-ops until these are set.
+12. **Run `pnpm check-env`** against the real Railway env var list before the first production promotion — it greps the codebase for `process.env` references and flags anything undeclared or misnamed.
 
 ## BUILD-time vs RUNTIME variables
 
 This is the single most common Railway mistake on this stack (Civion Safe lesson, repeated in `CLAUDE.md`): **`NEXT_PUBLIC_*` values are inlined into the JS bundle at build time.** Setting them as Railway "runtime" variables does nothing — the code that reads `process.env.NEXT_PUBLIC_X` doesn't exist anymore by the time the container runs; it's already been replaced with whatever was present (or `undefined`) when `pnpm build` ran. Changing a `NEXT_PUBLIC_*` value requires a **rebuild**, not just a redeploy/restart.
 
-| Variable                                        | Service | Scope     | Notes                                                                                           |
-| ----------------------------------------------- | ------- | --------- | ----------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_API_URL`                           | web     | **BUILD** | e.g. `https://api.makitulum.com` (prod) / `https://api.staging.makitulum.com` (staging)         |
-| `NEXT_PUBLIC_SITE_URL`                          | web     | **BUILD** | canonical/hreflang base URL                                                                     |
-| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`                  | web     | **BUILD** | optional                                                                                        |
-| `NEXT_PUBLIC_SENTRY_DSN`                        | web     | **BUILD** | optional                                                                                        |
-| `NODE_ENV`                                      | both    | runtime   | `production`                                                                                    |
-| `APP_ENV`                                       | both    | runtime   | `staging` \| `production`                                                                       |
-| `PORT`                                          | api     | runtime   | Railway injects this; don't hardcode                                                            |
-| `DATABASE_URL`                                  | api     | runtime   | injected by the `postgres` plugin                                                               |
-| `REDIS_URL`                                     | api     | runtime   | injected by the `redis` plugin                                                                  |
-| `JWT_PRIVATE_KEY` / `JWT_PUBLIC_KEY`            | api     | runtime   | real keys, not the dev placeholders in `.env.example`                                           |
-| `CORS_ORIGINS`                                  | api     | runtime   | comma-separated; **staging** = staging web domain only, **production** excludes any `localhost` |
-| `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET`   | api     | runtime   | required once payments land; optional pre-Phase-2                                               |
-| `HOSTAWAY_CLIENT_ID` / `HOSTAWAY_CLIENT_SECRET` | api     | runtime   | optional pre-channel-manager                                                                    |
-| `BREVO_API_KEY`                                 | api     | runtime   | transactional email + WhatsApp (ADR 0012)                                                       |
-| `SENTRY_DSN`                                    | api     | runtime   | optional                                                                                        |
+| Variable                                        | Service | Scope     | Notes                                                                                   |
+| ----------------------------------------------- | ------- | --------- | --------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL`                           | web     | **BUILD** | e.g. `https://api.makitulum.com` (prod) / `https://api.staging.makitulum.com` (staging) |
+| `NEXT_PUBLIC_SITE_URL`                          | web     | **BUILD** | canonical/hreflang base URL                                                             |
+| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`                  | web     | **BUILD** | optional                                                                                |
+| `NEXT_PUBLIC_SENTRY_DSN`                        | web     | **BUILD** | optional                                                                                |
+| `NODE_ENV`                                      | both    | runtime   | `production`                                                                            |
+| `APP_ENV`                                       | both    | runtime   | `staging` \| `production`                                                               |
+| `PORT`                                          | api     | runtime   | Railway injects this; don't hardcode                                                    |
+| `DATABASE_URL`                                  | api     | runtime   | injected by the `postgres` plugin                                                       |
+| `REDIS_URL`                                     | api     | runtime   | injected by the `redis` plugin                                                          |
+| `JWT_PRIVATE_KEY` / `JWT_PUBLIC_KEY`            | api     | runtime   | real keys, not the dev placeholders in `.env.example`                                   |
+| `CORS_ORIGINS`                                  | api     | runtime   | comma-separated. **Required** — see callout below                                       |
+| `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET`   | api     | runtime   | required once payments land; optional pre-Phase-2                                       |
+| `HOSTAWAY_CLIENT_ID` / `HOSTAWAY_CLIENT_SECRET` | api     | runtime   | optional pre-channel-manager                                                            |
+| `BREVO_API_KEY`                                 | api     | runtime   | transactional email + WhatsApp (ADR 0012)                                               |
+| `SENTRY_DSN`                                    | api     | runtime   | optional                                                                                |
 
 In the Railway dashboard: web service → Variables tab → toggle each `NEXT_PUBLIC_*` entry to "Build Variable" (not the default "Service Variable"). Confirm by triggering a rebuild and checking the deployed bundle actually contains the new value (`curl` the page and grep, or check `view-source`) — a variable saved as runtime-only will silently produce `undefined` in the client bundle with no build error.
+
+### `CORS_ORIGINS` fails closed
+
+The api **will not start** if `CORS_ORIGINS` resolves to an empty list while `APP_ENV` is `staging` or `production`. If a deploy dies with `CORS_ORIGINS is empty for APP_ENV=…`, that is the intended behaviour, not a bug.
+
+Two ways to hit it: leaving the variable unset (it defaults to empty), or setting it to a loopback-only value in production, which the loopback filter then strips to nothing. Set it to the real web origin — `https://makitulum.com` in production, `https://staging.makitulum.com` in staging.
+
+This is deliberate. The previous code fell back to reflecting whatever `Origin` the caller sent while `credentials: true` was set, so a one-line misconfiguration silently became allow-any-origin. Refusing to boot is the safe direction.
 
 ## DNS records
 

@@ -6,8 +6,13 @@ process.env['DATABASE_URL'] ??= 'postgres://maki:maki@localhost:5432/maki';
 const { eq, inArray } = await import('drizzle-orm');
 const { db } = await import('../index.js');
 const { accountMemberships, accounts, users } = await import('../schema.js');
-const { createUser, findUserByEmail, findUserById, findUserInAccount, listUsersForAccount } =
-  await import('./users.js');
+const {
+  createUser,
+  findUserByEmailUnscoped,
+  findUserByIdUnscoped,
+  findUserInAccount,
+  listUsersForAccount,
+} = await import('./users.js');
 
 const createdUserIds: string[] = [];
 const createdAccountIds: string[] = [];
@@ -54,16 +59,16 @@ describe('users repository', () => {
 
     expect(created.email).toBe(email);
 
-    const byId = await findUserById(created.id);
+    const byId = await findUserByIdUnscoped(created.id);
     expect(byId).toMatchObject({ id: created.id, email });
 
-    const byEmail = await findUserByEmail(email);
+    const byEmail = await findUserByEmailUnscoped(email);
     expect(byEmail).toMatchObject({ id: created.id, email });
   });
 
   it('returns null when looking up a non-existent user', async () => {
-    expect(await findUserById(randomUUID())).toBeNull();
-    expect(await findUserByEmail(`nobody+${randomUUID()}@example.test`)).toBeNull();
+    expect(await findUserByIdUnscoped(randomUUID())).toBeNull();
+    expect(await findUserByEmailUnscoped(`nobody+${randomUUID()}@example.test`)).toBeNull();
   });
 
   it('findUserInAccount only returns the user when a membership exists for that account', async () => {

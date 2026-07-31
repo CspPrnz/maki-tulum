@@ -24,20 +24,35 @@ export function defaultHealthDeps(env: ApiEnv): HealthDeps {
   return {
     pingDb: env.DATABASE_URL
       ? async () => {
-          pool ??= new Pool({
-            connectionString: env.DATABASE_URL,
-            connectionTimeoutMillis: 1000,
-            max: 1,
-          });
+          if (!pool) {
+            pool = new Pool({
+              connectionString: env.DATABASE_URL,
+              connectionTimeoutMillis: 1000,
+              max: 1,
+            });
+            // An unhandled 'error' event on the pool exits the process, so a
+            // stopped Postgres would kill the API rather than let /readyz
+            // report 503 — the readiness probe taking down the thing it
+            // reports on. Same reason as the handler in db/index.ts.
+            pool.on('error', (err) => {
+              console.error('[readyz] idle db client error', err.message);
+            });
+          }
           await pool.query('select 1');
         }
       : null,
     pingRedis: env.REDIS_URL
       ? async () => {
-          redis ??= new Redis(env.REDIS_URL, {
-            maxRetriesPerRequest: 1,
-            lazyConnect: true,
-          });
+          if (!redis) {
+            redis = new Redis(env.REDIS_URL, {
+              maxRetriesPerRequest: 1,
+              lazyConnect: true,
+            });
+            // ioredis emits 'error' on connection loss; unhandled it is fatal.
+            redis.on('error', (err) => {
+              console.error('[readyz] redis client error', err.message);
+            });
+          }
           await redis.ping();
         }
       : null,

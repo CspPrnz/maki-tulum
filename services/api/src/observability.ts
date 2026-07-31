@@ -18,12 +18,20 @@ export function initObservability(env: ApiEnv): void {
     // Without this, wiring Sentry silently makes it the stack's first PII
     // processor. Scrubbed here rather than in Sentry's UI so it's reviewable.
     sendDefaultPii: false,
+    // Breadcrumbs bypass beforeSend's field deletions entirely. @sentry/node v8
+    // turns every console.* call into a breadcrumb, and a Postgres unique
+    // violation carries the offending value in its detail ("Key (email)=(…)"),
+    // so a guest email would ride along attached to the very event being sent.
+    // We keep no breadcrumbs at all — there is no diagnostic here worth the risk.
+    beforeBreadcrumb: () => null,
     beforeSend(event) {
       delete event.user;
       if (event.request) {
         delete event.request.cookies;
         delete event.request.headers;
         delete event.request.data;
+        // Query strings carry the SCA-recovery token from ADR 0016.
+        event.request.url = event.request.url?.split('?')[0];
       }
       return event;
     },

@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import { pgEnum, pgTable, index, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 
@@ -22,7 +23,11 @@ export const users = pgTable(
     name: text('name'),
     ...timestamps,
   },
-  (table) => [uniqueIndex('users_email_key').on(table.email)],
+  // Uniqueness is on lower(email): Postgres `=` is case-sensitive, so a plain
+  // index lets Guest@… and guest@… coexist as separate identities. Writes go
+  // through normalizeEmail(); the functional index is the backstop that holds
+  // even if a future caller forgets.
+  (table) => [uniqueIndex('users_email_lower_key').on(sql`lower(${table.email})`)],
 );
 
 // Values mirror the canonical `Role` enum in packages/types/src/index.ts —

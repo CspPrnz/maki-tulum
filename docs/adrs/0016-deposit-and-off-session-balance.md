@@ -60,6 +60,43 @@ Two independent payments against one booking ledger.
 - Webhook handling for `payment_intent.succeeded` / `.payment_failed` / `.requires_action` is the authoritative signal — never poll, never trust the client.
 - The BullMQ job is a _trigger_, not a decision-maker: it re-reads booking state and exits if the balance is already settled.
 
+## Security review corrections (2026-07-31)
+
+A security review of the first draft found three under-specified areas where the gap itself invites the insecure implementation. Folded in rather than left to whoever builds this.
+
+### The SCA-recovery link is a bearer credential to a page that charges a card
+
+The draft said only "send the guest a magic link." That is not a specification, and the obvious reading collides with ADR 0005: a 15-minute TTL is wrong for a dunning email someone opens the next morning, and stretching it produces a long-lived unauthenticated credential to a payment page.
+
+Binding rules:
+
+- **Single-use, and bound to `(booking_id, payment_intent_id)`** — not to the guest generally. Replaying it after settlement must be inert, not a second charge attempt.
+- **TTL ≤ 24h**, deliberately longer than ADR 0005's 15 minutes because the use case is a scheduled dunning email, not an interactive login. Record that divergence where the token is issued.
+- **Delivered as a path segment or POST body, never a query parameter.** Query strings end up in logs, referrers, and (before the scrubbing added in `services/api/src/observability.ts`) Sentry.
+- **Rate-limited per booking**, and the page shows only what is needed to authorize — amount and card last4 — not the full booking record. The link travels by email and gets forwarded; treat everything it reveals as public to whoever holds it.
+
+### "Idempotency keys on every charge attempt" was underspecified in the way that permits double-charging
+
+Stripe's idempotency only protects you when both attempts derive the **same** key. The draft never said what the key derives from, and a per-attempt UUID — the natural implementation — makes two concurrent requests look distinct to Stripe and charges the guest twice.
+
+- **Key derivation is fixed:** `hash(booking_id, 'balance', dunning_attempt_number)`. Same logical attempt ⇒ same key, always.
+- **The state check must be a conditional write**, not a read followed by a call: `UPDATE payments SET status='charging' WHERE booking_id=$1 AND status='balance_pending' RETURNING …`, and only proceed if a row came back. The draft's "job re-reads booking state and exits if already settled" is check-then-act and races a late webhook.
+- **Stripe idempotency keys expire after 24 hours**, so the +3d and +7d dunning rungs are not covered by Stripe at all. The database guard carries that weight alone, which is precisely why it must be a conditional write.
+
+### Quote immutability must anchor to what the guest saw, not to what we stored
+
+`deposit + balance == stored total` proves internal consistency, not honesty. The gap is between render and submit: if the booking POST carries the price — or anything we re-derive it from — a guest can submit a cheaper quote than the page displayed.
+
+- The server issues a **signed, server-persisted quote id** at render time.
+- The booking POST references that id and **carries no money fields at all**.
+- The server recomputes from the stored quote and rejects on expiry.
+
+That is the property the invariant test should assert. It is also the only version of MRT-15-P1-08 that actually holds.
+
+### Email normalization is a prerequisite
+
+The Stripe Customer is keyed to the guest email. Two case variants would otherwise produce two Customers, or attach a new booking's saved payment method to a record the guest didn't intend. Handled in migration `0002` (unique on `lower(email)`) plus `normalizeEmail` on the write path — but it is load-bearing for this ADR, not incidental.
+
 ## Open before build
 
 - Card-only for v1, or does OXXO/MercadoPago ship in Phase 2? (Blocks the voucher-path decision above.)

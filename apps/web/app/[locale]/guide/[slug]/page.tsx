@@ -5,6 +5,7 @@ import { SUPPORTED_LOCALES } from '@maki/i18n';
 import { Container, Heading } from '@maki/ui';
 import { isLocale, getTranslations, buildAlternates } from '@/lib/i18n';
 import { getGuideTopic, listGuideTopics } from '@/content/guide';
+import { serializeLd } from '@/components/jsonld';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -60,7 +61,7 @@ export default async function GuideArticlePage({ params }: Props) {
     <Container width="default" className="py-20 md:py-28">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeLd(articleLd) }}
       />
 
       <Link
