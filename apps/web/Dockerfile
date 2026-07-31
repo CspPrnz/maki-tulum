@@ -16,7 +16,9 @@ COPY packages/i18n/package.json ./packages/i18n/
 COPY packages/ui/package.json ./packages/ui/
 RUN pnpm install --frozen-lockfile --filter @maki/web...
 
-FROM base AS build
+# FROM deps, not FROM base: pnpm puts each package's binaries in its own
+# node_modules/.bin, so copying only the root node_modules loses `next`.
+FROM deps AS build
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ARG NEXT_PUBLIC_PLAUSIBLE_DOMAIN
@@ -28,14 +30,17 @@ ENV NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN
 # entire purpose is organic direct booking.
 ARG NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
-COPY --from=deps /app/node_modules ./node_modules
 COPY tsconfig.base.json ./
 COPY packages/config ./packages/config
 COPY packages/types ./packages/types
 COPY packages/i18n ./packages/i18n
 COPY packages/ui ./packages/ui
 COPY apps/web ./apps/web
-RUN pnpm --filter @maki/web build
+# config and types now publish compiled dist rather than TS source, so they must
+# be built before Next resolves them.
+RUN pnpm --filter @maki/config build \
+  && pnpm --filter @maki/types build \
+  && pnpm --filter @maki/web build
 
 FROM base AS runtime
 ENV NODE_ENV=production
