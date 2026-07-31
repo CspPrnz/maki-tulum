@@ -54,16 +54,55 @@
     }
   },
   "compound": {
-    "stub_heading": "El complejo",
-    "stub_body": "Un texto más largo sobre el lugar, la gente y un día en Maki llega en la siguiente actualización de contenido."
+    "hero_eyebrow": "Aldea Zama, Tulum",
+    "headline": "Un complejo, no un hotel.",
+    "intro_body": "Maki es una sola propiedad con muchas casas adentro — jardines, una alberca compartida, caminos tranquilos entre las villas, sin recepción entre tú y el portón. Está pensado para quienes quieren una casa para la semana, no un cuarto con pasillo afuera. La gente que pasa por aquí es una mezcla de residentes que viven todo el año y huéspedes de paso — de todos lados, porque nadie en nuestro equipo viene de un solo lugar tampoco.",
+    "location_heading": "Dónde quedamos",
+    "location_body": "Estamos en Aldea Zama, una colonia residencial planeada entre el centro agitado de Tulum y la playa — lo bastante cerca para llegar a cualquiera de los dos en minutos, lo bastante lejos para que se mantenga tranquilo de noche. En coche son unos 7 minutos a las ruinas, 10 a los beach clubs, 5 a un cenote.",
+    "design_heading": "Cómo está construido",
+    "design_body": "Paredes de aplanado blanco, cercas de bambú en vez de muros de block donde se pudo, y la selva dejada en pie sobre las albercas en lugar de despejada para poner pasto. Los pisos son concreto pulido y terrazo, frescos incluso al mediodía.",
+    "stays_heading": "Diez casas, un mismo complejo",
+    "stays_body": "Diez casas comparten el terreno — villas y departamentos, cada uno con su propia entrada dentro de los mismos muros. Dos están abiertas para reservar hoy, Villa 18 y Villa 19; el resto se suma en los próximos meses conforme terminamos de fotografiarlas.",
+    "cta": "Ver las casas",
+    "photos_heading": "El terreno"
   },
   "days": {
-    "stub_heading": "Los días",
-    "stub_body": "Mañanas, días, noches — el ritmo de una semana aquí. Llega en la siguiente actualización."
+    "eyebrow": "Una semana en Maki",
+    "headline": "Mañanas, días, noches.",
+    "intro_body": "No te dan un horario al llegar, pero la mayoría de las semanas aquí caen en el mismo ritmo fácil — el complejo despierta despacio, la mitad del día es del agua y de la selva más allá del portón, y las noches se vuelven tranquilas otra vez cuando se va la luz.",
+    "mornings_heading": "Mañanas",
+    "mornings_body": "El complejo está en su punto más tranquilo antes de las nueve — primero los pájaros, luego el skimmer de la alberca arrancando en algún lugar del jardín. Es la mejor hora para tener la azotea para ti solo antes de que empiece el día.",
+    "days_heading": "Días",
+    "days_body": "El mediodía es para el agua — la alberca a unos pasos de tu puerta, o el mar a unos diez minutos si quieres arena bajo los pies. Los cenotes están lo bastante cerca para una excursión de medio día sin perder la tarde, y las ruinas son un viaje corto y sin prisa si prefieres la historia antes de comer que después.",
+    "nights_heading": "Noches",
+    "nights_body": "Las noches llegan con menos ruido del que esperarías tan cerca de un pueblo de fiesta — sobre todo cigarras, la luz de la alberca encendiéndose. La azotea es donde terminan la mayoría de las noches, con hamaca o sin ella, viendo el cielo pasar de naranja a la clase de oscuridad que no se ve en una ciudad.",
+    "cta_heading": "Planea tus días",
+    "cta_body": "La Guía tiene los detalles — cenotes, beach clubs, cómo moverte — para cuando estés listo para bajar de la azotea.",
+    "cta_label": "Abrir la guía"
   },
   "guide": {
-    "stub_heading": "La guía",
-    "stub_body": "Cenotes, beach clubs, restaurantes, transporte, agua — escrito desde adentro, no copiado de un buscador. Pronto."
+    "index_eyebrow": "La guía",
+    "index_headline": "Tulum, desde adentro.",
+    "index_sub": "Cenotes, beach clubs, restaurantes, cómo moverte, seguridad en el agua — escrito por gente a veinte minutos de todo eso, no sacado de una página de resultados. Lo vamos armando tema por tema; esto es lo que ya está listo.",
+    "coming_soon": "Próximamente",
+    "read_article": "Leer",
+    "back_to_guide": "La guía",
+    "cenotes": {
+      "heading": "Cenotes cerca de Aldea Zama",
+      "intro": "Aldea Zama queda tierra adentro, lejos de la playa, así que el arrecife no es la única agua que vale la pena aquí — los cenotes están cerca, y para muchos huéspedes medio día en uno gana por mucho a un día entero peleando el gentío de los beach clubs.",
+      "what_is_a_cenote_heading": "Qué es un cenote, en realidad",
+      "what_is_a_cenote_body": "La península de Yucatán casi no tiene ríos en la superficie — la roca caliza es demasiado porosa, así que el agua se mueve por debajo, y un cenote es donde el techo de ese sistema subterráneo se derrumbó o se abrió. Algunos son pozos abiertos llenos de luz, algunos son mitad cueva y mitad cielo, y otros son cuevas completamente cerradas a las que se entra nadando con una lámpara. Todos se consideraron tierra sagrada mucho antes de ser parada de un tour.",
+      "getting_there_heading": "Cómo llegar",
+      "getting_there_body": "El más cercano es un viaje corto desde el complejo — lo bastante cerca para que no te coma el día completo. Pregúntanos antes de ir; cuál cenote está más tranquilo cambia según la temporada y el día de la semana, y preferimos indicarte el correcto que dejarte adivinar.",
+      "etiquette_heading": "Antes de meterte",
+      "etiquette_body": "En todos los cenotes que conocemos solo se permite bloqueador biodegradable, seguro para el arrecife — el bloqueador normal deja una película que el agua cerrada y de poco movimiento no puede limpiar como sí lo hace el mar. Enjuágate si usaste bloqueador normal antes, y evita el repelente justo antes de nadar, por la misma razón.",
+      "safety_heading": "En el agua",
+      "safety_body": "Casi siempre hay chalecos salvavidas disponibles y vale la pena usarlos aunque nades bien — el agua suele estar más fría y más profunda de lo que parece desde la plataforma, y las secciones de cueva pueden desorientar hasta a quien nunca se pondría nervioso en agua abierta. Si el cenote ofrece guía para las secciones de cueva, tómalo.",
+      "timing_heading": "Cuándo ir",
+      "timing_body": "Más temprano es mejor — antes de que lleguen los camiones de turistas desde la costa, la luz es mejor para fotos, y muchas veces tienes tramos enteros del agua para ti.",
+      "closing_heading": "Más en camino",
+      "closing_body": "Esta es la primera de varias guías que estamos armando — beach clubs, restaurantes y cómo moverte vienen después. Si quieres recomendaciones antes de que las publiquemos, escríbenos y te respondemos el mismo día."
+    }
   },
   "book": {
     "stub_heading": "Reservar una casa",

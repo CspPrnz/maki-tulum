@@ -54,16 +54,55 @@
     }
   },
   "compound": {
-    "stub_heading": "Die Anlage",
-    "stub_body": "Ein längerer Text über den Ort, die Leute und einen Tag bei Maki kommt mit dem nächsten Content-Update."
+    "hero_eyebrow": "Aldea Zama, Tulum",
+    "headline": "Eine Anlage, kein Hotel.",
+    "intro_body": "Maki ist ein einziges Grundstück mit vielen Häusern darin — Gärten, ein gemeinsamer Poolbereich, ruhige Wege zwischen den Villen, keine Rezeption zwischen dir und dem Tor. Gebaut für Leute, die ein Haus für die Woche wollen, kein Zimmer mit Flur davor. Die Menschen hier sind eine Mischung aus Bewohnern, die das ganze Jahr hier leben, und Gästen auf Durchreise — von überall, denn auch niemand in unserem Team kommt nur von einem Ort.",
+    "location_heading": "Wo wir liegen",
+    "location_body": "Wir sind in Aldea Zama, einem geplanten Wohnviertel zwischen dem belebten Zentrum von Tulum und dem Strand — nah genug, um beides in Minuten zu erreichen, weit genug, dass es nachts ruhig bleibt. Mit dem Auto sind es etwa 7 Minuten zu den Ruinen, 10 zu den Beach Clubs, 5 zu einer Cenote.",
+    "design_heading": "Wie es gebaut ist",
+    "design_body": "Weiß verputzte Wände, Bambuszäune statt Betonmauern, wo es ging, und der Dschungel über den Poolbereichen stehen gelassen statt für Rasen gerodet. Die Böden sind polierter Beton und Terrazzo, kühl unter den Füßen selbst am Mittag.",
+    "stays_heading": "Zehn Häuser, eine Anlage",
+    "stays_body": "Zehn Häuser teilen sich das Grundstück — Villen und Apartments, jedes mit eigenem Eingang innerhalb derselben Mauern. Zwei sind heute buchbar, Villa 18 und Villa 19; die anderen kommen in den nächsten Monaten dazu, sobald wir mit dem Fotografieren fertig sind.",
+    "cta": "Häuser ansehen",
+    "photos_heading": "Das Grundstück"
   },
   "days": {
-    "stub_heading": "Die Tage",
-    "stub_body": "Morgens, tagsüber, abends — der Rhythmus einer Woche hier. Folgt im nächsten Content-Update."
+    "eyebrow": "Eine Woche bei Maki",
+    "headline": "Morgens, tagsüber, abends.",
+    "intro_body": "Beim Check-in bekommst du keinen Zeitplan, aber die meisten Wochen hier folgen demselben leichten Rhythmus — die Anlage wacht langsam auf, die Mitte des Tages gehört dem Wasser und dem Dschungel hinter dem Tor, und die Abende werden wieder ruhig, sobald das Licht schwindet.",
+    "mornings_heading": "Morgens",
+    "mornings_body": "Am ruhigsten ist die Anlage vor neun Uhr — zuerst die Vögel, dann irgendwo im Garten der Skimmer des Pools. Es ist die beste Stunde, um die Dachterrasse für dich allein zu haben, bevor der Tag losgeht.",
+    "days_heading": "Tagsüber",
+    "days_body": "Der Mittag gehört dem Wasser — der Pool ein paar Schritte von der Tür, oder das Meer etwa zehn Minuten entfernt, wenn du Sand unter den Füßen willst. Cenotes sind nah genug für einen halben Tag, ohne den Nachmittag zu verlieren, und die Ruinen sind eine kurze, entspannte Fahrt, falls dir Geschichte vor dem Mittagessen lieber ist als danach.",
+    "nights_heading": "Abends",
+    "nights_body": "Die Abende kommen leiser, als man so nah an einer Partystadt erwarten würde — vor allem Zikaden, das Poollicht, das angeht. Die Dachterrasse ist, wo die meisten Abende enden, mit oder ohne Hängematte, während der Himmel von Orange in die Art Dunkelheit übergeht, die man in einer Stadt nicht bekommt.",
+    "cta_heading": "Plane deine Tage",
+    "cta_body": "Der Guide hat die Details — Cenotes, Beach Clubs, wie du dich fortbewegst — für wenn du bereit bist, von der Dachterrasse runterzukommen.",
+    "cta_label": "Guide öffnen"
   },
   "guide": {
-    "stub_heading": "Der Guide",
-    "stub_body": "Cenotes, Beach Clubs, Restaurants, Transport, Wasser — aus dem Inneren geschrieben, nicht aus einer Suchmaschine. In Kürze."
+    "index_eyebrow": "Der Guide",
+    "index_headline": "Tulum, von innen.",
+    "index_sub": "Cenotes, Beach Clubs, Restaurants, Fortbewegung, Sicherheit im Wasser — geschrieben von Leuten, die zwanzig Minuten von all dem entfernt wohnen, nicht aus einer Suchergebnisseite kopiert. Wir bauen das Thema für Thema aus; hier ist, was schon fertig ist.",
+    "coming_soon": "Folgt in Kürze",
+    "read_article": "Lesen",
+    "back_to_guide": "Der Guide",
+    "cenotes": {
+      "heading": "Cenotes in der Nähe von Aldea Zama",
+      "intro": "Aldea Zama liegt landeinwärts, abseits vom Strand — das Riff ist hier also nicht das einzige Wasser, das sich lohnt. Cenotes sind nah, und für viele Gäste schlägt ein halber Tag an einer Cenote einen ganzen Tag im Gedränge der Beach Clubs.",
+      "what_is_a_cenote_heading": "Was eine Cenote wirklich ist",
+      "what_is_a_cenote_body": "Die Halbinsel Yucatán hat fast keine Flüsse an der Oberfläche — der Kalkstein ist zu porös, also bewegt sich das Wasser stattdessen unterirdisch, und eine Cenote ist die Stelle, an der das Dach dieses unterirdischen Systems eingestürzt oder aufgebrochen ist. Manche sind offene, lichtdurchflutete Dolinen, manche halb Höhle, halb Himmel, und manche sind vollständig geschlossene Höhlen, in die man mit Licht hineinschwimmt. Alle galten als heiliger Boden, lange bevor sie zu einer Station auf einer Tour wurden.",
+      "getting_there_heading": "Hinkommen",
+      "getting_there_body": "Die nächste ist ein kurzer Weg von der Anlage entfernt — nah genug, dass sie nicht deinen ganzen Tag kostet. Frag uns, bevor du losfährst; welche Cenote gerade am ruhigsten ist, hängt von der Saison und vom Wochentag ab, und wir zeigen dir lieber die richtige, als dich raten zu lassen.",
+      "etiquette_heading": "Bevor du reingehst",
+      "etiquette_body": "In jeder Cenote, die wir kennen, ist im Wasser nur biologisch abbaubare, riffverträgliche Sonnencreme erlaubt — normale Sonnencreme hinterlässt einen Film, den das geschlossene, kaum fließende Wasser nicht so ausspülen kann wie das Meer. Dusch dich ab, wenn du vorher normale Sonnencreme benutzt hast, und verzichte kurz vorm Schwimmen auf Mückenspray, aus demselben Grund.",
+      "safety_heading": "Im Wasser",
+      "safety_body": "Schwimmwesten sind meistens verfügbar und lohnen sich auch für starke Schwimmer — das Wasser ist oft kälter und tiefer, als es von der Plattform aus aussieht, und die Höhlenabschnitte können auch Leute verwirren, die sich im offenen Wasser nie nervös nennen würden. Falls eine Cenote einen Guide für die Höhlenabschnitte anbietet, nimm ihn.",
+      "timing_heading": "Wann hingehen",
+      "timing_body": "Früher ist besser — bevor die Reisebusse von der Küste ankommen, das Licht ist besser für Fotos, und oft hast du lange Abschnitte des Wassers für dich allein.",
+      "closing_heading": "Mehr folgt",
+      "closing_body": "Das ist der erste von mehreren Guides, die wir aufbauen — Beach Clubs, Restaurants und Fortbewegung kommen als Nächstes. Wenn du Empfehlungen willst, bevor wir sie veröffentlichen, schreib uns, wir melden uns am selben Tag."
+    }
   },
   "book": {
     "stub_heading": "Ein Haus buchen",
