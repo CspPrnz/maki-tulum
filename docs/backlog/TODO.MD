@@ -11,12 +11,15 @@
 Initiatives with more detail than fits a TODO line get their own file in `docs/backlog/plans/`:
 
 - [`_template.md`](plans/_template.md) — the shape every plan file takes (parseable frontmatter, pinned contracts, file-ownership table, acceptance evidence).
-- [`wp1-phase0-exit.md`](plans/wp1-phase0-exit.md) — **`draft`**, awaiting Felix's OK. Closes Phase 0: Drizzle + first migration, integration/contract tests, observability, deploy readiness. 4 parallel streams.
+- [`wp1-phase0-exit.md`](plans/wp1-phase0-exit.md) — **`in_progress`**. Streams A (persistence) and D (deploy/supply chain) landed; B (integration tests) and C (observability) in flight. Contracts C2 + C3 were corrected mid-flight after stream A caught them contradicting ADR 0007 and `packages/types`.
+- [`consent-data-map.md`](plans/consent-data-map.md) — **`draft`**. Resolves MRT-15-P0-05: data map, lawful-basis matrix, retention design, 7 questions for counsel. Blocked on the legal-entity decision, which determines the controller.
+- [`legal-entity-brief.md`](plans/legal-entity-brief.md) — **`draft`**. Resolves MRT-15-P0-04 into a decision-ready brief: constraint table, three options with tradeoffs, 9 questions to send counsel verbatim. Also separates FMM from the Quintana Roo lodging-reporting obligation (MRT-15-P1-05).
+- [`channel-manager-capability-contract.md`](plans/channel-manager-capability-contract.md) — **`draft`**. Resolves MRT-15-P0-02/03 into 8 testable capability assertions + a sandbox acceptance plan. Finding: neither vendor's public docs answer the existential question (does unproxied guest contact reach us), so a sandbox trial is mandatory before selection.
 - [`codex-red-team.md`](plans/codex-red-team.md) — running red-team log, `in_progress`. First pass (2026-07-15) logged 15 findings; see [Phase 2 blockers](#phase-2-blockers--codex-red-team-findings-2026-07-15) below.
 
 ---
 
-## Status Overview (updated 2026-05-04)
+## Status Overview (updated 2026-07-31)
 
 | Area | State | Notes |
 |------|-------|-------|
@@ -28,14 +31,14 @@ Initiatives with more detail than fits a TODO line get their own file in `docs/b
 | **Web app** | 🟢 Scaffolded | Next.js 15 + Tailwind v4; `/healthz`, brand tokens; standalone Docker output |
 | **CI** | 🟡 Fixed, unpushed | **Was red on every run from Phase 0 through 2026-07-31** — `check-env` failed at step 1, so format/typecheck/lint/test/build never executed on any CI run. Root cause fixed and `pnpm verify` (CI's exact sequence) now passes locally. Status stays 🟡 until a run on `main` actually reports success — see lessons-learned |
 | **Local dev infra** | 🟢 Ready | docker-compose with Postgres 16 + Redis 7 |
-| **ADRs** | 🟢 0001–0012 | 0004 paused; 0010 supersedes earlier admin plan; 0011 Drizzle; 0012 Brevo email |
+| **ADRs** | 🟢 0001–0012, 0016 | 0004 paused; 0010 admin app; 0011 Drizzle; 0012 Brevo. **0016 (proposed)** replaces the unworkable T−30 manual-capture payment design |
 | **Lockfile** | 🟢 Committed | `pnpm-lock.yaml` in main |
 | **Agent harness** | 🟢 Landed | `AGENTS.md`, `CONTEXT.md`, `.claude/{settings.json,agents,skills}`, `pnpm verify`, plan template — see [Agent harness](#agent-harness-adopted-2026-07-31-from-innovation-factoryai-native-deliverymd) |
-| **DB schema (Drizzle)** | ⚪ Pending | Install drizzle-orm + drizzle-kit, scaffold `services/api/src/db/`, first migration |
+| **DB schema (Drizzle)** | 🟢 Landed | `0001_init`: accounts / users / account_memberships / properties + repositories. No booking/rate tables — blocked on MRT-15-P0-02 |
 | **Railway project** | ⚪ Planned | Phase 0 — services: web, api, postgres, redis |
 | **Admin app** | ⚪ Deferred | Phase 3 — separate `apps/admin` at admin.makitulum.com behind Cloudflare Access |
 | **Marketing site (Phase 1A)** | 🟢 Scaffolded | Locale-segment routing, home + stays index + Villa 18 + Villa 19 + 4 stubs, schema.org, EN/ES/DE, 33 tests, full Next build green (9 routes, 6 SSG) |
-| **Marketing site (Phase 1B)** | ⚪ Planned | Compound + Days + Guide content, ambient video hero, MDX guide articles, Lighthouse ≥90 sign-off |
+| **Marketing site (Phase 1B)** | 🟡 Mostly landed | Compound + Days + Guide content + first guide article shipped EN/ES/DE. Remaining: correct 5 `TODO(felix)` invented claims, Villa 19 photos, ambient video hero, Lighthouse ≥90 |
 | **Booking engine** | ⚪ Planned | Phase 2 — Stripe, Saneamiento transparency, deposit/balance split |
 | **Accounts + dashboard** | ⚪ Planned | Phase 3 — Hostaway, magic-link auth, owner dashboard |
 | **Guest experience** | ⚪ Planned | Phase 4 — WhatsApp, boarding pass, retention loop |
@@ -92,13 +95,13 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 ### Remaining (next session — Felix-side)
 
 - [ ] **Run `pnpm install`** with Node 22 + pnpm 9.12 → commit `pnpm-lock.yaml` (already done — verify on next clone)
-- [ ] Install drizzle-orm + drizzle-kit + drizzle-zod (ADR 0011), scaffold `services/api/src/db/{schema.ts,index.ts,repositories/}` + `drizzle.config.ts` + `migrations/`, write first migration (e.g., `accounts` + `users` + `account_memberships`), apply against local Postgres, commit
+- [x] ~~Install drizzle-orm + drizzle-kit + drizzle-zod, scaffold `services/api/src/db/`, first migration~~ **Done 2026-07-31 (WP-1 stream A).** Verified against a real Postgres: 4 tables, account_id index + FKs, `membership_role` matching the canonical `Role` in `packages/types` with a drift-guard test
 - [ ] **Create Railway project** via dashboard or CLI; add 4 services (web, api, postgres, redis)
 - [ ] Configure Railway: build vars (`NEXT_PUBLIC_*`), runtime env (`DATABASE_URL`, `REDIS_URL`, `JWT_*`, `CORS_ORIGINS`), healthcheck paths
 - [ ] First PR preview deploy: verify `/healthz` returns 200 on staging URLs
-- [ ] Integration tests for `/healthz`, `/readyz`, CORS, JSON error envelope, and rate-limit (use Testcontainers)
+- [ ] 🔄 Integration tests for `/healthz`, `/readyz`, CORS, JSON error envelope, rate-limit, tenant isolation (Testcontainers) — WP-1 stream B in flight
 - [ ] Preview/staging smoke test hits deployed `/healthz`
-- [ ] Sentry: create projects (web + api), add DSNs to Railway
+- [ ] Sentry: create projects (web + api), add DSNs to Railway. **Scrub IPs before enabling** — see `plans/consent-data-map.md`
 - [ ] Plausible: register `staging.makitulum.com` and `makitulum.com`, add `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`
 - [ ] DNS: point apex + `api.` + `staging.` to Railway
 - [ ] **Phase 3 prep:** scaffold `apps/admin` (Next.js, separate Railway service, `admin.makitulum.com` domain) + Cloudflare Access app + policy (per ADR 0010)
@@ -107,10 +110,11 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 
 - [ ] Real photos + copy for Villa 19 (current placeholders)
 - [ ] Photos + copy for Villas 1–17 + 20 as they come online (8 more units)
-- [ ] Compound page real content (story, location context, design intent)
-- [ ] Days page real content (mornings / days / nights routine, partners with names)
+- [x] ~~Compound page real content~~ **Done 2026-07-31 (WP-2)** — 5 invented claims marked `TODO(felix)` inline need Felix's correction before publish
+- [x] ~~Days page real content~~ **Done 2026-07-31 (WP-2)** — partner names still absent; none were invented
+- [ ] **Correct the 5 `TODO(felix)` invented claims** in compound/days/guide pages, then mirror the corrections into ES + DE
 - [ ] Ambient video hero (placeholder MP4 + poster — Felix to provide source)
-- [ ] MDX framework for `/guide/*` articles + 1 seed article (cenotes or beach clubs)
+- [x] ~~Guide article framework + 1 seed article~~ **Done 2026-07-31 (WP-2)** — typed content modules, not MDX (no new dependency); `cenotes-near-aldea-zama` prerendered per locale
 - [ ] Lighthouse audit on home + 1 stay + guide article — must hit ≥90 across all categories
 - [ ] Cookie banner decision (Plausible is cookieless — Phase 1B may need none)
 - [x] ~~Gate (Codex red-team MRT-15-P1-03, blocks Phase 1B): German long-tail SEO validation before deeper DE content investment~~ **Resolved 2026-07-15 — outcome: deprioritize.** Felix decided German is not a strategic ICP wedge (Maki serves international guests broadly; owners are themselves international) — no Ahrefs validation needed since the growth rationale for DE depth no longer exists. Translation work continues normally: EN is canonical source content, DE (then other languages) follow as straightforward translation, same priority as any other locale. See `idea-v3.md` revision note (2026-07-15) and §2/§13/§15.7.
@@ -131,11 +135,11 @@ First adversarial pass against `idea-v3.md` + `implementation-plan.md` (see [`pl
 
 | ID | Finding | Objective |
 |---|---|---|
-| MRT-15-P0-01 | Phase 2's T−30 balance-payment design uses Stripe manual capture, which can't survive past a 7-day authorization window | Redesign as captured deposit + separate off-session balance charge with saved-payment-method consent, SCA recovery, retries |
-| MRT-15-P0-02 | Channel-manager selection (ADR 0004) is deferred past the point it defines the availability/rates schema | Select and sandbox-validate a vendor before freezing Phase 2's inventory model |
-| MRT-15-P0-03 | The "one-file adapter swap" framing understates how much channel-manager semantics shape checkout | Define an outcome-level capability contract; select only a vendor that meets it without hidden compromises |
-| MRT-15-P0-04 | Legal entity/payments jurisdiction is labeled "open" but already constrains Phase 2 checkout | See Open decisions table above |
-| MRT-15-P0-05 | Consent scope is labeled "open" but Phase 2 is about to expand data collection | See Open decisions table above |
+| MRT-15-P0-01 | ~~T−30 manual capture can't survive a 7-day authorization window~~ | **Resolved 2026-07-31 → [ADR 0016](../adrs/0016-deposit-and-off-session-balance.md) (proposed).** Captured deposit + off-session balance charge, SCA recovery, dunning ladder, ledger as source of truth. Needs Felix's accept |
+| MRT-15-P0-02 | Channel-manager selection deferred past the point it defines the availability/rates schema | **Decision-ready 2026-07-31** → [capability contract](plans/channel-manager-capability-contract.md). Still needs Felix to run the sandbox trial and pick. WP-1's migration deliberately omits inventory tables until then |
+| MRT-15-P0-03 | "One-file adapter swap" understates how much vendor semantics shape checkout | **Resolved 2026-07-31** — 8 outcome-level assertions in the [capability contract](plans/channel-manager-capability-contract.md) |
+| MRT-15-P0-04 | Legal entity/payments jurisdiction constrains Phase 2 checkout | **Decision-ready 2026-07-31** → [legal-entity-brief.md](plans/legal-entity-brief.md). Felix's decision + counsel |
+| MRT-15-P0-05 | Consent scope open while Phase 2 expands data collection | **Decision-ready 2026-07-31** → [consent-data-map.md](plans/consent-data-map.md). Felix's decision + counsel |
 | MRT-15-P1-01 | The north-star metric (`idea-v3.md` §12) has no defined cohort/identity/attribution model, and none of Hostaway/Breezeway/Enso own that graph | Define the metric's instrumentation contract in Phase 2, not Phase 6 |
 | MRT-15-P1-02 | Phase 2/3 create direct-booking guests before Phase 4 builds the retention loop the thesis depends on | Move a minimum retention slice (consented contact, post-stay trigger, attributable rebook link) into Phase 2 |
 | MRT-15-P1-05 | "Chekin handles FMM registration" conflates an immigration process with unidentified Quintana Roo lodging-reporting obligations | Get counsel's actual obligation list before validating a vendor against it |
