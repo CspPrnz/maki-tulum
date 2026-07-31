@@ -32,7 +32,7 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 
 - **Shipped:** Phase 0 scaffold, Phase 1A marketing site, most of Phase 1B (Compound / Days / Guide + first guide article, EN/ES/DE), Drizzle persistence with `0001_init`, supply-chain pinning, agent harness. ADRs 0001–0012 + 0016.
 - **Not deployed anywhere yet.** No Railway project, no Sentry/Plausible DSNs. Phase 0's exit criterion is still unmet.
-- **CI was red on every run from Phase 0 until 2026-07-31.** Fixed; `pnpm verify` mirrors it locally and is the gate. Not yet confirmed green on a real run.
+- **CI is green** as of 2026-07-31 — the first successful run in the repo's history; it was red on every run from Phase 0 until then. `pnpm verify` mirrors it exactly, migration step included, and is the gate.
 - **Blocking publish:** 5 invented factual claims in the new marketing copy are marked `TODO(felix)` at the render site and need correcting in EN, then mirrored to ES/DE.
 - **Next:** finish WP-1 (integration tests, observability), then Railway. Phase 2 stays gated until Felix decides the four blockers — three now have decision-ready briefs in `docs/backlog/plans/`.
 - **Detail and status for everything above:** [`docs/backlog/TODO.MD`](docs/backlog/TODO.MD). Narrative history: [`docs/handoff/`](docs/handoff/). Do not restate either here.

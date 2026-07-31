@@ -29,7 +29,7 @@ Initiatives with more detail than fits a TODO line get their own file in `docs/b
 | **Monorepo skeleton** | 🟢 Scaffolded | pnpm + Turbo; apps/web, services/api, 4 packages |
 | **API service** | 🟢 Scaffolded | Hono + Zod-OpenAPI; `/healthz`, `/readyz`, CORS, rate-limit, JSON envelope |
 | **Web app** | 🟢 Scaffolded | Next.js 15 + Tailwind v4; `/healthz`, brand tokens; standalone Docker output |
-| **CI** | 🟡 Fixed, unpushed | **Was red on every run from Phase 0 through 2026-07-31** — `check-env` failed at step 1, so format/typecheck/lint/test/build never executed on any CI run. Root cause fixed and `pnpm verify` (CI's exact sequence) now passes locally. Status stays 🟡 until a run on `main` actually reports success — see lessons-learned |
+| **CI** | 🟢 Green | **First successful run in the repo's history, https://github.com/CspPrnz/maki-tulum/actions/runs/30639366657 (2026-07-31).** Was red on every run from Phase 0 until then: `check-env` failed at step 1, so nothing after it ever executed. Three separate false-greens had to be cleared — see lessons-learned. 97 tests now run on CI |
 | **Local dev infra** | 🟢 Ready | docker-compose with Postgres 16 + Redis 7 |
 | **ADRs** | 🟢 0001–0012, 0016 | 0004 paused; 0010 admin app; 0011 Drizzle; 0012 Brevo. **0016 (proposed)** replaces the unworkable T−30 manual-capture payment design |
 | **Lockfile** | 🟢 Committed | `pnpm-lock.yaml` in main |

@@ -2,7 +2,7 @@
 
 ## State
 
-Phase 0 foundations, Phase 1B content, and the agent harness all landed on `feat/wp1-phase0-exit` ([PR #1](https://github.com/CspPrnz/maki-tulum/pull/1)), 11 commits, `pnpm verify` green at 97 tests. **Phase 0's exit criterion is still unmet** — there is no Railway project, so no deployed `/healthz`. See [`../backlog/TODO.MD`](../backlog/TODO.MD).
+Phase 0 foundations, Phase 1B content, and the agent harness all landed on `feat/wp1-phase0-exit` ([PR #1](https://github.com/CspPrnz/maki-tulum/pull/1)), pushed, **CI green — the first successful run in the repo's history**, 97 tests. **Phase 0's exit criterion is still unmet** — there is no Railway project, so no deployed `/healthz`. See [`../backlog/TODO.MD`](../backlog/TODO.MD).
 
 ## What happened
 
@@ -11,6 +11,8 @@ Felix asked for the Innovation Factory ways-of-working ported in, then for Phase
 **Harness** (from `innovation-factory/ai-native-delivery.md` §7): `AGENTS.md`, `CONTEXT.md`, `.claude/settings.json`, three scoped subagents, three skills, a plan template, and `pnpm verify`. Deliberately skipped the Stop-hook — pointless until we run unattended. This pulled multi-agent orchestration forward from its Phase-3 deferral; TODO.MD records the override.
 
 **Five streams**, contracts pinned in [`../backlog/plans/wp1-phase0-exit.md`](../backlog/plans/wp1-phase0-exit.md) before fan-out: persistence, integration tests, observability, deploy/supply-chain, and Phase 1B content. A sixth produced the channel-manager and legal-entity briefs.
+
+**Three gates were decorative, and three separate false-greens had to be cleared before CI actually passed** (see lessons-learned; the last one was turbo stripping `DATABASE_URL` while the tests papered over it with a hardcoded local database name).
 
 **Three gates were decorative.** CI had failed on every run since Phase 0 because `check-env` died at step one, so nothing after it ever ran. `pnpm lint` could not fail — every script ended in `|| true` and no eslint config existed. And `services/api`'s lint glob never covered `test/`. All three fixed and now real.
 
