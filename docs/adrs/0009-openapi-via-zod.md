@@ -34,13 +34,19 @@ const create = createRoute({
     headers: z.object({ 'idempotency-key': z.string().uuid() }),
   },
   responses: {
-    201: { content: { 'application/json': { schema: BookingResponseSchema } }, description: 'Created' },
-    400: { content: { 'application/json': { schema: ApiErrorSchema } }, description: 'Invalid input' },
+    201: {
+      content: { 'application/json': { schema: BookingResponseSchema } },
+      description: 'Created',
+    },
+    400: {
+      content: { 'application/json': { schema: ApiErrorSchema } },
+      description: 'Invalid input',
+    },
   },
 });
 
 bookingsRoutes.openapi(create, async (c) => {
-  const input = c.req.valid('json');         // already typed + validated
+  const input = c.req.valid('json'); // already typed + validated
   const idempotencyKey = c.req.valid('header')['idempotency-key'];
   // …
 });

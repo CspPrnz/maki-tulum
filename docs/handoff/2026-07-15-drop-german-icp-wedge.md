@@ -11,6 +11,7 @@ Felix decided to deprioritize German as a strategic acquisition wedge: Maki serv
 Translations are unaffected: English is now explicit as the canonical source language, with German (and other languages as the site scales) as straightforward translations — same priority as any other locale, no dedicated DE SEO/content push.
 
 Edits:
+
 - `idea-v3.md`: added a revision note; updated §2 Positioning (dropped "US + DACH" ICP framing), §13 (marked the German-wedge failure mode resolved/moot), §15.7 (resolved the language-launch-order open decision).
 - `docs/backlog/TODO.MD`: marked the "DE SEO investment" open decision and the Phase 1B gate item as resolved/decided.
 - `CLAUDE.md`: updated the top banner note.

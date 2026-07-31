@@ -10,11 +10,16 @@
 
 Initiatives with more detail than fits a TODO line get their own file in `docs/backlog/plans/`:
 
+- [`_template.md`](plans/_template.md) — the shape every plan file takes (parseable frontmatter, pinned contracts, file-ownership table, acceptance evidence).
+- [`wp1-phase0-exit.md`](plans/wp1-phase0-exit.md) — **`in_progress`**. Streams A (persistence) and D (deploy/supply chain) landed; B (integration tests) and C (observability) in flight. Contracts C2 + C3 were corrected mid-flight after stream A caught them contradicting ADR 0007 and `packages/types`.
+- [`consent-data-map.md`](plans/consent-data-map.md) — **`draft`**. Resolves MRT-15-P0-05: data map, lawful-basis matrix, retention design, 7 questions for counsel. Blocked on the legal-entity decision, which determines the controller.
+- [`legal-entity-brief.md`](plans/legal-entity-brief.md) — **`draft`**. Resolves MRT-15-P0-04 into a decision-ready brief: constraint table, three options with tradeoffs, 9 questions to send counsel verbatim. Also separates FMM from the Quintana Roo lodging-reporting obligation (MRT-15-P1-05).
+- [`channel-manager-capability-contract.md`](plans/channel-manager-capability-contract.md) — **`draft`**. Resolves MRT-15-P0-02/03 into 8 testable capability assertions + a sandbox acceptance plan. Finding: neither vendor's public docs answer the existential question (does unproxied guest contact reach us), so a sandbox trial is mandatory before selection.
 - [`codex-red-team.md`](plans/codex-red-team.md) — running red-team log, `in_progress`. First pass (2026-07-15) logged 15 findings; see [Phase 2 blockers](#phase-2-blockers--codex-red-team-findings-2026-07-15) below.
 
 ---
 
-## Status Overview (updated 2026-05-04)
+## Status Overview (updated 2026-07-31)
 
 | Area | State | Notes |
 |------|-------|-------|
@@ -24,15 +29,16 @@ Initiatives with more detail than fits a TODO line get their own file in `docs/b
 | **Monorepo skeleton** | 🟢 Scaffolded | pnpm + Turbo; apps/web, services/api, 4 packages |
 | **API service** | 🟢 Scaffolded | Hono + Zod-OpenAPI; `/healthz`, `/readyz`, CORS, rate-limit, JSON envelope |
 | **Web app** | 🟢 Scaffolded | Next.js 15 + Tailwind v4; `/healthz`, brand tokens; standalone Docker output |
-| **CI** | 🟢 Wired | GitHub Actions: env audit · format · typecheck · lint · test · build (Postgres + Redis services) |
+| **CI** | 🟢 Green | **First successful run in the repo's history, https://github.com/CspPrnz/maki-tulum/actions/runs/30639366657 (2026-07-31).** Was red on every run from Phase 0 until then: `check-env` failed at step 1, so nothing after it ever executed. Three separate false-greens had to be cleared — see lessons-learned. 97 tests now run on CI |
 | **Local dev infra** | 🟢 Ready | docker-compose with Postgres 16 + Redis 7 |
-| **ADRs** | 🟢 0001–0012 | 0004 paused; 0010 supersedes earlier admin plan; 0011 Drizzle; 0012 Brevo email |
+| **ADRs** | 🟢 0001–0012, 0016 | 0004 paused; 0010 admin app; 0011 Drizzle; 0012 Brevo. **0016 (proposed)** replaces the unworkable T−30 manual-capture payment design |
 | **Lockfile** | 🟢 Committed | `pnpm-lock.yaml` in main |
-| **DB schema (Drizzle)** | ⚪ Pending | Install drizzle-orm + drizzle-kit, scaffold `services/api/src/db/`, first migration |
-| **Railway project** | ⚪ Planned | Phase 0 — services: web, api, postgres, redis |
+| **Agent harness** | 🟢 Landed | `AGENTS.md`, `CONTEXT.md`, `.claude/{settings.json,agents,skills}`, `pnpm verify`, plan template — see [Agent harness](#agent-harness-adopted-2026-07-31-from-innovation-factoryai-native-deliverymd) |
+| **DB schema (Drizzle)** | 🟢 Landed | `0001_init`: accounts / users / account_memberships / properties + repositories. No booking/rate tables — blocked on MRT-15-P0-02 |
+| **Railway project** | 🟢 Live | 4 services (web, api, Postgres, Redis) in project `inspiring-learning` (**needs renaming to maki-tulum**). https://web-production-66562.up.railway.app · https://api-production-b61ac.up.railway.app — both `/healthz` 200, api `/readyz` 200 with db+redis reachable, schema migrated |
 | **Admin app** | ⚪ Deferred | Phase 3 — separate `apps/admin` at admin.makitulum.com behind Cloudflare Access |
 | **Marketing site (Phase 1A)** | 🟢 Scaffolded | Locale-segment routing, home + stays index + Villa 18 + Villa 19 + 4 stubs, schema.org, EN/ES/DE, 33 tests, full Next build green (9 routes, 6 SSG) |
-| **Marketing site (Phase 1B)** | ⚪ Planned | Compound + Days + Guide content, ambient video hero, MDX guide articles, Lighthouse ≥90 sign-off |
+| **Marketing site (Phase 1B)** | 🟡 Mostly landed | Compound + Days + Guide content + first guide article shipped EN/ES/DE. Remaining: correct 5 `TODO(felix)` invented claims, Villa 19 photos, ambient video hero, Lighthouse ≥90 |
 | **Booking engine** | ⚪ Planned | Phase 2 — Stripe, Saneamiento transparency, deposit/balance split |
 | **Accounts + dashboard** | ⚪ Planned | Phase 3 — Hostaway, magic-link auth, owner dashboard |
 | **Guest experience** | ⚪ Planned | Phase 4 — WhatsApp, boarding pass, retention loop |
@@ -49,7 +55,7 @@ Legend: 🟢 done · 🟡 in progress · 🔴 blocked · ⚪ planned · ⏸ defe
 
 | Decision | Options | Owner | Due |
 |---|---|---|---|
-| Channel manager | ~~Hostaway vs. Hospitable~~ → **Hosthub vs. Hostaway** (paused, ADR 0004) | Felix | Phase 3 kickoff (don't pay until live) |
+| Channel manager | **Hosthub vs. Hostaway** — **deferred again 2026-07-31 (Felix): not paying for a trial until it's needed.** Capability contract + sandbox plan are written and waiting ([`plans/channel-manager-capability-contract.md`](plans/channel-manager-capability-contract.md)). **Consequence: the Phase 2 availability/rates/inventory schema stays unfrozen** — MRT-15-P0-02 is deferred, not resolved | Felix | Before any inventory/availability schema work |
 | ~~Email provider~~ | ~~Postmark vs. Brevo~~ — **decided** (ADR 0012): Brevo (multi-channel, EU-based) | Felix | ~~Start of Phase 1~~ ✅ |
 | ~~Admin location~~ | ~~`/admin` vs. separate~~ — **decided** (ADR 0010): separate `apps/admin` at `admin.makitulum.com` behind Cloudflare Access | Felix | ~~Phase 3 kickoff~~ ✅ |
 | DB host | Railway-managed Postgres vs. Neon | Felix | End of Phase 0 |
@@ -62,7 +68,7 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 
 | Decision | Why it can't stay deferred | Owner | Due |
 |---|---|---|---|
-| Legal entity + payments jurisdiction (`idea-v3.md` §15.8) | Determines merchant of record, Stripe account country, settlement currency, tax treatment, OXXO/MercadoPago eligibility — all committed in Phase 2's checkout design | Felix | Before Phase 2 checkout work starts |
+| ~~Legal entity + payments jurisdiction~~ | **Decided 2026-07-31: foreign entity now, hybrid long-term.** Consequence for Phase 2: **card-only** — OXXO and MercadoPago need a Mexican RFC, so they wait for the hybrid step. Still needs counsel on whether operating the Tulum property creates Mexican tax nexus regardless of where the payment entity sits (question 1 in [`plans/legal-entity-brief.md`](plans/legal-entity-brief.md)) | Felix | ~~Before Phase 2 checkout~~ ✅ |
 | Guest-data consent scope (`idea-v3.md` §15.10, GDPR + LFPDPPP) | Phase 1A already persists locale preference; Phase 2 adds payment + guest records with no data map or lawful-basis matrix yet | Felix | Before Phase 2 booking schema is designed |
 
 ---
@@ -89,13 +95,13 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 ### Remaining (next session — Felix-side)
 
 - [ ] **Run `pnpm install`** with Node 22 + pnpm 9.12 → commit `pnpm-lock.yaml` (already done — verify on next clone)
-- [ ] Install drizzle-orm + drizzle-kit + drizzle-zod (ADR 0011), scaffold `services/api/src/db/{schema.ts,index.ts,repositories/}` + `drizzle.config.ts` + `migrations/`, write first migration (e.g., `accounts` + `users` + `account_memberships`), apply against local Postgres, commit
-- [ ] **Create Railway project** via dashboard or CLI; add 4 services (web, api, postgres, redis)
-- [ ] Configure Railway: build vars (`NEXT_PUBLIC_*`), runtime env (`DATABASE_URL`, `REDIS_URL`, `JWT_*`, `CORS_ORIGINS`), healthcheck paths
-- [ ] First PR preview deploy: verify `/healthz` returns 200 on staging URLs
-- [ ] Integration tests for `/healthz`, `/readyz`, CORS, JSON error envelope, and rate-limit (use Testcontainers)
-- [ ] Preview/staging smoke test hits deployed `/healthz`
-- [ ] Sentry: create projects (web + api), add DSNs to Railway
+- [x] ~~Install drizzle-orm + drizzle-kit + drizzle-zod, scaffold `services/api/src/db/`, first migration~~ **Done 2026-07-31 (WP-1 stream A).** Verified against a real Postgres: 4 tables, account_id index + FKs, `membership_role` matching the canonical `Role` in `packages/types` with a drift-guard test
+- [x] ~~Create Railway project; add 4 services~~ **Done 2026-07-31.** Project is named `inspiring-learning` — **Felix: rename to `maki-tulum`**
+- [x] ~~Configure Railway: build vars, runtime env, healthcheck paths~~ **Done 2026-07-31.** `RAILWAY_DOCKERFILE_PATH` per service; healthcheck paths still to confirm in the dashboard
+- [ ] PR preview environments — not configured; deploys are manual `railway up` for now
+- [ ] 🔄 Integration tests for `/healthz`, `/readyz`, CORS, JSON error envelope, rate-limit, tenant isolation (Testcontainers) — WP-1 stream B in flight
+- [x] ~~Staging smoke test hits deployed `/healthz`~~ **Done 2026-07-31** — `scripts/smoke.ts` passes against both services
+- [ ] Sentry: create projects (web + api), add DSNs to Railway. **Scrub IPs before enabling** — see `plans/consent-data-map.md`
 - [ ] Plausible: register `staging.makitulum.com` and `makitulum.com`, add `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`
 - [ ] DNS: point apex + `api.` + `staging.` to Railway
 - [ ] **Phase 3 prep:** scaffold `apps/admin` (Next.js, separate Railway service, `admin.makitulum.com` domain) + Cloudflare Access app + policy (per ADR 0010)
@@ -104,17 +110,30 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 
 - [ ] Real photos + copy for Villa 19 (current placeholders)
 - [ ] Photos + copy for Villas 1–17 + 20 as they come online (8 more units)
-- [ ] Compound page real content (story, location context, design intent)
-- [ ] Days page real content (mornings / days / nights routine, partners with names)
+- [x] ~~Compound page real content~~ **Done 2026-07-31 (WP-2)** — 5 invented claims marked `TODO(felix)` inline need Felix's correction before publish
+- [x] ~~Days page real content~~ **Done 2026-07-31 (WP-2)** — partner names still absent; none were invented
+- [x] ~~Correct the 5 `TODO(felix)` invented claims~~ **Done 2026-07-31** — all resolved in EN/ES/DE; none remain in the codebase
+- [ ] **Real drive times from Xul Kaa** to the ruins, beach clubs and cenotes. The originals were measured from the wrong neighbourhood and were removed rather than re-guessed; copy currently describes distance relationally
+- [ ] SPF + DKIM + DMARC on `makitulum.com` **before Brevo sends anything** — the domain has none today and is spoofable
+- [ ] Google Search Console: verify domain, submit sitemap, check for manual actions (not visible from outside)
+- [ ] Consider Cloudflare in front of Railway — absorbs WordPress-scanner noise and adds a WAF. Optional; the old site attracted heavy automated traffic
+- [ ] Railway dashboard: set healthcheck path `/healthz`, timeout 30, restart On Failure ×5 on **both** services — `railway.toml` is not read because services use `RAILWAY_DOCKERFILE_PATH`
 - [ ] Ambient video hero (placeholder MP4 + poster — Felix to provide source)
-- [ ] MDX framework for `/guide/*` articles + 1 seed article (cenotes or beach clubs)
+- [x] ~~Guide article framework + 1 seed article~~ **Done 2026-07-31 (WP-2)** — typed content modules, not MDX (no new dependency); `cenotes-near-maki` prerendered per locale
 - [ ] Lighthouse audit on home + 1 stay + guide article — must hit ≥90 across all categories
 - [ ] Cookie banner decision (Plausible is cookieless — Phase 1B may need none)
 - [x] ~~Gate (Codex red-team MRT-15-P1-03, blocks Phase 1B): German long-tail SEO validation before deeper DE content investment~~ **Resolved 2026-07-15 — outcome: deprioritize.** Felix decided German is not a strategic ICP wedge (Maki serves international guests broadly; owners are themselves international) — no Ahrefs validation needed since the growth rationale for DE depth no longer exists. Translation work continues normally: EN is canonical source content, DE (then other languages) follow as straightforward translation, same priority as any other locale. See `idea-v3.md` revision note (2026-07-15) and §2/§13/§15.7.
 
-### Phase 0 exit criterion
+### Phase 0 exit criterion — ✅ **MET 2026-07-31**
 
-`https://maki-staging.up.railway.app/healthz` and `https://api.maki-staging.up.railway.app/healthz` both return 200; PR previews deploy automatically; CI green on main.
+Both services return 200 on `/healthz` and the smoke test passes against each:
+
+- web https://web-production-66562.up.railway.app/healthz → 200
+- api https://api-production-b61ac.up.railway.app/healthz → 200, `/readyz` → 200 with `db: ok, redis: ok`
+- schema migrated on Railway Postgres: 4 tables, canonical role enum, `users_email_lower_key`
+- CI green on the PR; `STAGING_WEB_URL` / `STAGING_API_URL` repo variables set, so the post-deploy smoke job is now live rather than no-opping
+
+Domains are Railway-generated, not `makitulum.com` — custom DNS is still outstanding, and PR preview environments are not configured. Neither blocks Phase 1B or Phase 2.
 
 Full plan: [`../../implementation-plan.md`](../../implementation-plan.md) §4 Phase 0.
 
@@ -128,11 +147,11 @@ First adversarial pass against `idea-v3.md` + `implementation-plan.md` (see [`pl
 
 | ID | Finding | Objective |
 |---|---|---|
-| MRT-15-P0-01 | Phase 2's T−30 balance-payment design uses Stripe manual capture, which can't survive past a 7-day authorization window | Redesign as captured deposit + separate off-session balance charge with saved-payment-method consent, SCA recovery, retries |
-| MRT-15-P0-02 | Channel-manager selection (ADR 0004) is deferred past the point it defines the availability/rates schema | Select and sandbox-validate a vendor before freezing Phase 2's inventory model |
-| MRT-15-P0-03 | The "one-file adapter swap" framing understates how much channel-manager semantics shape checkout | Define an outcome-level capability contract; select only a vendor that meets it without hidden compromises |
-| MRT-15-P0-04 | Legal entity/payments jurisdiction is labeled "open" but already constrains Phase 2 checkout | See Open decisions table above |
-| MRT-15-P0-05 | Consent scope is labeled "open" but Phase 2 is about to expand data collection | See Open decisions table above |
+| MRT-15-P0-01 | ~~T−30 manual capture can't survive a 7-day authorization window~~ | **Resolved + decided 2026-07-31 → [ADR 0017](../adrs/0017-charge-in-full-at-booking.md) (accepted).** Charge 100% at booking; no deposit/balance split, no dunning, no SCA-recovery link. ADR 0016 superseded but kept for the analysis |
+| MRT-15-P0-02 | Channel-manager selection deferred past the point it defines the availability/rates schema | **Still open — deliberately.** Felix deferred the vendor trial on cost grounds (2026-07-31). The [capability contract](plans/channel-manager-capability-contract.md) is written so the trial is cheap when it happens. **The finding stands:** any Phase 2 work that models availability, rates, or inventory is blocked until a vendor is validated. Booking work that does *not* touch inventory shape can proceed |
+| MRT-15-P0-03 | "One-file adapter swap" understates how much vendor semantics shape checkout | **Resolved 2026-07-31** — 8 outcome-level assertions in the [capability contract](plans/channel-manager-capability-contract.md) |
+| MRT-15-P0-04 | Legal entity/payments jurisdiction constrains Phase 2 checkout | **Decided 2026-07-31: foreign entity now, hybrid later.** Card-only for v1. Counsel still needed on Mexican tax nexus and the eventual hybrid structure |
+| MRT-15-P0-05 | Consent scope open while Phase 2 expands data collection | **Decision-ready 2026-07-31** → [consent-data-map.md](plans/consent-data-map.md). Felix's decision + counsel |
 | MRT-15-P1-01 | The north-star metric (`idea-v3.md` §12) has no defined cohort/identity/attribution model, and none of Hostaway/Breezeway/Enso own that graph | Define the metric's instrumentation contract in Phase 2, not Phase 6 |
 | MRT-15-P1-02 | Phase 2/3 create direct-booking guests before Phase 4 builds the retention loop the thesis depends on | Move a minimum retention slice (consented contact, post-stay trigger, attributable rebook link) into Phase 2 |
 | MRT-15-P1-05 | "Chekin handles FMM registration" conflates an immigration process with unidentified Quintana Roo lodging-reporting obligations | Get counsel's actual obligation list before validating a vendor against it |
@@ -149,14 +168,37 @@ First adversarial pass against `idea-v3.md` + `implementation-plan.md` (see [`pl
 
 ---
 
+## Agent harness (adopted 2026-07-31 from `innovation-factory/ai-native-delivery.md`)
+
+Felix asked for parallel-agent throughput, which pulls the orchestration protocol forward from its Phase-3 deferral. Landed this session — the nine-layer checklist from `ai-native-delivery.md` §7:
+
+| Layer | Artifact | State |
+|---|---|---|
+| Rules | `CLAUDE.md` + `AGENTS.md` | 🟢 CLAUDE.md trimmed of history; AGENTS.md added as the vendor-neutral mirror (CLAUDE.md wins on conflict) |
+| Domain | `CONTEXT.md` | 🟢 glossary seeded (Saneamiento, orphan gap, stay #2, vendor roles) |
+| Skills | `.claude/skills/` | 🟢 `grill`, `orchestrate`, `handoff` |
+| Subagents | `.claude/agents/` | 🟢 `worker` (sonnet, read/write), `verifier` + `security-reviewer` (opus, **no Edit/Write** — enforced by tool scoping) |
+| Permissions | `.claude/settings.json` | 🟢 deny/ask/allow ladder, checked in |
+| Hooks | Stop / PreToolUse | ⚪ **not wired** — deliberate. Revisit when we run unattended/auto-mode; `pnpm verify` is the gate it would close on |
+| Backlog | `TODO.MD` + `plans/` | 🟢 `plans/_template.md` with parseable frontmatter added |
+| Spec | per-WP plan file | 🟢 template in place; first real one is WP-1 |
+| Handoff | `docs/handoff/` | 🟢 already in place since 2026-07-15 |
+| Verify gate | `pnpm verify` | 🟢 `check-env · format:check · typecheck · lint · test · build` — mirrors CI exactly |
+
+Still open:
+
+- [ ] Wire a Stop-hook running `pnpm verify` — only once we actually run agents unattended. Must distinguish "couldn't run" from "found a regression" or it becomes a false-positive machine that gets disabled.
+- [ ] CI drift check on plan-file frontmatter (`status:` vs. reality) — worth it once there are ≥3 live plan files.
+- [ ] Pin GitHub Actions to commit SHAs (`.github/workflows/ci.yml` uses floating `@v4` tags) — supply-chain item, folded into WP-1 stream D.
+
 ## Deferred process improvements (from civion-safe review, 2026-07-15)
 
 Reviewed `civion-labs/Product/civion-safe`'s AI-agent dev process for anything worth porting. Adopted immediately: `docs/handoff/` session-continuity docs, `docs/adrs/_template.md`, warn-only CI doc-discipline check (see `.github/workflows/ci.yml`). The rest is disproportionate at our current scale (one owner, 5 commits, no team) — revisit each at the phase noted, not before:
 
-- **Multi-agent orchestration protocol** (Opus orchestrator + parallel Sonnet workers, non-overlapping file-set rules, evidence-based testing table) — revisit at Phase 3, once `apps/admin` exists and there's enough surface area for parallel agent work to pay off.
+- ~~**Multi-agent orchestration protocol**~~ — **adopted 2026-07-31**, ahead of the Phase-3 date, on Felix's call. See the Agent harness section above.
 - **Weekly dev-journal cron** (auto-generated sprint summary from commit history) — revisit once commit volume is high enough that `docs/handoff/` alone stops giving a good weekly overview; not before Phase 2.
 - **Drift-cron** (CI job failing on stale plan-file frontmatter) — only useful once we adopt civion-safe's per-initiative `docs/plans/*.md` pattern; we don't have that structure and TODO.MD is small enough to eyeball. Revisit if TODO.MD's Backlog section outgrows a single scroll.
-- **`CONTEXT.md` invariants doc** (numbered product invariants a backlog-intake skill checks proposals against) — `idea-v3.md` + CLAUDE.md's "Don't do" list already cover this at our size. Revisit if backlog intake grows past what one person can hold in their head (Phase 4+, when guest-experience features start multiplying).
+- **`CONTEXT.md` invariants doc** — partially superseded 2026-07-31: a `CONTEXT.md` now exists as a *domain glossary* (parallel agents don't share Felix's context and were going to invent synonyms for "stay"/"property"/"Saneamiento"). The *numbered-product-invariants* half is still deferred — `idea-v3.md` + CLAUDE.md's "Don't do" list cover it at our size. Revisit at Phase 4+.
 - **Backlog-ingest "grill the user" intake skill** — worth it once there's enough inbound backlog volume (multiple contributors, or Felix triaging many feature requests at once) that unstructured intake causes churn. Not before Phase 3.
 
 ---

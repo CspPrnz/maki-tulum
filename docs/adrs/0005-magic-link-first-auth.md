@@ -3,7 +3,7 @@
 - **Date:** 2026-05-04
 - **Status:** accepted
 - **Context:** Guest auth is needed from Phase 3 (account area, my-bookings, rebook). Owner / manager / housekeeping auth is needed for the admin app. We have to pick a primary mechanism. Civion Safe used password auth and accumulated the expected long tail of issues: bcrypt migration for legacy users, brute-force rate-limiting tuning, password-reset rate-limiting tuning, indexed-token lookups to avoid O(n) scans, leaked-password risk, support for "I forgot which email I used."
-- **Decision:** **Magic-link is the primary auth mechanism.** A guest enters their email, we email a one-time, signed, short-lived link (15-min TTL). Clicking the link mints a JWT (15-min access + 30-day rotating refresh, see ADR 0006) and signs them in. Passwords are an *optional* upgrade users can add later if they want; they're never required.
+- **Decision:** **Magic-link is the primary auth mechanism.** A guest enters their email, we email a one-time, signed, short-lived link (15-min TTL). Clicking the link mints a JWT (15-min access + 30-day rotating refresh, see ADR 0006) and signs them in. Passwords are an _optional_ upgrade users can add later if they want; they're never required.
 - **Consequences:**
   - **Less support load.** No "forgot password" flow, no password-reset emails, no password-strength UI, no breach-monitoring obligation.
   - **Better security posture by default.** No password to leak; no credential stuffing surface.

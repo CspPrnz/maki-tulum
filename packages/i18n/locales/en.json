@@ -19,18 +19,18 @@
     "view_all": "View all"
   },
   "home": {
-    "hero_eyebrow": "Aldea Zama, Tulum",
+    "hero_eyebrow": "Xul Kaa, Tulum",
     "hero_headline": "A quiet compound, off the noise.",
     "hero_sub": "Off Tulum's busy center and the beach, but close enough to get everywhere easily.",
     "intro_heading": "What Maki is",
-    "intro_body": "Maki is a quiet compound in the Aldea Zama jungle. For me it's a sanctuary — somewhere to recharge and disconnect from the busy life outside. The community is a fun mix of residents and visitors from across the Americas and Europe, and the vibe is simple: come as you are and enjoy.",
+    "intro_body": "Maki is a quiet compound in the jungle at the southwest edge of Tulum. For me it's a sanctuary — somewhere to recharge and disconnect from the busy life outside. The community is a fun mix of residents and visitors from across the Americas and Europe, and the vibe is simple: come as you are and enjoy.",
     "stays_heading": "The stays",
     "stays_sub": "Two-storey villas and apartments in the same compound. Each is its own home.",
     "compound_heading": "The compound",
     "compound_sub": "Pools, gardens, and a few minutes by bike to the beach, ruins, cenotes.",
     "book_cta": "See the stays",
     "find_us_heading": "Where to find us",
-    "find_us_body": "Aldea Zama, a planned residential neighborhood between Tulum's center and the beach. 7 minutes by car to the ruins, 10 to the beach clubs, 5 to a cenote."
+    "find_us_body": "Xul Kaa, a residential colonia at the southwest end of Tulum — off the main strip, with the cenotes on the road out of town closer than the beach."
   },
   "stays": {
     "index_eyebrow": "10 stays in the compound",
@@ -54,16 +54,55 @@
     }
   },
   "compound": {
-    "stub_heading": "The compound",
-    "stub_body": "A longer write-up of the place, the people, and a day at Maki is coming with the next content pass."
+    "hero_eyebrow": "Xul Kaa, Tulum",
+    "headline": "A compound, not a hotel.",
+    "intro_body": "Maki is one property with many homes inside it — gardens, a shared pool deck, quiet paths between the villas, one gate for the whole compound. It's built for people who want a house for the week, not a room off a hallway. The people who pass through are a mix of residents who live here year-round and guests passing through — from everywhere, since nobody on our team comes from just one place either.",
+    "location_heading": "Where you land",
+    "location_body": "We're in Xul Kaa, a residential colonia at the southwest end of Tulum — away from the noise of the main strip, and closer to the cenotes on the road out of town than to the beach. Quiet at night, which is mostly the point.",
+    "design_heading": "How it's built",
+    "design_body": "White plaster walls, bamboo fencing instead of block walls where we could get away with it, and the jungle canopy left standing over the pool decks rather than cleared for lawn. Floors are polished concrete and terrazzo, cool underfoot even at noon.",
+    "stays_heading": "Ten homes, one compound",
+    "stays_body": "Ten stays share the grounds — villas and apartments, each its own address inside the same walls. Two are open for booking today, Villa 18 and Villa 19; the rest come online over the next months as we finish photographing them.",
+    "cta": "See the stays",
+    "photos_heading": "The grounds"
   },
   "days": {
-    "stub_heading": "The days",
-    "stub_body": "Mornings, days, nights — the rhythm of a week here. Coming with the next content pass."
+    "eyebrow": "A week at Maki",
+    "headline": "Mornings, days, nights.",
+    "intro_body": "There's no schedule handed to you at check-in, but most weeks here fall into the same easy rhythm — the compound wakes up slowly, the middle of the day belongs to the water and the jungle beyond the gate, and the evenings go quiet again once the light does.",
+    "mornings_heading": "Mornings",
+    "mornings_body": "The compound is at its quietest before nine — birds, and not much else. It's the best hour to have the rooftop to yourself before the day gets going.",
+    "days_heading": "Days",
+    "days_body": "Midday is for the water — the pool a few steps from your door, or the sea if you want sand under you. Cenotes are close enough for a half-day trip without losing the afternoon, and the ruins are an unhurried drive if you'd rather do history before lunch than after.",
+    "nights_heading": "Nights",
+    "nights_body": "Evenings arrive with less noise than you'd expect this close to a party town — mostly cicadas, the pool light coming on. The rooftop is where most nights end, hammock or no hammock, watching the sky go from orange to the kind of dark you don't get in a city.",
+    "cta_heading": "Plan your days",
+    "cta_body": "The Guide has the specifics — cenotes, beach clubs, getting around — for whenever you're ready to move past the rooftop.",
+    "cta_label": "Open the guide"
   },
   "guide": {
-    "stub_heading": "The guide",
-    "stub_body": "Cenotes, beach clubs, restaurants, transport, water safety — written from the inside, not from a search engine. Coming soon."
+    "index_eyebrow": "The guide",
+    "index_headline": "Tulum, from the inside.",
+    "index_sub": "Cenotes, beach clubs, restaurants, getting around, water safety — written by people twenty minutes from all of it, not pulled from a search results page. We're building this out one topic at a time; here's what's live so far.",
+    "coming_soon": "Coming soon",
+    "read_article": "Read",
+    "back_to_guide": "The guide",
+    "cenotes": {
+      "heading": "Cenotes near Maki",
+      "intro": "Maki sits inland at the southwest end of town, which puts the cenotes on the road out of Tulum closer than the beach. For a lot of guests a half-day at one beats a full day fighting the beach-club crowds.",
+      "what_is_a_cenote_heading": "What a cenote actually is",
+      "what_is_a_cenote_body": "The Yucatán Peninsula has almost no rivers on the surface — the limestone bedrock is too porous, so the water moves underground instead, and a cenote is where the roof of that underground system has collapsed or opened up. Some are wide-open sinkholes full of daylight, some are half-cave and half-sky, and some are fully enclosed caves you swim into with a light. All of them were considered sacred ground long before they were a stop on a tour.",
+      "getting_there_heading": "Getting there",
+      "getting_there_body": "Cenote Cristal — and Escondido, directly across the highway from it on the same ticket — is a short drive southwest, closer from here than from the town centre. Vesica is a similar distance south. None of them has to eat your whole day. Message us if you want to know what conditions are like before you go.",
+      "etiquette_heading": "Before you get in",
+      "etiquette_body": "Only biodegradable, reef-safe sunscreen is allowed in the water at most cenotes — regular sunscreen leaves a film the enclosed, slow-moving water can't flush out the way the ocean does. Rinse off if you wore regular sunscreen earlier, and skip bug spray right before you swim, for the same reason.",
+      "safety_heading": "In the water",
+      "safety_body": "The water is often colder and deeper than it looks from the platform, and cave sections can disorient people who'd never call themselves nervous in open water. If a cenote offers a guide for the cave sections, take the guide.",
+      "timing_heading": "When to go",
+      "timing_body": "Early is better — before the tour buses arrive from the coast, the light is better for photos, and you'll often have long stretches of the water to yourself.",
+      "closing_heading": "More on the way",
+      "closing_body": "This is the first of several guides we're building out — beach clubs, restaurants, and getting around are next. If you want recommendations sooner than we publish them, message us and we'll come back the same day."
+    }
   },
   "book": {
     "stub_heading": "Book a stay",
@@ -71,6 +110,6 @@
     "view_stays": "See the stays"
   },
   "footer": {
-    "tag": "© {year} Maki Tulum · Aldea Zama, Tulum, México"
+    "tag": "© {year} Maki Tulum · Xul Kaa, Tulum, México"
   }
 }

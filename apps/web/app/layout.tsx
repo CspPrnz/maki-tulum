@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { headers } from 'next/headers';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '@maki/i18n';
+import { Analytics } from '../components/analytics';
 import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env['NEXT_PUBLIC_SITE_URL'] ?? 'http://localhost:3000'),
   title: { default: 'Maki Tulum', template: '%s · Maki Tulum' },
-  description: 'A quiet jungle compound off Tulum’s noisy center, in Aldea Zama.',
+  description: 'A quiet jungle compound at the southwest edge of Tulum, in Xul Kaa.',
   icons: {
     icon: [
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
@@ -29,7 +30,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     : DEFAULT_LOCALE;
   return (
     <html lang={lang}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

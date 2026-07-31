@@ -2,7 +2,7 @@
 
 - **Date:** 2026-05-04
 - **Status:** accepted (**supersedes earlier "fold admin under `/admin`" guidance** in `implementation-plan.md` §3.3 and ADR-0010 candidate notes)
-- **Context:** The original implementation plan said *"fold admin into `apps/web` under `/admin/*` … split into a separate app only if admin outgrows the public bundle."* That call was made on aesthetic / cost grounds. Felix's prior project at the same domain was hit by sustained malicious traffic targeting the predictable `/admin` and `/wp-admin` paths — bot scanners, credential-stuffing, exploit-of-the-week probes. The marginal cost of a separate admin app is small; the operational and security benefits are real.
+- **Context:** The original implementation plan said _"fold admin into `apps/web` under `/admin/_`… split into a separate app only if admin outgrows the public bundle."* That call was made on aesthetic / cost grounds. Felix's prior project at the same domain was hit by sustained malicious traffic targeting the predictable`/admin`and`/wp-admin` paths — bot scanners, credential-stuffing, exploit-of-the-week probes. The marginal cost of a separate admin app is small; the operational and security benefits are real.
 - **Decision:** Admin lives in a **separate Next.js app** (`apps/admin`) deployed to a **separate Railway service** at the **separate subdomain `admin.makitulum.com`**, fronted by **Cloudflare Access** (Zero Trust SSO gate). The public site (`apps/web` at `makitulum.com`) does not serve any admin routes and ships no admin code.
 - **Consequences:**
 
@@ -20,7 +20,7 @@
   - Cloudflare Access setup (~30 min, free tier, free in operation).
   - Slightly more docs (this ADR, the operational runbook for adding/removing admin users in CF Access).
 
-  ### What this is *not*
+  ### What this is _not_
   - Not security-through-obscurity. The subdomain is published in DNS; CF Access is the actual gate.
   - Not a replacement for app-layer authz. Roles + permissions still apply inside the admin app — CF Access just keeps strangers off the door.
 

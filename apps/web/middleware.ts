@@ -56,5 +56,7 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next|api|healthz|photos|brand|favicon.ico|favicon-|apple-touch-icon|site.webmanifest).*)'],
+  matcher: [
+    '/((?!_next|api|healthz|photos|brand|favicon.ico|favicon-|apple-touch-icon|site.webmanifest).*)',
+  ],
 };

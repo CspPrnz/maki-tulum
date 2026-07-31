@@ -11,12 +11,14 @@ export const ACCESS_TOKEN_TTL_SECONDS = 15 * 60;
 export const REFRESH_TOKEN_TTL_SECONDS = 30 * 24 * 60 * 60;
 
 // Rate limits — per-IP, per-window
+// `failClosed`: when the backing store is unreachable, auth endpoints reject
+// rather than serve unthrottled. Ordinary traffic fails open.
 export const RATE_LIMITS = {
-  login: { requests: 20, windowSeconds: 3600 },
-  register: { requests: 15, windowSeconds: 3600 },
-  forgotPassword: { requests: 10, windowSeconds: 3600 },
-  resetPassword: { requests: 5, windowSeconds: 3600 },
-  default: { requests: 120, windowSeconds: 60 },
+  login: { requests: 20, windowSeconds: 3600, failClosed: true },
+  register: { requests: 15, windowSeconds: 3600, failClosed: true },
+  forgotPassword: { requests: 10, windowSeconds: 3600, failClosed: true },
+  resetPassword: { requests: 5, windowSeconds: 3600, failClosed: true },
+  default: { requests: 120, windowSeconds: 60, failClosed: false },
 } as const;
 
 // Locales

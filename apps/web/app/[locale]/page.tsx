@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Container, Heading, Prose, Button } from '@maki/ui';
+import { Container, Heading } from '@maki/ui';
 import { isLocale, getTranslations, buildAlternates } from '@/lib/i18n';
 import { listStays } from '@/content/stays';
 import { LodgingBusinessJsonLd } from '@/components/jsonld';
@@ -35,10 +35,7 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <>
-      <LodgingBusinessJsonLd
-        url={`/${locale}`}
-        description={t.home.intro_body}
-      />
+      <LodgingBusinessJsonLd url={`/${locale}`} description={t.home.intro_body} />
 
       {/* Hero */}
       <section className="relative bg-[color:var(--color-night)] text-white">
@@ -106,11 +103,7 @@ export default async function HomePage({ params }: Props) {
           </div>
           <div className="grid gap-8 md:grid-cols-2">
             {stays.map((stay) => (
-              <Link
-                key={stay.slug}
-                href={`/${locale}/stays/${stay.slug}`}
-                className="group block"
-              >
+              <Link key={stay.slug} href={`/${locale}/stays/${stay.slug}`} className="group block">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-md">
                   <Image
                     src={stay.hero.src}

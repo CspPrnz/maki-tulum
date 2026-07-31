@@ -13,7 +13,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
     >
       <Container width="wide" className="flex flex-col gap-4 py-10 md:flex-row md:justify-between">
         <p className="text-sm text-[color:var(--color-smoke)]">
-          © {year} {t.meta.site_name} · Aldea Zama, Tulum, México
+          © {year} {t.meta.site_name} · Xul Kaa, Tulum, México
         </p>
         <nav aria-label="footer" className="flex flex-wrap gap-4 text-sm">
           <Link

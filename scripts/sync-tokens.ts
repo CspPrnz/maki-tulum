@@ -5,7 +5,14 @@
  * iOS Asset Catalog and Android colors.xml when native apps land.
  */
 import { writeFileSync } from 'node:fs';
-import { palette, typeScale, spacing, radius, minInputFontSize, minTouchTarget } from '../packages/ui/src/tokens.js';
+import {
+  palette,
+  typeScale,
+  spacing,
+  radius,
+  minInputFontSize,
+  minTouchTarget,
+} from '../packages/ui/src/tokens.js';
 
 const lines: string[] = [];
 lines.push('/* Auto-generated from packages/ui/src/tokens.ts. Do not edit by hand. */');

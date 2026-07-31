@@ -13,13 +13,18 @@ type StayLD = {
   imageUrls: string[];
 };
 
-export function LodgingBusinessJsonLd({
-  url,
-  description,
-}: {
-  url: string;
-  description: string;
-}) {
+/**
+ * JSON.stringify does not escape `<`, so any value containing `</script>`
+ * breaks out of the tag. Nothing user-controlled reaches these components
+ * today — every value comes from typed content modules — but guide article
+ * bodies are headed for per-slug files, so the escape belongs here before the
+ * content becomes editable rather than after.
+ */
+export function serializeLd(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, '\\u003c');
+}
+
+export function LodgingBusinessJsonLd({ url, description }: { url: string; description: string }) {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'LodgingBusiness',
@@ -31,16 +36,13 @@ export function LodgingBusinessJsonLd({
       addressLocality: 'Tulum',
       addressRegion: 'Quintana Roo',
       addressCountry: 'MX',
-      streetAddress: 'Aldea Zama',
+      streetAddress: 'Xul Kaa',
     },
     telephone: '',
     priceRange: '$$$',
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeLd(data) }} />
   );
 }
 
@@ -61,9 +63,6 @@ export function HotelRoomJsonLd({ stay }: { stay: StayLD }) {
     ],
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeLd(data) }} />
   );
 }

@@ -1,0 +1,30 @@
+# Without this, the build context (and every `railway up` upload) carries the
+# whole node_modules tree and .next cache — slow, and host-built binaries can
+# shadow the ones installed inside the image.
+node_modules
+**/node_modules
+.next
+**/.next
+.turbo
+**/.turbo
+dist
+**/dist
+coverage
+**/coverage
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+.git
+.github
+.claude
+
+# Never let a real env file into an image layer.
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+
+docs
+*.md
+!README.md

@@ -12,9 +12,7 @@ type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export function generateStaticParams() {
   const stays = listStays();
-  return SUPPORTED_LOCALES.flatMap((locale) =>
-    stays.map((s) => ({ locale, slug: s.slug })),
-  );
+  return SUPPORTED_LOCALES.flatMap((locale) => stays.map((s) => ({ locale, slug: s.slug })));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -87,9 +85,7 @@ export default async function StayDetailPage({ params }: Props) {
           <Heading level={1} className="mt-3">
             {stay.name}
           </Heading>
-          <p className="mt-3 text-lg text-[color:var(--color-smoke)]">
-            {stay.signature[locale]}
-          </p>
+          <p className="mt-3 text-lg text-[color:var(--color-smoke)]">{stay.signature[locale]}</p>
           {stay.status === 'placeholder' && (
             <p className="mt-3 text-sm uppercase tracking-wider text-[color:var(--color-terracotta)]">
               {t.stays.photos_pending}
@@ -139,9 +135,7 @@ export default async function StayDetailPage({ params }: Props) {
           <Heading level={3} as="h2">
             {t.stays.request_to_book}
           </Heading>
-          <p className="mt-2 text-base text-[color:var(--color-smoke)]">
-            {t.stays.book_note}
-          </p>
+          <p className="mt-2 text-base text-[color:var(--color-smoke)]">{t.stays.book_note}</p>
           <Link
             href={`/${locale}/book`}
             className="mt-5 inline-flex items-center min-h-[44px] px-5 py-2.5 rounded-md bg-[color:var(--color-gold)] text-white font-medium hover:bg-[color:var(--color-gold-dark)]"

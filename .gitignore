@@ -46,3 +46,6 @@ secrets/
 
 # Claude Code
 .claude/settings.local.json
+
+# Agent worktrees (created by Claude Code isolation)
+.claude/worktrees/

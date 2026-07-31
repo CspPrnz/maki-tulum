@@ -19,18 +19,18 @@
     "view_all": "Alle ansehen"
   },
   "home": {
-    "hero_eyebrow": "Aldea Zama, Tulum",
+    "hero_eyebrow": "Xul Kaa, Tulum",
     "hero_headline": "Eine ruhige Anlage, abseits vom Lärm.",
     "hero_sub": "Abseits vom Zentrum und vom Strand Tulums, aber nah genug, um überall leicht hinzukommen.",
     "intro_heading": "Was Maki ist",
-    "intro_body": "Maki ist eine ruhige Anlage im Dschungel von Aldea Zama. Für mich ist sie ein Rückzugsort — ein Ort zum Auftanken und zum Abschalten vom Alltag draußen. Die Community ist eine schöne Mischung aus Residenten und Gästen aus Amerika und Europa, und das Motto ist einfach: komm wie du bist und genieße es.",
+    "intro_body": "Maki ist eine ruhige Anlage im Dschungel am südwestlichen Rand von Tulum. Für mich ist es ein Rückzugsort — zum Auftanken und Abschalten vom Trubel draußen. Die Gemeinschaft ist eine bunte Mischung aus Bewohnern und Gästen aus ganz Amerika und Europa, und die Idee ist einfach: komm, wie du bist, und genieße es.",
     "stays_heading": "Die Häuser",
     "stays_sub": "Zweistöckige Villen und Apartments in derselben Anlage. Jedes ist sein eigenes Zuhause.",
     "compound_heading": "Die Anlage",
     "compound_sub": "Pools, Gärten, ein paar Minuten mit dem Rad zum Strand, zu den Ruinen, zu Cenotes.",
     "book_cta": "Häuser ansehen",
     "find_us_heading": "Wo wir liegen",
-    "find_us_body": "Aldea Zama, ein geplantes Wohnviertel zwischen Tulums Zentrum und dem Strand. 7 Minuten mit dem Auto zu den Ruinen, 10 zu den Beach Clubs, 5 zu einer Cenote."
+    "find_us_body": "Xul Kaa, ein Wohnviertel am südwestlichen Ende von Tulum — abseits der Hauptstraße, mit den Cenoten an der Ausfallstraße näher als der Strand."
   },
   "stays": {
     "index_eyebrow": "10 Häuser in der Anlage",
@@ -54,16 +54,55 @@
     }
   },
   "compound": {
-    "stub_heading": "Die Anlage",
-    "stub_body": "Ein längerer Text über den Ort, die Leute und einen Tag bei Maki kommt mit dem nächsten Content-Update."
+    "hero_eyebrow": "Xul Kaa, Tulum",
+    "headline": "Eine Anlage, kein Hotel.",
+    "intro_body": "Maki ist ein einziges Grundstück mit vielen Häusern darin — Gärten, ein gemeinsamer Poolbereich, ruhige Wege zwischen den Villen, ein Tor für die ganze Anlage. Gebaut für Menschen, die ein Haus für die Woche wollen und kein Zimmer am Ende eines Flurs. Wer hier vorbeikommt, ist eine Mischung aus Bewohnern, die das ganze Jahr hier leben, und Gästen auf der Durchreise — von überall her, denn auch bei uns im Team kommt niemand nur von einem Ort.",
+    "location_heading": "Wo wir liegen",
+    "location_body": "Wir sind in Xul Kaa, einem Wohnviertel am südwestlichen Ende von Tulum — weg vom Lärm der Hauptstraße und näher an den Cenoten an der Ausfallstraße als am Strand. Nachts ruhig, worum es im Grunde geht.",
+    "design_heading": "Wie es gebaut ist",
+    "design_body": "Weiß verputzte Wände, Bambuszäune statt Betonmauern, wo es ging, und der Dschungel über den Poolbereichen stehen gelassen statt für Rasen gerodet. Die Böden sind polierter Beton und Terrazzo, kühl unter den Füßen selbst am Mittag.",
+    "stays_heading": "Zehn Häuser, eine Anlage",
+    "stays_body": "Zehn Häuser teilen sich das Grundstück — Villen und Apartments, jedes mit eigenem Eingang innerhalb derselben Mauern. Zwei sind heute buchbar, Villa 18 und Villa 19; die anderen kommen in den nächsten Monaten dazu, sobald wir mit dem Fotografieren fertig sind.",
+    "cta": "Häuser ansehen",
+    "photos_heading": "Das Grundstück"
   },
   "days": {
-    "stub_heading": "Die Tage",
-    "stub_body": "Morgens, tagsüber, abends — der Rhythmus einer Woche hier. Folgt im nächsten Content-Update."
+    "eyebrow": "Eine Woche bei Maki",
+    "headline": "Morgens, tagsüber, abends.",
+    "intro_body": "Beim Check-in bekommst du keinen Zeitplan, aber die meisten Wochen hier folgen demselben leichten Rhythmus — die Anlage wacht langsam auf, die Mitte des Tages gehört dem Wasser und dem Dschungel hinter dem Tor, und die Abende werden wieder ruhig, sobald das Licht schwindet.",
+    "mornings_heading": "Morgens",
+    "mornings_body": "Am ruhigsten ist die Anlage vor neun — Vögel, und sonst wenig. Die beste Stunde, um die Dachterrasse für sich zu haben, bevor der Tag losgeht.",
+    "days_heading": "Tagsüber",
+    "days_body": "Der Mittag gehört dem Wasser — dem Pool ein paar Schritte vor der Tür oder dem Meer, wenn du Sand unter den Füßen willst. Die Cenoten sind nah genug für einen halben Tag, ohne den Nachmittag zu verlieren, und die Ruinen liegen eine gemächliche Fahrt entfernt, falls du Geschichte lieber vor dem Essen machst.",
+    "nights_heading": "Abends",
+    "nights_body": "Die Abende kommen leiser, als man so nah an einer Partystadt erwarten würde — vor allem Zikaden, das Poollicht, das angeht. Die Dachterrasse ist, wo die meisten Abende enden, mit oder ohne Hängematte, während der Himmel von Orange in die Art Dunkelheit übergeht, die man in einer Stadt nicht bekommt.",
+    "cta_heading": "Plane deine Tage",
+    "cta_body": "Der Guide hat die Details — Cenotes, Beach Clubs, wie du dich fortbewegst — für wenn du bereit bist, von der Dachterrasse runterzukommen.",
+    "cta_label": "Guide öffnen"
   },
   "guide": {
-    "stub_heading": "Der Guide",
-    "stub_body": "Cenotes, Beach Clubs, Restaurants, Transport, Wasser — aus dem Inneren geschrieben, nicht aus einer Suchmaschine. In Kürze."
+    "index_eyebrow": "Der Guide",
+    "index_headline": "Tulum, von innen.",
+    "index_sub": "Cenotes, Beach Clubs, Restaurants, Fortbewegung, Sicherheit im Wasser — geschrieben von Leuten, die zwanzig Minuten von all dem entfernt wohnen, nicht aus einer Suchergebnisseite kopiert. Wir bauen das Thema für Thema aus; hier ist, was schon fertig ist.",
+    "coming_soon": "Folgt in Kürze",
+    "read_article": "Lesen",
+    "back_to_guide": "Der Guide",
+    "cenotes": {
+      "heading": "Cenoten in der Nähe von Maki",
+      "intro": "Maki liegt im Landesinneren am südwestlichen Ende des Orts — dadurch sind die Cenoten an der Ausfallstraße näher als der Strand. Für viele Gäste schlägt ein halber Tag an einer Cenote einen ganzen Tag im Gedränge der Beach Clubs.",
+      "what_is_a_cenote_heading": "Was eine Cenote wirklich ist",
+      "what_is_a_cenote_body": "Die Halbinsel Yucatán hat fast keine Flüsse an der Oberfläche — der Kalkstein ist zu porös, also bewegt sich das Wasser stattdessen unterirdisch, und eine Cenote ist die Stelle, an der das Dach dieses unterirdischen Systems eingestürzt oder aufgebrochen ist. Manche sind offene, lichtdurchflutete Dolinen, manche halb Höhle, halb Himmel, und manche sind vollständig geschlossene Höhlen, in die man mit Licht hineinschwimmt. Alle galten als heiliger Boden, lange bevor sie zu einer Station auf einer Tour wurden.",
+      "getting_there_heading": "Hinkommen",
+      "getting_there_body": "Die Cenote Cristal — und Escondido, direkt gegenüber auf der anderen Straßenseite und mit demselben Ticket — liegt eine kurze Fahrt südwestlich, von hier aus näher als vom Ortszentrum. Vesica liegt in ähnlicher Entfernung im Süden. Keine davon muss den ganzen Tag kosten. Schreib uns, wenn du vorher wissen willst, wie die Bedingungen gerade sind.",
+      "etiquette_heading": "Bevor du reingehst",
+      "etiquette_body": "In den meisten Cenoten ist nur biologisch abbaubare, riffverträgliche Sonnencreme im Wasser erlaubt — normale Sonnencreme hinterlässt einen Film, den das abgeschlossene, langsam fließende Wasser nicht wegspülen kann wie das Meer. Dusche ab, wenn du vorher normale Sonnencreme benutzt hast, und lass das Insektenspray direkt vor dem Schwimmen weg, aus demselben Grund.",
+      "safety_heading": "Im Wasser",
+      "safety_body": "Das Wasser ist oft kälter und tiefer, als es von der Plattform aussieht, und Höhlenabschnitte können Menschen die Orientierung nehmen, die sich im offenen Meer nie nervös nennen würden. Wenn eine Cenote einen Guide für die Höhlenabschnitte anbietet, nimm ihn.",
+      "timing_heading": "Wann hingehen",
+      "timing_body": "Früher ist besser — bevor die Reisebusse von der Küste ankommen, das Licht ist besser für Fotos, und oft hast du lange Abschnitte des Wassers für dich allein.",
+      "closing_heading": "Mehr folgt",
+      "closing_body": "Das ist der erste von mehreren Guides, die wir aufbauen — Beach Clubs, Restaurants und Fortbewegung kommen als Nächstes. Wenn du Empfehlungen willst, bevor wir sie veröffentlichen, schreib uns, wir melden uns am selben Tag."
+    }
   },
   "book": {
     "stub_heading": "Ein Haus buchen",
@@ -71,6 +110,6 @@
     "view_stays": "Häuser ansehen"
   },
   "footer": {
-    "tag": "© {year} Maki Tulum · Aldea Zama, Tulum, México"
+    "tag": "© {year} Maki Tulum · Xul Kaa, Tulum, México"
   }
 }
