@@ -1,7 +1,12 @@
 import { afterAll, describe, expect, it } from 'vitest';
 import { Role } from '@maki/types';
 
-process.env['DATABASE_URL'] ??= 'postgres://maki:maki@localhost:5432/maki';
+// No fallback on purpose. Defaulting to a database name that happens to exist
+// on a dev machine is what let turbo's strict env mode strip DATABASE_URL
+// unnoticed: green locally, "database does not exist" on CI. Require it.
+if (!process.env['DATABASE_URL']) {
+  throw new Error('DATABASE_URL must be set to run these tests (see turbo.json passThroughEnv).');
+}
 
 const { sql } = await import('drizzle-orm');
 const { db } = await import('./index.js');
