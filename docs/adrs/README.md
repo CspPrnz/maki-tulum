@@ -22,7 +22,8 @@ Copy [`_template.md`](_template.md) to `NNNN-slug.md` and fill it in.
 - [0010 — Admin in a separate Next.js app at admin.makitulum.com, behind Cloudflare Access](0010-admin-as-separate-app.md) · accepted (**supersedes earlier "fold under /admin" guidance**)
 - [0011 — Drizzle ORM + drizzle-kit migrations](0011-drizzle-orm-migrations.md) · accepted
 - [0012 — Brevo as the transactional email provider](0012-brevo-email.md) · accepted
-- [0016 — Captured deposit + off-session balance charge](0016-deposit-and-off-session-balance.md) · **proposed** — replaces the manual-capture-at-T−30 design that cannot execute (red-team MRT-15-P0-01); blocks Phase 2 until accepted
+- [0016 — Captured deposit + off-session balance charge](0016-deposit-and-off-session-balance.md) · **superseded by 0017** — retains the analysis of why manual-capture-at-T−30 cannot execute (red-team MRT-15-P0-01)
+- [0017 — Charge the full amount at booking](0017-charge-in-full-at-booking.md) · accepted — one payment, no deposit/balance split; resolves MRT-15-P0-01
 
 ## Pending / future ADRs
 

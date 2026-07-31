@@ -1,6 +1,6 @@
 # Maki Tulum — Product Idea v3
 
-> A direct-booking brand for a small jungle compound in Aldea Zama, Tulum. We use OTAs to acquire first-time guests and use **makitulum.com** to earn — and keep — the second stay. This document captures the concept. Implementation lives elsewhere.
+> A direct-booking brand for a small jungle compound in Xul Kaa, Tulum. We use OTAs to acquire first-time guests and use **makitulum.com** to earn — and keep — the second stay. This document captures the concept. Implementation lives elsewhere.
 
 > **Revision (2026-07-15):** Dropped the US+DACH primary-ICP framing and the German-language wedge as a strategic acquisition bet (see §2, §13, §15.7). Maki is a residence for guests from anywhere — the owners themselves are international — so no single source market is being targeted for growth. Multilingual hosting continues: English is the canonical source language, translated into German (then other languages as the site scales), but DE-specific SEO/content depth is no longer a differentiated growth lever. This resolves the Phase 1B German-content gate raised in `docs/backlog/plans/codex-red-team.md` (MRT-15-P1-03) without needing search-volume validation — the strategic rationale for that investment is gone.
 
@@ -30,7 +30,7 @@ Data backdrop: independent properties lose ~61% of bookings to OTAs vs. ~35% for
 
 ## 2. Positioning
 
-**One-line:** Maki Tulum is a small, design-led jungle compound in Aldea Zama where guests can first discover the stay anywhere, but the best way to return is direct.
+**One-line:** Maki Tulum is a small, design-led jungle compound in Xul Kaa where guests can first discover the stay anywhere, but the best way to return is direct.
 
 **Primary ICP (launch):** Design-conscious couples and small groups, 30–50, international — Maki is a residence for guests from anywhere, not targeted at one source market (the owners themselves come from all over the world). Wanting a calmer, more thoughtful Tulum week and likely to return if hosted well.
 
@@ -130,7 +130,7 @@ Rule: if a tool covers 80% of the need, we buy it. Build only where Maki is genu
 
 The site is structured as a journey, not a listings grid.
 
-- **The Compound** — Maki's story, Aldea Zama, the design intent.
+- **The Compound** — Maki's story, Xul Kaa, the design intent.
 - **The Stays** — each villa/apartment as its own editorial page.
 - **The Days** — what a day at Maki looks like (Mornings / Days / Nights). Wellness, food, adventure.
 - **The Guide** — public, SEO-rich Tulum guidebook (cenotes, restaurants, beach clubs, transport, water safety, seasons). Doubles as proof-of-hosting _before_ booking and as a long-tail SEO moat.
@@ -186,7 +186,7 @@ Every "state-of-the-art" idea we researched is deferrable — except these three
 ### SEO & content
 
 - Schema.org `LodgingBusiness` + `Hotel` + `HotelRoom` + `Offer` on every relevant page. ([LodgingBusiness](https://schema.org/LodgingBusiness))
-- Don't chase "Tulum villa." Win long-tail micro-geo ("boutique villa Aldea Zama cenote," "5-bedroom Tulum jungle villa chef included," DE: "Tulum Villa mit Koch mieten").
+- Don't chase "Tulum villa." Win long-tail micro-geo ("boutique villa Xul Kaa cenote," "5-bedroom Tulum jungle villa chef included," DE: "Tulum Villa mit Koch mieten").
 - `/guide/*` destination content is the SEO moat and internal-link engine.
 
 ### User roles (satisfied by buying, not building)
@@ -300,7 +300,7 @@ These are easy to accidentally ship. They are listed so we don't.
 
 ## 16. One-paragraph pitch
 
-> Maki Tulum is a small design-led compound in Aldea Zama built around a simple idea: guests may discover us anywhere, but the best way to come back is direct. We use marketplaces to win the first stay, then earn the second through trust, taste, and unusually personal hosting in English, Spanish, and German. `makitulum.com` is where returning guests book with confidence, plan their week with us over WhatsApp, hold dates without a credit card, and feel the relationship start before they arrive.
+> Maki Tulum is a small design-led compound in Xul Kaa built around a simple idea: guests may discover us anywhere, but the best way to come back is direct. We use marketplaces to win the first stay, then earn the second through trust, taste, and unusually personal hosting in English, Spanish, and German. `makitulum.com` is where returning guests book with confidence, plan their week with us over WhatsApp, hold dates without a credit card, and feel the relationship start before they arrive.
 
 ---
 

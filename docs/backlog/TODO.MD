@@ -68,7 +68,7 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 
 | Decision | Why it can't stay deferred | Owner | Due |
 |---|---|---|---|
-| Legal entity + payments jurisdiction (`idea-v3.md` §15.8) | Determines merchant of record, Stripe account country, settlement currency, tax treatment, OXXO/MercadoPago eligibility — all committed in Phase 2's checkout design | Felix | Before Phase 2 checkout work starts |
+| ~~Legal entity + payments jurisdiction~~ | **Decided 2026-07-31: foreign entity now, hybrid long-term.** Consequence for Phase 2: **card-only** — OXXO and MercadoPago need a Mexican RFC, so they wait for the hybrid step. Still needs counsel on whether operating the Tulum property creates Mexican tax nexus regardless of where the payment entity sits (question 1 in [`plans/legal-entity-brief.md`](plans/legal-entity-brief.md)) | Felix | ~~Before Phase 2 checkout~~ ✅ |
 | Guest-data consent scope (`idea-v3.md` §15.10, GDPR + LFPDPPP) | Phase 1A already persists locale preference; Phase 2 adds payment + guest records with no data map or lawful-basis matrix yet | Felix | Before Phase 2 booking schema is designed |
 
 ---
@@ -114,7 +114,7 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 - [x] ~~Days page real content~~ **Done 2026-07-31 (WP-2)** — partner names still absent; none were invented
 - [ ] **Correct the 5 `TODO(felix)` invented claims** in compound/days/guide pages, then mirror the corrections into ES + DE
 - [ ] Ambient video hero (placeholder MP4 + poster — Felix to provide source)
-- [x] ~~Guide article framework + 1 seed article~~ **Done 2026-07-31 (WP-2)** — typed content modules, not MDX (no new dependency); `cenotes-near-aldea-zama` prerendered per locale
+- [x] ~~Guide article framework + 1 seed article~~ **Done 2026-07-31 (WP-2)** — typed content modules, not MDX (no new dependency); `cenotes-near-maki` prerendered per locale
 - [ ] Lighthouse audit on home + 1 stay + guide article — must hit ≥90 across all categories
 - [ ] Cookie banner decision (Plausible is cookieless — Phase 1B may need none)
 - [x] ~~Gate (Codex red-team MRT-15-P1-03, blocks Phase 1B): German long-tail SEO validation before deeper DE content investment~~ **Resolved 2026-07-15 — outcome: deprioritize.** Felix decided German is not a strategic ICP wedge (Maki serves international guests broadly; owners are themselves international) — no Ahrefs validation needed since the growth rationale for DE depth no longer exists. Translation work continues normally: EN is canonical source content, DE (then other languages) follow as straightforward translation, same priority as any other locale. See `idea-v3.md` revision note (2026-07-15) and §2/§13/§15.7.
@@ -142,10 +142,10 @@ First adversarial pass against `idea-v3.md` + `implementation-plan.md` (see [`pl
 
 | ID | Finding | Objective |
 |---|---|---|
-| MRT-15-P0-01 | ~~T−30 manual capture can't survive a 7-day authorization window~~ | **Resolved 2026-07-31 → [ADR 0016](../adrs/0016-deposit-and-off-session-balance.md) (proposed).** Captured deposit + off-session balance charge, SCA recovery, dunning ladder, ledger as source of truth. Needs Felix's accept |
+| MRT-15-P0-01 | ~~T−30 manual capture can't survive a 7-day authorization window~~ | **Resolved + decided 2026-07-31 → [ADR 0017](../adrs/0017-charge-in-full-at-booking.md) (accepted).** Charge 100% at booking; no deposit/balance split, no dunning, no SCA-recovery link. ADR 0016 superseded but kept for the analysis |
 | MRT-15-P0-02 | Channel-manager selection deferred past the point it defines the availability/rates schema | **Still open — deliberately.** Felix deferred the vendor trial on cost grounds (2026-07-31). The [capability contract](plans/channel-manager-capability-contract.md) is written so the trial is cheap when it happens. **The finding stands:** any Phase 2 work that models availability, rates, or inventory is blocked until a vendor is validated. Booking work that does *not* touch inventory shape can proceed |
 | MRT-15-P0-03 | "One-file adapter swap" understates how much vendor semantics shape checkout | **Resolved 2026-07-31** — 8 outcome-level assertions in the [capability contract](plans/channel-manager-capability-contract.md) |
-| MRT-15-P0-04 | Legal entity/payments jurisdiction constrains Phase 2 checkout | **Decision-ready 2026-07-31** → [legal-entity-brief.md](plans/legal-entity-brief.md). Felix's decision + counsel |
+| MRT-15-P0-04 | Legal entity/payments jurisdiction constrains Phase 2 checkout | **Decided 2026-07-31: foreign entity now, hybrid later.** Card-only for v1. Counsel still needed on Mexican tax nexus and the eventual hybrid structure |
 | MRT-15-P0-05 | Consent scope open while Phase 2 expands data collection | **Decision-ready 2026-07-31** → [consent-data-map.md](plans/consent-data-map.md). Felix's decision + counsel |
 | MRT-15-P1-01 | The north-star metric (`idea-v3.md` §12) has no defined cohort/identity/attribution model, and none of Hostaway/Breezeway/Enso own that graph | Define the metric's instrumentation contract in Phase 2, not Phase 6 |
 | MRT-15-P1-02 | Phase 2/3 create direct-booking guests before Phase 4 builds the retention loop the thesis depends on | Move a minimum retention slice (consented contact, post-stay trigger, attributable rebook link) into Phase 2 |

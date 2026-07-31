@@ -7,14 +7,14 @@
 
 ## Property & place
 
-| Term           | Meaning                                                                                                                                                                            |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Compound**   | The Maki Tulum property as a whole in Aldea Zama, Tulum — shared jungle gardens, pool, common areas. Not a "hotel". Marketing surface: `/[locale]/compound`.                       |
-| **Aldea Zama** | The planned residential/tourist neighbourhood in Tulum where the compound sits. Used in copy and schema.org address, never as a routing slug.                                      |
-| **Villa**      | One rentable unit inside the compound, numbered (Villa 18, Villa 19, …). 20 units exist; 2 are live in Phase 1A.                                                                   |
-| **Stay**       | The guest-facing noun for a bookable unit. Route slug is `stays` (`/en/stays/villa-18`). In the data model the entity is **Property**. `stay` = presentation, `property` = domain. |
-| **Property**   | Data-model entity for a rentable unit. Owned by an Account. Carries rates, photos, amenities, unit metadata.                                                                       |
-| **Account**    | Tenant boundary. One account today (Maki). Every tenant-scoped row carries `account_id` and every query filters on it explicitly (ADR 0007, 0008).                                 |
+| Term         | Meaning                                                                                                                                                                                                                                                             |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Compound** | The Maki Tulum property as a whole in Xul Kaa, Tulum — shared jungle gardens, pool, common areas. Not a "hotel". Marketing surface: `/[locale]/compound`.                                                                                                           |
+| **Xul Kaa**  | The residential colonia at the southwest end of Tulum where the compound sits (postal code 77762). Corrected 2026-07-31 — the project previously recorded **Aldea Zama** throughout, which was wrong. Used in copy and schema.org address, never as a routing slug. |
+| **Villa**    | One rentable unit inside the compound, numbered (Villa 18, Villa 19, …). 20 units exist; 2 are live in Phase 1A.                                                                                                                                                    |
+| **Stay**     | The guest-facing noun for a bookable unit. Route slug is `stays` (`/en/stays/villa-18`). In the data model the entity is **Property**. `stay` = presentation, `property` = domain.                                                                                  |
+| **Property** | Data-model entity for a rentable unit. Owned by an Account. Carries rates, photos, amenities, unit metadata.                                                                                                                                                        |
+| **Account**  | Tenant boundary. One account today (Maki). Every tenant-scoped row carries `account_id` and every query filters on it explicitly (ADR 0007, 0008).                                                                                                                  |
 
 ## Booking & money
 

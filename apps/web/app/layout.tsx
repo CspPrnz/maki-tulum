@@ -8,7 +8,7 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env['NEXT_PUBLIC_SITE_URL'] ?? 'http://localhost:3000'),
   title: { default: 'Maki Tulum', template: '%s · Maki Tulum' },
-  description: 'A quiet jungle compound off Tulum’s noisy center, in Aldea Zama.',
+  description: 'A quiet jungle compound at the southwest edge of Tulum, in Xul Kaa.',
   icons: {
     icon: [
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },

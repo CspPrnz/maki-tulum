@@ -12,9 +12,9 @@ describe('guide content', () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it('exposes exactly one live topic today: cenotes-near-aldea-zama', () => {
+  it('exposes exactly one live topic today: cenotes-near-maki', () => {
     const live = GUIDE_TOPICS.filter((t) => t.status === 'live');
-    expect(live.map((t) => t.slug)).toEqual(['cenotes-near-aldea-zama']);
+    expect(live.map((t) => t.slug)).toEqual(['cenotes-near-maki']);
   });
 
   it('every topic has title and teaser text in every supported locale', () => {
@@ -37,6 +37,6 @@ describe('guide content', () => {
   });
 
   it('getGuideTopic returns the right topic by slug', () => {
-    expect(getGuideTopic('cenotes-near-aldea-zama')?.status).toBe('live');
+    expect(getGuideTopic('cenotes-near-maki')?.status).toBe('live');
   });
 });

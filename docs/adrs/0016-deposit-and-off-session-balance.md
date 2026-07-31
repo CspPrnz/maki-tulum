@@ -1,7 +1,7 @@
 # ADR 0016 — Captured deposit + off-session balance charge (replaces manual-capture-at-T−30)
 
 - **Date:** 2026-07-31
-- **Status:** proposed — resolves red-team finding MRT-15-P0-01, which blocks Phase 2
+- **Status:** **superseded by [ADR 0017](0017-charge-in-full-at-booking.md)** (2026-07-31 — Felix chose to charge 100% at booking rather than take on the deposit/balance machinery). Kept because the analysis of _why_ the original T−30 manual-capture design cannot work still stands, and because reviving the split later means reviving the security corrections below with it. Originally: resolves red-team finding MRT-15-P0-01.
 - **Context:**
 
 `implementation-plan.md` §4 Phase 2 specifies "30% deposit at booking, scheduled capture of 70% at T−30 days (Stripe PaymentIntent with `capture_method: manual` + BullMQ job)."

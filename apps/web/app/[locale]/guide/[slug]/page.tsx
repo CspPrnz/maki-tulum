@@ -90,7 +90,6 @@ export default async function GuideArticlePage({ params }: Props) {
           <Heading level={3} as="h2">
             {c.getting_there_heading}
           </Heading>
-          {/* TODO(felix): verify — invented: promises a concierge-style recommendation ("we'd rather point you to the right one than have you guess") that isn't confirmed as something the team does today. */}
           <p className="mt-3 text-base leading-relaxed text-[color:var(--color-smoke)]">
             {c.getting_there_body}
           </p>
@@ -100,7 +99,6 @@ export default async function GuideArticlePage({ params }: Props) {
           <Heading level={3} as="h2">
             {c.etiquette_heading}
           </Heading>
-          {/* TODO(felix): verify — invented: "at every cenote we know of" overclaims firsthand knowledge across every site; the sunscreen rule itself is a general Quintana Roo cenote/reef norm, not verified against a source doc. */}
           <p className="mt-3 text-base leading-relaxed text-[color:var(--color-smoke)]">
             {c.etiquette_body}
           </p>
@@ -110,7 +108,6 @@ export default async function GuideArticlePage({ params }: Props) {
           <Heading level={3} as="h2">
             {c.safety_heading}
           </Heading>
-          {/* TODO(felix): verify — invented: "life jackets are usually available" is an unverified generalization about the region, not a confirmed fact. */}
           <p className="mt-3 text-base leading-relaxed text-[color:var(--color-smoke)]">
             {c.safety_body}
           </p>

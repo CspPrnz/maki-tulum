@@ -50,7 +50,6 @@ export default async function CompoundPage({ params }: Props) {
         <Heading level={1} className="mt-3">
           {t.compound.headline}
         </Heading>
-        {/* TODO(felix): verify — invented: "no front desk between you and the gate" asserts an operational/staffing detail not confirmed in idea-v3.md, CONTEXT.md, or shipped copy. */}
         <p className="mt-6 max-w-prose text-lg text-[color:var(--color-smoke)]">
           {t.compound.intro_body}
         </p>

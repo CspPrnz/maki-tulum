@@ -6,7 +6,7 @@ Vendor-neutral mirror of the load-bearing subset of [`CLAUDE.md`](CLAUDE.md) for
 
 ## What this is
 
-Direct-booking platform for Maki Tulum, a jungle villa compound in Aldea Zama, Tulum. Owner-operated, escaping OTA dependency. Web-first; the API is designed to serve native clients later.
+Direct-booking platform for Maki Tulum, a jungle villa compound in Xul Kaa, Tulum. Owner-operated, escaping OTA dependency. Web-first; the API is designed to serve native clients later.
 
 **Thesis:** OTAs for acquisition, direct for retention. Every feature answers: _does this drive stay #2?_
 

@@ -36,7 +36,7 @@ export function LodgingBusinessJsonLd({ url, description }: { url: string; descr
       addressLocality: 'Tulum',
       addressRegion: 'Quintana Roo',
       addressCountry: 'MX',
-      streetAddress: 'Aldea Zama',
+      streetAddress: 'Xul Kaa',
     },
     telephone: '',
     priceRange: '$$$',

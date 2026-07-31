@@ -5,7 +5,7 @@
 
 ## What this is
 
-Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Aldea Zama, Tulum. Owner-operated, escaping Airbnb/Booking.com dependency. Web-first; backend extensible to native iOS/Android later via the same API.
+Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Xul Kaa, Tulum. Owner-operated, escaping Airbnb/Booking.com dependency. Web-first; backend extensible to native iOS/Android later via the same API.
 
 **Thesis (read first):** OTAs for acquisition, direct for retention. Every feature answers: _does this drive stay #2?_
 

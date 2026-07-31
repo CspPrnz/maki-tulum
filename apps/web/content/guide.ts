@@ -1,6 +1,6 @@
 /**
  * Guide topic index. Static content module for Phase 1B — same pattern as
- * content/stays.ts. Only `cenotes-near-aldea-zama` has a published article;
+ * content/stays.ts. Only `cenotes-near-maki` has a published article;
  * the rest are index entries marked `coming-soon` until written. When MDX
  * becomes available, article bodies can move out of packages/i18n and into
  * per-slug .mdx files without changing this index shape.
@@ -18,12 +18,12 @@ export type GuideTopic = {
 
 export const GUIDE_TOPICS: GuideTopic[] = [
   {
-    slug: 'cenotes-near-aldea-zama',
+    slug: 'cenotes-near-maki',
     status: 'live',
     title: {
-      en: 'Cenotes near Aldea Zama',
-      es: 'Cenotes cerca de Aldea Zama',
-      de: 'Cenotes in der Nähe von Aldea Zama',
+      en: 'Cenotes near Maki',
+      es: 'Cenotes cerca de Maki',
+      de: 'Cenoten in der Nähe von Maki',
     },
     teaser: {
       en: 'What a cenote actually is, how to visit one properly, and why the closest one is closer than you think.',

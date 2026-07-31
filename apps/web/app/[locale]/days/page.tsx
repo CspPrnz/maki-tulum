@@ -39,7 +39,6 @@ export default async function DaysPage({ params }: Props) {
           <Heading level={3} as="h2">
             {t.days.mornings_heading}
           </Heading>
-          {/* TODO(felix): verify — invented: "the pool skimmer starting somewhere across the garden" implies a specific maintenance routine/timing not confirmed anywhere in source docs. */}
           <p className="mt-3 max-w-prose text-base leading-relaxed text-[color:var(--color-smoke)]">
             {t.days.mornings_body}
           </p>
