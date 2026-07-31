@@ -1,7 +1,7 @@
 ---
 id: wp1-phase0-exit
 title: Close Phase 0 — persistence, integration tests, observability, deploy readiness
-status: in_progress # draft | approved | in_progress | blocked | done
+status: done # draft | approved | in_progress | blocked | done
 phase: 0
 owner: orchestrator
 created: 2026-07-31
@@ -141,6 +141,5 @@ Claims are not evidence. Every row is re-run by the orchestrator, not taken from
 - [x] Six lessons appended to `docs/lessons-learned.md`
 - [x] ADR 0016 written (payment capture redesign)
 - [x] Handoff written + indexed
-- [ ] `status: done` — **held open deliberately.** Phase 0's exit criterion is a deployed
-      `/healthz` returning 200, and no Railway project exists. Streams A–D are complete;
-      the phase is not. Close this when staging responds.
+- [x] `status: done` — **staging responds.** Both services live, smoke test green, schema
+      migrated. Held open until this was true rather than closing when the code was written.

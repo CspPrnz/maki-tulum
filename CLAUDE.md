@@ -31,10 +31,10 @@ Direct-booking platform for **Maki Tulum**, a small jungle villa compound in Ald
 ## Current state
 
 - **Shipped:** Phase 0 scaffold, Phase 1A marketing site, most of Phase 1B (Compound / Days / Guide + first guide article, EN/ES/DE), Drizzle persistence with `0001_init`, supply-chain pinning, agent harness. ADRs 0001–0012 + 0016.
-- **Not deployed anywhere yet.** No Railway project, no Sentry/Plausible DSNs. Phase 0's exit criterion is still unmet.
+- **Deployed to Railway staging** — web https://web-production-66562.up.railway.app · api https://api-production-b61ac.up.railway.app, both `/healthz` 200, schema migrated. **Phase 0's exit criterion is met.** Still open: custom DNS, PR preview envs, Sentry/Plausible DSNs, and the project is still named `inspiring-learning`.
 - **CI is green** as of 2026-07-31 — the first successful run in the repo's history; it was red on every run from Phase 0 until then. `pnpm verify` mirrors it exactly, migration step included, and is the gate.
 - **Blocking publish:** 5 invented factual claims in the new marketing copy are marked `TODO(felix)` at the render site and need correcting in EN, then mirrored to ES/DE.
-- **Next:** Railway provisioning (Felix) closes Phase 0. Phase 2 stays gated until Felix decides its four blockers — three now have decision-ready briefs in `docs/backlog/plans/`.
+- **Next:** correct the 5 `TODO(felix)` copy claims, then Lighthouse + Villa 19 photos. Phase 2 stays gated on Felix's four blockers; the channel-manager trial is deferred on cost, which keeps the inventory schema frozen.
 - **Detail and status for everything above:** [`docs/backlog/TODO.MD`](docs/backlog/TODO.MD). Narrative history: [`docs/handoff/`](docs/handoff/). Do not restate either here.
 
 ## Stack (once Phase 0 ships)

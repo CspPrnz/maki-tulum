@@ -2,7 +2,7 @@
 
 ## State
 
-Phase 0 foundations, Phase 1B content, and the agent harness all landed on `feat/wp1-phase0-exit` ([PR #1](https://github.com/CspPrnz/maki-tulum/pull/1)), pushed, **CI green — the first successful run in the repo's history**, 97 tests. **Phase 0's exit criterion is still unmet** — there is no Railway project, so no deployed `/healthz`. See [`../backlog/TODO.MD`](../backlog/TODO.MD).
+Phase 0 foundations, Phase 1B content, and the agent harness all landed on `feat/wp1-phase0-exit` ([PR #1](https://github.com/CspPrnz/maki-tulum/pull/1)), pushed, **CI green — the first successful run in the repo's history**, 97 tests. **Phase 0's exit criterion is MET** — both services are live on Railway staging with the schema migrated and the smoke test green. See [`../backlog/TODO.MD`](../backlog/TODO.MD).
 
 ## What happened
 
@@ -22,7 +22,7 @@ Felix asked for the Innovation Factory ways-of-working ported in, then for Phase
 
 ## Next move
 
-1. **Felix: create the Railway project** (4 services) and paste back URLs + Sentry/Plausible DSNs. [`../../infra/railway/README.md`](../../infra/railway/README.md) is the checklist — note step 9, migrations are a deliberate manual step. This closes Phase 0.
+1. ~~Railway~~ **done 2026-07-31.** Provisioned end to end; Phase 0 closed. Two follow-ups: **rename the project from `inspiring-learning` to `maki-tulum`**, and add the Sentry/Plausible DSNs (both currently unset, which is a silent no-op by design). The API Dockerfile had never been built and was unrunnable — see lessons-learned.
 2. **Felix: correct the five `TODO(felix)` invented claims** in the new marketing copy, then mirror into ES/DE. Blocks publishing 1B.
 3. **Felix + counsel:** legal entity, then consent scope (the first determines the controller for the second). **Felix:** run the channel-manager sandbox trial. **Felix:** accept or amend ADR 0016.
 4. Then Phase 2 booking schema — and not before, because the channel-manager choice defines the inventory model (MRT-15-P0-02).

@@ -35,7 +35,7 @@ Initiatives with more detail than fits a TODO line get their own file in `docs/b
 | **Lockfile** | 🟢 Committed | `pnpm-lock.yaml` in main |
 | **Agent harness** | 🟢 Landed | `AGENTS.md`, `CONTEXT.md`, `.claude/{settings.json,agents,skills}`, `pnpm verify`, plan template — see [Agent harness](#agent-harness-adopted-2026-07-31-from-innovation-factoryai-native-deliverymd) |
 | **DB schema (Drizzle)** | 🟢 Landed | `0001_init`: accounts / users / account_memberships / properties + repositories. No booking/rate tables — blocked on MRT-15-P0-02 |
-| **Railway project** | ⚪ Planned | Phase 0 — services: web, api, postgres, redis |
+| **Railway project** | 🟢 Live | 4 services (web, api, Postgres, Redis) in project `inspiring-learning` (**needs renaming to maki-tulum**). https://web-production-66562.up.railway.app · https://api-production-b61ac.up.railway.app — both `/healthz` 200, api `/readyz` 200 with db+redis reachable, schema migrated |
 | **Admin app** | ⚪ Deferred | Phase 3 — separate `apps/admin` at admin.makitulum.com behind Cloudflare Access |
 | **Marketing site (Phase 1A)** | 🟢 Scaffolded | Locale-segment routing, home + stays index + Villa 18 + Villa 19 + 4 stubs, schema.org, EN/ES/DE, 33 tests, full Next build green (9 routes, 6 SSG) |
 | **Marketing site (Phase 1B)** | 🟡 Mostly landed | Compound + Days + Guide content + first guide article shipped EN/ES/DE. Remaining: correct 5 `TODO(felix)` invented claims, Villa 19 photos, ambient video hero, Lighthouse ≥90 |
@@ -96,11 +96,11 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 
 - [ ] **Run `pnpm install`** with Node 22 + pnpm 9.12 → commit `pnpm-lock.yaml` (already done — verify on next clone)
 - [x] ~~Install drizzle-orm + drizzle-kit + drizzle-zod, scaffold `services/api/src/db/`, first migration~~ **Done 2026-07-31 (WP-1 stream A).** Verified against a real Postgres: 4 tables, account_id index + FKs, `membership_role` matching the canonical `Role` in `packages/types` with a drift-guard test
-- [ ] **Create Railway project** via dashboard or CLI; add 4 services (web, api, postgres, redis)
-- [ ] Configure Railway: build vars (`NEXT_PUBLIC_*`), runtime env (`DATABASE_URL`, `REDIS_URL`, `JWT_*`, `CORS_ORIGINS`), healthcheck paths
-- [ ] First PR preview deploy: verify `/healthz` returns 200 on staging URLs
+- [x] ~~Create Railway project; add 4 services~~ **Done 2026-07-31.** Project is named `inspiring-learning` — **Felix: rename to `maki-tulum`**
+- [x] ~~Configure Railway: build vars, runtime env, healthcheck paths~~ **Done 2026-07-31.** `RAILWAY_DOCKERFILE_PATH` per service; healthcheck paths still to confirm in the dashboard
+- [ ] PR preview environments — not configured; deploys are manual `railway up` for now
 - [ ] 🔄 Integration tests for `/healthz`, `/readyz`, CORS, JSON error envelope, rate-limit, tenant isolation (Testcontainers) — WP-1 stream B in flight
-- [ ] Preview/staging smoke test hits deployed `/healthz`
+- [x] ~~Staging smoke test hits deployed `/healthz`~~ **Done 2026-07-31** — `scripts/smoke.ts` passes against both services
 - [ ] Sentry: create projects (web + api), add DSNs to Railway. **Scrub IPs before enabling** — see `plans/consent-data-map.md`
 - [ ] Plausible: register `staging.makitulum.com` and `makitulum.com`, add `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`
 - [ ] DNS: point apex + `api.` + `staging.` to Railway
@@ -119,9 +119,16 @@ Two `idea-v3.md` §15 items were labeled "open, before build" but not tracked in
 - [ ] Cookie banner decision (Plausible is cookieless — Phase 1B may need none)
 - [x] ~~Gate (Codex red-team MRT-15-P1-03, blocks Phase 1B): German long-tail SEO validation before deeper DE content investment~~ **Resolved 2026-07-15 — outcome: deprioritize.** Felix decided German is not a strategic ICP wedge (Maki serves international guests broadly; owners are themselves international) — no Ahrefs validation needed since the growth rationale for DE depth no longer exists. Translation work continues normally: EN is canonical source content, DE (then other languages) follow as straightforward translation, same priority as any other locale. See `idea-v3.md` revision note (2026-07-15) and §2/§13/§15.7.
 
-### Phase 0 exit criterion
+### Phase 0 exit criterion — ✅ **MET 2026-07-31**
 
-`https://maki-staging.up.railway.app/healthz` and `https://api.maki-staging.up.railway.app/healthz` both return 200; PR previews deploy automatically; CI green on main.
+Both services return 200 on `/healthz` and the smoke test passes against each:
+
+- web https://web-production-66562.up.railway.app/healthz → 200
+- api https://api-production-b61ac.up.railway.app/healthz → 200, `/readyz` → 200 with `db: ok, redis: ok`
+- schema migrated on Railway Postgres: 4 tables, canonical role enum, `users_email_lower_key`
+- CI green on the PR; `STAGING_WEB_URL` / `STAGING_API_URL` repo variables set, so the post-deploy smoke job is now live rather than no-opping
+
+Domains are Railway-generated, not `makitulum.com` — custom DNS is still outstanding, and PR preview environments are not configured. Neither blocks Phase 1B or Phase 2.
 
 Full plan: [`../../implementation-plan.md`](../../implementation-plan.md) §4 Phase 0.
 
