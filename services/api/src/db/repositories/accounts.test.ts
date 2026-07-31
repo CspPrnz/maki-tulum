@@ -1,0 +1,43 @@
+import { randomUUID } from 'node:crypto';
+import { afterAll, afterEach, describe, expect, it } from 'vitest';
+
+process.env['DATABASE_URL'] ??= 'postgres://maki:maki@localhost:5432/maki';
+
+const { eq } = await import('drizzle-orm');
+const { db } = await import('../index.js');
+const { accounts } = await import('../schema.js');
+const { createAccount, findAccountById } = await import('./accounts.js');
+
+const createdAccountIds: string[] = [];
+
+afterEach(async () => {
+  while (createdAccountIds.length > 0) {
+    const id = createdAccountIds.pop();
+    if (id) {
+      await db.delete(accounts).where(eq(accounts.id, id));
+    }
+  }
+});
+
+afterAll(async () => {
+  await db.$client.end();
+});
+
+describe('accounts repository', () => {
+  it('creates an account and finds it by id', async () => {
+    const name = `Test Account ${randomUUID()}`;
+    const created = await createAccount({ name });
+    createdAccountIds.push(created.id);
+
+    expect(created.name).toBe(name);
+    expect(created.id).toBeTruthy();
+
+    const found = await findAccountById(created.id);
+    expect(found).toMatchObject({ id: created.id, name });
+  });
+
+  it('returns null for a non-existent account id', async () => {
+    const found = await findAccountById(randomUUID());
+    expect(found).toBeNull();
+  });
+});
