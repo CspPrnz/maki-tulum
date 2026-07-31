@@ -1,7 +1,6 @@
 import type { Context, ErrorHandler, NotFoundHandler } from 'hono';
 
 export const errorHandler: ErrorHandler = (err, c: Context) => {
-  // eslint-disable-next-line no-console
   console.error('[api error]', err);
   return c.json(
     {

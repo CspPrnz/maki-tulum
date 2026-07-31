@@ -1,32 +1,48 @@
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 import { Redis } from 'ioredis';
 import { Pool } from 'pg';
+import type { ApiEnv } from '@maki/config';
 import { HealthResponseSchema, ReadyResponseSchema } from '@maki/types';
 
 const SERVICE = 'maki-api';
 const VERSION = process.env['npm_package_version'] ?? '0.0.1';
 
-let pgPool: Pool | null = null;
-let redis: Redis | null = null;
+/**
+ * Readiness probes are injectable so integration tests can point them at an
+ * ephemeral container — and can simulate a downstream outage without stopping
+ * the real one. `null` means "not configured": reported as `skipped`, not `fail`.
+ */
+export type HealthDeps = {
+  pingDb: (() => Promise<void>) | null;
+  pingRedis: (() => Promise<void>) | null;
+};
 
-function getPool(): Pool {
-  pgPool ??= new Pool({
-    connectionString: process.env['DATABASE_URL'],
-    connectionTimeoutMillis: 1000,
-    max: 1,
-  });
-  return pgPool;
+export function defaultHealthDeps(env: ApiEnv): HealthDeps {
+  let pool: Pool | null = null;
+  let redis: Redis | null = null;
+
+  return {
+    pingDb: env.DATABASE_URL
+      ? async () => {
+          pool ??= new Pool({
+            connectionString: env.DATABASE_URL,
+            connectionTimeoutMillis: 1000,
+            max: 1,
+          });
+          await pool.query('select 1');
+        }
+      : null,
+    pingRedis: env.REDIS_URL
+      ? async () => {
+          redis ??= new Redis(env.REDIS_URL, {
+            maxRetriesPerRequest: 1,
+            lazyConnect: true,
+          });
+          await redis.ping();
+        }
+      : null,
+  };
 }
-
-function getRedis(): Redis {
-  redis ??= new Redis(process.env['REDIS_URL'] ?? 'redis://localhost:6379', {
-    maxRetriesPerRequest: 1,
-    lazyConnect: true,
-  });
-  return redis;
-}
-
-export const healthRoutes = new OpenAPIHono();
 
 const healthRoute = createRoute({
   method: 'get',
@@ -40,15 +56,6 @@ const healthRoute = createRoute({
     },
   },
 });
-
-healthRoutes.openapi(healthRoute, (c) =>
-  c.json({
-    status: 'ok' as const,
-    service: SERVICE,
-    version: VERSION,
-    timestamp: new Date().toISOString(),
-  }),
-);
 
 const readyRoute = createRoute({
   method: 'get',
@@ -67,38 +74,46 @@ const readyRoute = createRoute({
   },
 });
 
-healthRoutes.openapi(readyRoute, async (c) => {
-  const checks: Record<string, 'ok' | 'fail' | 'skipped'> = {};
-
+async function check(ping: (() => Promise<void>) | null): Promise<'ok' | 'fail' | 'skipped'> {
+  if (!ping) return 'skipped';
   try {
-    if (process.env['DATABASE_URL']) {
-      await getPool().query('select 1');
-      checks['db'] = 'ok';
-    } else {
-      checks['db'] = 'skipped';
-    }
+    await ping();
+    return 'ok';
   } catch {
-    checks['db'] = 'fail';
+    return 'fail';
   }
+}
 
-  try {
-    const r = getRedis();
-    await r.ping();
-    checks['redis'] = 'ok';
-  } catch {
-    checks['redis'] = 'fail';
-  }
+export function healthRoutes(deps: HealthDeps) {
+  const routes = new OpenAPIHono();
 
-  const failed = Object.values(checks).some((v) => v === 'fail');
-  const status = failed ? ('down' as const) : ('ok' as const);
-
-  return c.json(
-    {
-      status,
+  routes.openapi(healthRoute, (c) =>
+    c.json({
+      status: 'ok' as const,
       service: SERVICE,
-      checks,
+      version: VERSION,
       timestamp: new Date().toISOString(),
-    },
-    failed ? 503 : 200,
+    }),
   );
-});
+
+  routes.openapi(readyRoute, async (c) => {
+    const checks: Record<string, 'ok' | 'fail' | 'skipped'> = {
+      db: await check(deps.pingDb),
+      redis: await check(deps.pingRedis),
+    };
+
+    const failed = Object.values(checks).some((v) => v === 'fail');
+
+    return c.json(
+      {
+        status: failed ? ('down' as const) : ('ok' as const),
+        service: SERVICE,
+        checks,
+        timestamp: new Date().toISOString(),
+      },
+      failed ? 503 : 200,
+    );
+  });
+
+  return routes;
+}

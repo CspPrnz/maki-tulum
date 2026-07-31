@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Container, Heading, Prose, Button } from '@maki/ui';
+import { Container, Heading } from '@maki/ui';
 import { isLocale, getTranslations, buildAlternates } from '@/lib/i18n';
 import { listStays } from '@/content/stays';
 import { LodgingBusinessJsonLd } from '@/components/jsonld';

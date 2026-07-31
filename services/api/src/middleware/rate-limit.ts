@@ -2,16 +2,29 @@ import type { MiddlewareHandler } from 'hono';
 import { Redis } from 'ioredis';
 import { type ApiEnv, RATE_LIMITS } from '@maki/config';
 
-let redis: Redis | null = null;
+/**
+ * The counter backing the limiter. Injectable so integration tests can exercise
+ * the 429 path against a container or a fake — a blanket test-mode bypass means
+ * the limiter itself is never actually tested.
+ */
+export type RateLimitStore = {
+  incr(key: string): Promise<number>;
+  expire(key: string, seconds: number): Promise<void>;
+  ttl(key: string): Promise<number>;
+};
 
-function getRedis(env: ApiEnv): Redis {
-  if (!redis) {
-    redis = new Redis(env.REDIS_URL, {
-      maxRetriesPerRequest: 2,
-      lazyConnect: true,
-    });
-  }
-  return redis;
+export function redisStore(env: ApiEnv): RateLimitStore {
+  let redis: Redis | null = null;
+  const client = () =>
+    (redis ??= new Redis(env.REDIS_URL, { maxRetriesPerRequest: 2, lazyConnect: true }));
+
+  return {
+    incr: (key) => client().incr(key),
+    expire: async (key, seconds) => {
+      await client().expire(key, seconds);
+    },
+    ttl: (key) => client().ttl(key),
+  };
 }
 
 /**
@@ -20,28 +33,29 @@ function getRedis(env: ApiEnv): Redis {
  *
  * Returns JSON with explicit Content-Type — never plain text. Civion learned
  * that http.Error()-style responses break frontend JSON parsers.
+ *
+ * With no store injected the limiter is skipped under NODE_ENV=test, so ordinary
+ * suites don't 429 themselves. Passing a store opts that suite back in.
  */
-export function rateLimitMiddleware(env: ApiEnv): MiddlewareHandler {
-  return async (c, next) => {
-    // Skip rate limiting in test mode (avoids self-429 from rapid test traffic).
-    if (env.NODE_ENV === 'test') return next();
+export function rateLimitMiddleware(env: ApiEnv, store?: RateLimitStore): MiddlewareHandler {
+  if (!store && env.NODE_ENV === 'test') return (_c, next) => next();
+  const backing = store ?? redisStore(env);
 
+  return async (c, next) => {
     const ip = c.req.header('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
     const path = new URL(c.req.url).pathname;
     const limit = limitForPath(path);
     const key = `${env.RATE_LIMIT_REDIS_PREFIX}:${path}:${ip}`;
 
     try {
-      const r = getRedis(env);
-      const count = await r.incr(key);
-      if (count === 1) await r.expire(key, limit.windowSeconds);
+      const count = await backing.incr(key);
+      if (count === 1) await backing.expire(key, limit.windowSeconds);
 
       const remaining = Math.max(0, limit.requests - count);
       c.res.headers.set('X-RateLimit-Remaining', String(remaining));
 
       if (count > limit.requests) {
-        const ttl = await r.ttl(key);
-        c.res.headers.set('X-RateLimit-Reset', String(ttl));
+        c.res.headers.set('X-RateLimit-Reset', String(await backing.ttl(key)));
         return c.json(
           {
             error: {

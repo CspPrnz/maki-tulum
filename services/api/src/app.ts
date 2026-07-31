@@ -3,11 +3,20 @@ import { OpenAPIHono } from '@hono/zod-openapi';
 import { logger } from 'hono/logger';
 import { secureHeaders } from 'hono/secure-headers';
 import { corsMiddleware } from './middleware/cors.js';
-import { rateLimitMiddleware } from './middleware/rate-limit.js';
+import { rateLimitMiddleware, type RateLimitStore } from './middleware/rate-limit.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
-import { healthRoutes } from './routes/health.js';
+import { healthRoutes, defaultHealthDeps, type HealthDeps } from './routes/health.js';
 
-export function createApp(env: ApiEnv) {
+/**
+ * Injectable seams for integration tests. Every field is optional — production
+ * passes nothing and gets the real, env-derived implementations.
+ */
+export type AppOverrides = {
+  health?: HealthDeps;
+  rateLimitStore?: RateLimitStore;
+};
+
+export function createApp(env: ApiEnv, overrides: AppOverrides = {}) {
   const app = new OpenAPIHono({
     defaultHook: (result, c) => {
       if (!result.success) {
@@ -28,9 +37,9 @@ export function createApp(env: ApiEnv) {
   app.use('*', logger());
   app.use('*', secureHeaders());
   app.use('*', corsMiddleware(env));
-  app.use('*', rateLimitMiddleware(env));
+  app.use('*', rateLimitMiddleware(env, overrides.rateLimitStore));
 
-  app.route('/', healthRoutes);
+  app.route('/', healthRoutes(overrides.health ?? defaultHealthDeps(env)));
 
   // OpenAPI spec at /openapi.json — generated from Zod-OpenAPI route schemas.
   app.doc('/openapi.json', {
